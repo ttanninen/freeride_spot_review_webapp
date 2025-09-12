@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Etusivu</title>
+</head>
+
+<body>
+  <h1>Etusivu</h1>
+  {% if session.username %}
+  <p>
+    Olet kirjautunut nimellä {{ session.username }}
+  </p>
+  <hr />
+  
+  </p>
+    {% else %}
+  <p>
+    <a href="/logout">Kirjaudu ulos</a>
+  </p>
+
+  <form action="/login" method="post">
+    <p>
+      Tunnus: <br />
+      <input type="text" name="username" />
+    </p>
+    <p>
+      Salasana: <br />
+      <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Login" />
+  </form>
+  {% endif %}
+</body>
+
+</html>

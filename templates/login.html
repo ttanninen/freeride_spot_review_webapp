@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Log in to Powderatlas</title>
+</head>
+
+<body>
+  <h1>Please log in or register a new user</h1>
+  {% if session.username %}
+  <p>
+    Signed in as {{ session.username }}
+  </p>
+  <hr />
+  <a href="/logout">Sign out</a>
+  </p>
+    {% else %}
+
+  <form action="/login" method="post">
+    <p>
+      Username: <br />
+      <input type="text" name="username" />
+    </p>
+    <p>
+      Password: <br />
+      <input type="password" name="password" />
+    </p>
+    <input type="submit" value="Login" />
+  </form>
+
+  <a href="/register">Register a new user</a>
+  {% endif %}
+</body>
+
+</html>

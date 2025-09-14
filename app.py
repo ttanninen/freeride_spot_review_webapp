@@ -1,6 +1,6 @@
 from flask import Flask
-from flask import redirect, render_template, request, session
-import config, db, users
+from flask import flash, redirect, render_template, request, session
+import config, db, users, sqlite3
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -28,7 +28,8 @@ def register():
 
         try:
             users.create_user(username, password1)
-            return "Tunnus luotu"
+            flash("Registration succesful, please login")
+            return redirect("/")
         except sqlite3.IntegrityError:
             return "VIRHE: tunnus on jo varattu"
 

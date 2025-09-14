@@ -17,14 +17,6 @@
 
 <body>
   <h1>Please log in or register a new user</h1>
-  {% if session.username %}
-  <p>
-    Signed in as {{ session.username }}
-  </p>
-  <hr />
-  <a href="/logout">Sign out</a>
-  </p>
-    {% else %}
   <form action="/login" method="post">
     <p>
       Username: <br />
@@ -38,7 +30,6 @@
   </form>
 
   <a href="/register">Register a new user</a>
-  {% endif %}
 </body>
 
 </html>

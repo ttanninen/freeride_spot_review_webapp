@@ -11,7 +11,8 @@ def login_page():
 
 @app.route("/home")
 def index():
-    return render_template("index.html")
+    username = users.get_username(session["user_id"])
+    return render_template("index.html", username=username)
     
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -24,14 +25,16 @@ def register():
         password2 = request.form["password2"]
 
         if password1 != password2:
-            return "VIRHE: salasanat eivät ole samat"
+            flash("ERROR: Password mismatch")
+            return redirect("/register")
 
         try:
             users.create_user(username, password1)
             flash("Registration succesful, please login")
             return redirect("/")
         except sqlite3.IntegrityError:
-            return "VIRHE: tunnus on jo varattu"
+            flash ("ERROR: Username already in use")
+            return redirect("/register")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -47,7 +50,8 @@ def login():
             session["user_id"] = user_id
             return redirect("/home")
         else:
-            return "VIRHE: väärä tunnus tai salasana"
+            flash("ERROR: Wrong username or password")
+            return redirect("/")
 
 
 @app.route("/logout")

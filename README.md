@@ -18,30 +18,30 @@ This is an assignment project for University of Helsinki's Databases and Web-Dev
 
 **Clone the repository to your local drive.**
 Navigate to the directory where you want to add the repository directory.
-'''$ git clone git@github.com:tannitee/freeride_spot_review_webapp'''
+> $ git clone git@github.com:tannitee/freeride_spot_review_webapp
 
 **Create database**
 database.db is not included in the repository, so it must be built locally with the sql-schema found in the repository.
 First, ensure that you have sqlite3 installed.
-'''$ (sudo) apt install sqlite3'''
+> $ (sudo) apt install sqlite3
 
 Create database.db using the schema.sql file.
-'''$ sqlite3 database.db < schema.sql'''
+> $ sqlite3 database.db < schema.sql
 
 **Set up virtual environment for python3 and install flask**
 
 Install and activate virtual environment for python3.
-'''$ python3 -m venv venv'''
-'''$ source venv/bin/activate'''
+> $ python3 -m venv venv
+> $ source venv/bin/activate
 
 After initializing virtual environment, install Flask for Python.
-'''$ (venv)../pip install flask'''
+> $ (venv)../pip install flask
 
 **Run the app on local web server**
 
 To start local web server navigate to the application directory.
-'''$ flask run'''
+> $ flask run
 
 Open your favorite web-browser and browse to:
-'''http://127.0.0.1:5000/'''
+> http://127.0.0.1:5000/
 

@@ -59,3 +59,22 @@ def logout():
     del session["user_id"]
     return redirect("/")
 
+
+@app.route("/add_spot", methods=["GET", "POST"])
+def add_spot():
+    if request.method == "GET":
+        return render_template("add_spot.html")
+
+    if request.method == "POST":
+        user_id = session["user_id"]
+        area = request.form["area"]
+        country = request.form["country"]
+        title = request.form["title"]
+        skill_level = request.form["skill_level"]
+        aspect = request.form["aspect"]
+        notes =  request.form["notes"]
+        sql = ("""INSERT INTO spots (user_id, area, country, title, skill_level, aspect, notes)
+               VALUES (?, ?, ?, ?, ?, ?, ?) 
+               """)
+        db.execute(sql, [user_id, area, country, title, skill_level, aspect, notes])
+        return redirect("/home")

@@ -10,13 +10,11 @@ CREATE TABLE locations (
     country TEXT UNIQUE
 );
 
-INSERT INTO locations () 
-
 CREATE TABLE spots (
     id INTERGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    country TEXT REFERENCES locations,
-    area TEXT REFERENCES locations,
+    country TEXT,
+    area TEXT,
     title TEXT,
     skill_level TEXT,
     aspect INTEGER,
@@ -30,4 +28,4 @@ create TABLE messages (
     spot_id INTEGER REFERENCES spots,
     sent_at TEXT
 
-);
+)

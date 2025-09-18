@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import flash, redirect, render_template, request, session
-import config, db, users, sqlite3
+import config, db, users, sqlite3, spots
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -70,11 +70,17 @@ def add_spot():
         area = request.form["area"]
         country = request.form["country"]
         title = request.form["title"]
+        max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        sql = ("""INSERT INTO spots (user_id, area, country, title, skill_level, aspect, notes)
-               VALUES (?, ?, ?, ?, ?, ?, ?) 
+        sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
                """)
-        db.execute(sql, [user_id, area, country, title, skill_level, aspect, notes])
-        return redirect("/home")
+        db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
+        return redirect("/browse")
+
+@app.route("/browse")
+def browse():
+    spot_list = spots.get_spots()
+    return render_template("/browse.html", spot_list=spot_list)

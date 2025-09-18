@@ -16,6 +16,7 @@ CREATE TABLE spots (
     country TEXT,
     area TEXT,
     title TEXT,
+    max_incline,
     skill_level TEXT,
     aspect INTEGER,
     notes TEXT,

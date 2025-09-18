@@ -7,7 +7,11 @@ app.secret_key = config.secret_key
 
 @app.route("/")
 def login_page():
-    return render_template("login.html")
+    user_id = session.get("user_id")
+    if user_id:
+        return redirect("/home")
+    else:
+        return render_template("login.html")
 
 @app.route("/home")
 def index():
@@ -83,9 +87,11 @@ def add_spot():
 @app.route("/browse")
 def browse():
     spot_list = spots.get_spots()
+    for spot in spot_list:
+        print(spot[1])
     return render_template("/browse.html", spot_list=spot_list)
 
-@app.route("/edit/<int:spot_id>", methods=["GET", "POST"])
+@app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):
     spot_details = spots.get_spot(spot_id)
 
@@ -93,7 +99,7 @@ def edit_spot(spot_id):
         return render_template("edit_spot.html", spot_details=spot_details)
 
     if request.method == "POST":
-        user_id = session["user_id"]
+        user_id = session.get("user_id")
         area = request.form["area"]
         country = request.form["country"]
         title = request.form["title"]
@@ -101,7 +107,7 @@ def edit_spot(spot_id):
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        spots.update_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes, spot_id)
+        spots.update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id)
         return redirect("/browse")
         
 

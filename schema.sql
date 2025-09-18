@@ -11,7 +11,7 @@ CREATE TABLE locations (
 );
 
 CREATE TABLE spots (
-    id INTERGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
     country TEXT,
     area TEXT,

@@ -84,3 +84,24 @@ def add_spot():
 def browse():
     spot_list = spots.get_spots()
     return render_template("/browse.html", spot_list=spot_list)
+
+@app.route("/edit/<int:spot_id>", methods=["GET", "POST"])
+def edit_spot(spot_id):
+    spot_details = spots.get_spot(spot_id)
+
+    if request.method == "GET":
+        return render_template("edit_spot.html", spot_details=spot_details)
+
+    if request.method == "POST":
+        user_id = session["user_id"]
+        area = request.form["area"]
+        country = request.form["country"]
+        title = request.form["title"]
+        max_incline = request.form["max_incline"]
+        skill_level = request.form["skill_level"]
+        aspect = request.form["aspect"]
+        notes =  request.form["notes"]
+        spots.update_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes, spot_id)
+        return redirect("/browse")
+        
+

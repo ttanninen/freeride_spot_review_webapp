@@ -9,7 +9,11 @@
         <a href="/add_spot">Add new spot</a>
         {% for spot in spot_list %}
         <p>
-        {{ spot.title }}    
+        {{ spot.id }}
+        </p>
+        <p>
+        {{ spot.title }}
+        <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
         </p>
         <p>
         {{ spot.area }}

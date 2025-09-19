@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Remove spot</title>
+    </head>
+
+    <body>
+        <p>
+            Are you sure you want to remove {{ spot.title }}?
+        </p>
+        <form action="/remove_spot/{{ spot.id }}" method="post">
+            <input type="submit" name="yes" value="Yes" />
+            <input type="submit" name="cancel" value="Cancel" />
+        </form>
+    </body>
+</html>

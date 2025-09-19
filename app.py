@@ -111,3 +111,15 @@ def edit_spot(spot_id):
         return redirect("/browse")
         
 
+@app.route("/remove_spot/<int:spot_id>", methods=["GET", "POST"])
+def remove_spot(spot_id):
+    spot = spots.get_spot(spot_id)[0]
+
+    if request.method == "GET":
+        return render_template("remove.html", spot=spot)
+    
+    if request.method == "POST":
+        if "yes" in request.form:
+            spots.remove_spot(spot["id"])
+        return redirect("/browse")
+        

@@ -18,8 +18,9 @@ def update_spot(area, country, title, max_incline, skill_level, aspect, notes, s
         )
     db.execute(sql, [area, country, title, max_incline, skill_level, aspect, notes, spot_id])
 
-def delete_spot():
-    return None
+def remove_spot(spot_id):
+    sql = ("DELETE FROM spots WHERE id = ?")
+    db.execute(sql, [spot_id])
 
 
 def get_messages():

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ spot.title }}</title>
+    </head>
+
+    <body>
+        <h1>{{ spot.title }}</h1>
+        <p>
+        Added by user: {{ spot.username }}
+        </p>
+        <p>
+        Area: {{ spot.area }}
+        </p>
+        <p>
+        Country: {{ spot.country }}
+        </p>
+        <p>
+        Incline: {{ spot.max_incline }}
+        </p>
+        <p>
+        Skill-level: {{ spot.skill_level }}
+        </p>
+        <p>
+        Aspect: {{ spot.aspect }}
+        </p>
+        <p>
+        Notes: {{ spot.notes }}
+        </p>
+        <hr />
+        <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+        <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+        <a href="/home">Back to front page</a>
+        </body>
+</html>

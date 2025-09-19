@@ -63,6 +63,11 @@ def logout():
     del session["user_id"]
     return redirect("/")
 
+@app.route("/spot/<int:spot_id>")
+def spot(spot_id):
+    spot = spots.get_spot(spot_id)[0]
+    return render_template("spot.html", spot=spot)
+
 
 @app.route("/add_spot", methods=["GET", "POST"])
 def add_spot():
@@ -122,4 +127,10 @@ def remove_spot(spot_id):
         if "yes" in request.form:
             spots.remove_spot(spot["id"])
         return redirect("/browse")
-        
+
+
+@app.route("/search")
+def search():
+    query = request.args.get("query")
+    results = spots.search(query) if query else []
+    return render_template("search.html", query=query, results=results)

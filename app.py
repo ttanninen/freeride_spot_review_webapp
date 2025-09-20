@@ -70,13 +70,22 @@ def logout():
     del session["user_id"]
     return redirect("/")
 
-@app.route("/spot/<int:spot_id>")
+@app.route("/spot/<int:spot_id>", methods=["GET", "POST"])
 def spot(spot_id):
     spot = spots.get_spot(spot_id)
+    messages = spots.get_messages(spot_id)
     if not spot:
         abort(404)
-    return render_template("spot.html", spot=spot)
+    if request.method == "GET":
+        return render_template("spot.html", spot=spot, messages=messages)
 
+    if request.method == "POST":
+        user_id = session["user_id"]
+        content = request.form["content"]
+
+        sql = """INSERT INTO messages (user_id, spot_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))"""
+        db.execute(sql, [user_id, spot_id, content])
+        return redirect(request.url)
 
 @app.route("/add_spot", methods=["GET", "POST"])
 def add_spot():

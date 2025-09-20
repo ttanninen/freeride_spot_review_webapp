@@ -6,7 +6,11 @@
 
     <body>
         <h1>{{ spot.title }}</h1>
-        <p>
+        {% if spot.user_id == session.user_id %}
+            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+        {% endif %}
+        <p> 
         Added by user: {{ spot.username }}
         </p>
         <p>
@@ -28,10 +32,21 @@
         Notes: {{ spot.notes }}
         </p>
         <hr />
-        {% if spot.user_id == session.user_id %}
-            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-        {% endif %}
         <a href="/home">Back to front page</a>
+        
+        <hr />
+        {% for message in messages %}
+        <p>
+            {{ message.username }} sent at: {{ message.sent_at }}
+        </p>
+        <p>
+            {{ message.content }}
+        </p>
+        {% endfor %}
+
+        <form action="/spot/{{ spot.id }}" method="post">
+            <input type="text" name="content" />
+            <input type="submit" name="submit" />
+        </form>
         </body>
 </html>

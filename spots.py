@@ -32,8 +32,11 @@ def search(query):
     return db.query(sql, [pattern, pattern])
 
 
-def get_messages():
-    return None
+def get_messages(spot_id):
+    sql = """SELECT m.id, m.user_id, u.username, m.spot_id, m.content, m.sent_at
+    FROM messages m, users u
+    WHERE m.user_id = u.id AND m.spot_id = ?"""
+    return db.query(sql, [spot_id])
 
 def edit_message():
     return None

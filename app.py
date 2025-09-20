@@ -1,9 +1,14 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session
+from flask import flash, redirect, render_template, request, session, abort
 import config, db, users, sqlite3, spots
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
+
+@app.before_request
+def check_session():
+    if not session.get("user_id") and request.path != "/" and request.path != "/register" and request.path != "/login":
+        abort(403)
 
 @app.route("/")
 def login_page():
@@ -15,6 +20,8 @@ def login_page():
 
 @app.route("/home")
 def index():
+    if not session.get("user_id"):
+        return redirect("/login")
     username = users.get_username(session["user_id"])
     return render_template("index.html", username=username)
     
@@ -65,7 +72,9 @@ def logout():
 
 @app.route("/spot/<int:spot_id>")
 def spot(spot_id):
-    spot = spots.get_spot(spot_id)[0]
+    spot = spots.get_spot(spot_id)
+    if not spot:
+        abort(404)
     return render_template("spot.html", spot=spot)
 
 
@@ -83,28 +92,28 @@ def add_spot():
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+        sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes, added_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
                """)
-        db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
+        if "submit" in request.form:
+            db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
         return redirect("/browse")
 
 @app.route("/browse")
 def browse():
     spot_list = spots.get_spots()
-    for spot in spot_list:
-        print(spot[1])
     return render_template("/browse.html", spot_list=spot_list)
 
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):
-    spot_details = spots.get_spot(spot_id)
+    spot = spots.get_spot(spot_id)
+    if spot["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
-        return render_template("edit_spot.html", spot_details=spot_details)
+        return render_template("edit_spot.html", spot=spot)
 
     if request.method == "POST":
-        user_id = session.get("user_id")
         area = request.form["area"]
         country = request.form["country"]
         title = request.form["title"]
@@ -112,13 +121,17 @@ def edit_spot(spot_id):
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        spots.update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id)
+
+        if "update" in request.form:
+            spots.update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id)
         return redirect("/browse")
         
 
 @app.route("/remove_spot/<int:spot_id>", methods=["GET", "POST"])
 def remove_spot(spot_id):
-    spot = spots.get_spot(spot_id)[0]
+    spot = spots.get_spot(spot_id)
+    if spot["user_id"] != session["user_id"]:
+        abort(403)
 
     if request.method == "GET":
         return render_template("remove.html", spot=spot)

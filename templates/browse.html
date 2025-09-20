@@ -13,8 +13,10 @@
         </p>
         <p>
         <a href="/spot/{{ spot.id }}">{{ spot.title }}</a>
-        <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-        <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+        {% if spot.user_id == session.user_id %}
+            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+        {% endif %}
         </p>
         <p>
         {{ spot.area }}

@@ -3,42 +3,41 @@
     <head>
     <title>Edit spot details</title>
     </head>
-    {% for spot in spot_details %}
     <body>
         <h1>Edit spot details</h1>
         <form action="/edit_spot/{{ spot.id }}" method="post">
             <p>
                 Spot title:
-            <input type="text" name="title" value="{{ spot.title }}">
+            <input type="text" name="title" value="{{ spot.title }}" />
             </p>
             <p>
                 Area:
-            <input type="text" name="area" value="{{ spot.area }}">
+            <input type="text" name="area" value="{{ spot.area }}" />
             </p>
             <p>
                 Country:
-            <input type="text" name="country" value="{{ spot.country }}">
+            <input type="text" name="country" value="{{ spot.country }}" />
             </p>
             <p>
                 Slope aspect:
-            <input type="text" name="aspect" value="{{ spot.aspect }}">
+            <input type="text" name="aspect" value="{{ spot.aspect }}" />
             </p>
             <p>
                 Skill level:
-            <input type="text" name="skill_level" value="{{ spot.skill_level }}">
+            <input type="text" name="skill_level" value="{{ spot.skill_level }}" />
             </p>
             <p>
                 Slope maximum incline:
-            <input type="text" name="max_incline" value="{{ spot.max_incline }}">
+            <input type="text" name="max_incline" value="{{ spot.max_incline }}" />
             </p>
             <p>
                 Notes:
-            <input type="text" name="notes" value="{{ spot.notes }}">
+            <textarea name="notes" value="{{ spot.notes }}" rows="10" cols="100"></textarea>>
             </p>
             <p>
-            <input type="submit" value="Update">
+            <input type="submit" name="update" value="Update" />
+            <input type="submit" name="cancel" value="Cancel" />
             </p>
         </form>
-    {% endfor %}
     </body>
 </html>

@@ -20,13 +20,15 @@ CREATE TABLE spots (
     skill_level TEXT,
     aspect INTEGER,
     notes TEXT,
-    added_at TEXT
+    added_at TEXT,
+    image BLOB
 );
 
 create TABLE messages (
     id INTEGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
     spot_id INTEGER REFERENCES spots,
+    content TEXT
     sent_at TEXT
 
 )

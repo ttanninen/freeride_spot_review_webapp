@@ -1,14 +1,14 @@
 import db
 
 def get_spot(spot_id):
-    sql = """SELECT s.id, s.user_id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes
+    sql = """SELECT s.id, s.user_id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.added_at
     FROM spots s, users u
     WHERE s.user_id = u.id AND s.id = ?"""
     result = db.query(sql, [spot_id])
     return result[0] if result else None
 
 def get_spots():
-    sql = """SELECT s.id, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.user_id
+    sql = """SELECT s.id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.user_id, s.added_at
     FROM spots s, users u
     WHERE s.user_id = u.id"""
     return db.query(sql)

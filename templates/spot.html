@@ -6,10 +6,14 @@
 
     <body>
         <h1>{{ spot.title }}</h1>
+        <hr />
+        <a href="/browse">Back to browse</a>
+        <a href="/home">Back to front page</a>
         {% if spot.user_id == session.user_id %}
             <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
             <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
         {% endif %}
+        <hr />
         <p> 
         Added by user: {{ spot.username }}
         </p>
@@ -31,9 +35,6 @@
         <p>
         Notes: {{ spot.notes }}
         </p>
-        <hr />
-        <a href="/home">Back to front page</a>
-        
         <hr />
         {% for message in messages %}
         <p>

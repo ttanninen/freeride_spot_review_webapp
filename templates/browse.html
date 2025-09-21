@@ -6,13 +6,13 @@
 
     <body>
         <h1>Browse spots</h1>
+        <hr />
+        <a href="/home">Back to front page</a>
         <a href="/add_spot">Add new spot</a>
-        {% for spot in spot_list %}
+        <hr />
+        {% for spot in spot_list|sort (attribute='id', reverse=True) %}
         <p>
-        {{ spot.id }}
-        </p>
-        <p>
-        <a href="/spot/{{ spot.id }}">{{ spot.title }}</a>
+        <h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
         {% if spot.user_id == session.user_id %}
             <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
             <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
@@ -35,6 +35,12 @@
         </p>
         <p>
         {{ spot.notes }}
+        </p>
+        <p>
+        Added by: {{ spot.username }}
+        </p>
+        <p>
+        Added at: {{ spot.added_at }}
         </p>
         <hr />
         {% endfor %}

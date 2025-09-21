@@ -28,7 +28,7 @@ create TABLE messages (
     id INTEGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
     spot_id INTEGER REFERENCES spots,
-    content TEXT
+    content TEXT,
     sent_at TEXT
 
 )

@@ -3,6 +3,12 @@ Social web application where users can create, share and view freeride spot reco
 
 This is an assignment project for University of Helsinki's Databases and Web-Development course. Many of the features are still under development. As of now the application has the following features:
 
+- User registration, login and logout.
+- User session management and access rights.
+- Users can create, view, edit and delete spots they have created.
+- Users can view spots other users have created.
+- Users can send comments on other users spots.
+- Users can search spots in the application (as of now only rudimentary search from spot title and notes)
 
 The complete application will have at least these features (along with better looking UI)
 <ul>

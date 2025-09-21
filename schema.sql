@@ -27,7 +27,7 @@ CREATE TABLE spots (
 create TABLE messages (
     id INTEGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    spot_id INTEGER REFERENCES spots,
+    spot_id INTEGER REFERENCES spots(id) ON DELETE CASCADE,
     content TEXT,
     sent_at TEXT
 

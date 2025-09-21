@@ -1,5 +1,5 @@
 <h1>Powderatlas</h1>
-Social web application where users can create, share and view freeride spot recommendations.
+<em>Social web application where users can create, share and view freeride spot recommendations.</em>
 
 This is an assignment project for University of Helsinki's Databases and Web-Development course. Many of the features are still under development. As of now the application has the following features:
 

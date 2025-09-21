@@ -51,12 +51,10 @@ First, ensure that you have sqlite3 installed.
 To the application directory, create database.db using the provided schema.sql file.
 > $ sqlite3 database.db < schema.sql
 
-Caution! It is important that the database filename is database.db.
-
 Populate database.db with dummy data (optional)
 > $python3 populate_dummy.py
 
-Caution! If you want to use dummy data, it's mandatory to do this database population before logging in to the application. Do not create user in the application first, because this will mess up the database.db and you have to reinitialize it.
+_Caution! If you want to use dummy data, it's mandatory to do this database population before logging in to the application. Do not create user in the application first, because this will mess up the database.db and you have to reinitialize it._
 
 **Run the app on local web server**
 

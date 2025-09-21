@@ -1,8 +1,10 @@
 <h1>Powderatlas</h1>
 Social web application where users can create, share and view freeride spot recommendations.
 
-This is an assignment project for University of Helsinki's Databases and Web-Development course.
+This is an assignment project for University of Helsinki's Databases and Web-Development course. Many of the features are still under development. As of now the application has the following features:
 
+
+The complete application will have at least these features (along with better looking UI)
 <ul>
 <li>The user can create an account to the application and sign in to the application.</li>
 <li>The user can add spot recommendations to the application. In addition, the user can edit and delete the recommendations they have added.</li>
@@ -20,14 +22,6 @@ This is an assignment project for University of Helsinki's Databases and Web-Dev
 Navigate to the directory where you want to add the repository directory.
 > $ git clone git@github.com:tannitee/freeride_spot_review_webapp
 
-**Create database**
-database.db is not included in the repository, so it must be built locally with the sql-schema found in the repository.
-First, ensure that you have sqlite3 installed.
-> $ (sudo) apt install sqlite3
-
-Create database.db using the schema.sql file.
-> $ sqlite3 database.db < schema.sql
-
 **Set up virtual environment for python3 and install flask**
 
 Install and activate virtual environment for python3.
@@ -36,6 +30,17 @@ Install and activate virtual environment for python3.
 
 After initializing virtual environment, install Flask for Python.
 > $ (venv)../pip install flask
+
+
+**Create database**
+database.db is not included in the repository, so it must be built locally with the sql-schema found in the repository.
+First, ensure that you have sqlite3 installed.
+> $ (sudo) apt install sqlite3
+
+Create database.db using the schema.sql file.
+> $ sqlite3 database.db < schema.sql
+
+
 
 **Run the app on local web server**
 

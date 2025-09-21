@@ -53,7 +53,7 @@ To the application directory, create database.db using the provided schema.sql f
 > $ sqlite3 database.db < schema.sql
 
 Populate database.db with dummy data (optional)
-> $python3 populate_dummy.py
+> $ python3 populate_dummy.py
 
 _Caution! If you want to use dummy data, it's mandatory to do this database population before logging in to the application. Do not create user in the application first, because this will mess up the database.db and you have to reinitialize it._
 

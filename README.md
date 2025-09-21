@@ -28,21 +28,27 @@ The complete application will have at least these features (along with better lo
 Navigate to the directory where you want to add the repository directory.
 > $ git clone git@github.com:tannitee/freeride_spot_review_webapp
 
+Go to the newly created directory.
+> $ cd freeride_spot_review_webapp
+
 **Set up virtual environment for python3 and install flask**
+In your application directory:
+
 Install and activate virtual environment for python3.
 > $ python3 -m venv venv
+
+Then activate the virtual environment.
 > $ source venv/bin/activate
 
 After initializing virtual environment, install Flask for Python.
 > $ (venv)../pip install flask
-
 
 **Create database and populate with example data**
 database.db is not included in the repository, so it must be built locally with the sql-schema found in the repository.
 First, ensure that you have sqlite3 installed.
 > $ (sudo) apt install sqlite3
 
-Create database.db using the schema.sql file.
+To the application directory, create database.db using the provided schema.sql file.
 > $ sqlite3 database.db < schema.sql
 
 Caution! It is important that the database filename is database.db.

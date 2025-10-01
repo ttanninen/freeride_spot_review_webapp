@@ -46,7 +46,7 @@
         {% endfor %}
 
         <form action="/spot/{{ spot.id }}" method="post">
-            <input type="text" name="content" />
+            <textarea name="content" rows="4" cols="50"></textarea>
             <input type="submit" name="submit" />
         </form>
         </body>

@@ -1,5 +1,11 @@
 import db
 
+def add_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes):
+    sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes, added_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
+        """)
+    db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
+
 def get_spot(spot_id):
     sql = """SELECT s.id, s.user_id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.added_at
     FROM spots s, users u

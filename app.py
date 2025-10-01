@@ -99,11 +99,9 @@ def add_spot():
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes, added_at)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
-               """)
+
         if "submit" in request.form:
-            db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
+            spots.add_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes)
         return redirect("/browse")
 
 @app.route("/browse")

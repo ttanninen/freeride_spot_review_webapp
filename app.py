@@ -82,6 +82,8 @@ def spot(spot_id):
     if request.method == "POST":
         user_id = session["user_id"]
         content = request.form["content"]
+        if len(content) > 1000:
+            abort(403)
         spots.post_message(spot_id, user_id, content)
         return redirect(request.url)
 

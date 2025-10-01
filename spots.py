@@ -31,6 +31,9 @@ def search(query):
     pattern = f"%{query}%"
     return db.query(sql, [pattern, pattern])
 
+def post_message(spot_id, user_id, content):
+    sql = sql = """INSERT INTO messages (user_id, spot_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))"""
+    db.execute(sql, [user_id, spot_id, content])
 
 def get_messages(spot_id):
     sql = """SELECT m.id, m.user_id, u.username, m.spot_id, m.content, m.sent_at

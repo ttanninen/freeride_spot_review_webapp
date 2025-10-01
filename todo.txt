@@ -1,12 +1,8 @@
 
 
-Lomakkeita voi lähettää tyhjinä. Syötteitä tulee validoida.
-
 Virheellisen syötteen tapauksessa lomake olisi hyvä esitäyttää annetulla syötteellä (pois lukien salasanat), jotta käyttäjän olisi helppo lähteä korjaamaan virheellistä syötettä.
 
-Kommenttien lisäämiseen kannattaa input-elementin sijaan käyttää textarea-elementtiä, joka antaa enemmän vapautta kirjoittamiseen.
-
-Kommenttien hallinto ja poisto
+Kommenttien hallinta ja poisto
 
 Kuvien lisäys
 

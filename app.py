@@ -159,5 +159,8 @@ def remove_spot(spot_id):
 @app.route("/search")
 def search():
     query = request.args.get("query")
+    if query:
+        if len(query) > 100:
+            abort(403)
     results = spots.search(query) if query else []
     return render_template("search.html", query=query, results=results)

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort
-import config, db, users, sqlite3, spots
+import config, users, sqlite3, spots
 
 app = Flask(__name__)
 app.secret_key = config.secret_key

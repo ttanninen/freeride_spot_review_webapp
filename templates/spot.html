@@ -41,7 +41,9 @@
             {{ message.username }} sent at: {{ message.sent_at }}
         </p>
         <p>
-            {{ message.content }}
+            {% for line in message.content.splitlines() %}
+            {{ line }}<br>
+            {% endfor %}
         </p>
         {% endfor %}
 

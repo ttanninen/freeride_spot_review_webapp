@@ -99,6 +99,8 @@ def add_spot():
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
+        if len(area) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+            abort(403)
 
         if "submit" in request.form:
             spots.add_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes)
@@ -126,6 +128,8 @@ def edit_spot(spot_id):
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
+        if len(area) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+            abort(403)
 
         if "update" in request.form:
             spots.update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id)

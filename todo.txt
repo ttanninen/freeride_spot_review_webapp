@@ -1,14 +1,10 @@
-Eriytä kaikki tietokantakyselyt routeista omaan tiedostoon, kuten olet suurimmaksi osaksi tehnytkin.
+
 
 Lomakkeita voi lähettää tyhjinä. Syötteitä tulee validoida.
-
-Rekisteröitymissivulta olisi hyvä olla linkki kirjautumissivulle.
 
 Virheellisen syötteen tapauksessa lomake olisi hyvä esitäyttää annetulla syötteellä (pois lukien salasanat), jotta käyttäjän olisi helppo lähteä korjaamaan virheellistä syötettä.
 
 Kommenttien lisäämiseen kannattaa input-elementin sijaan käyttää textarea-elementtiä, joka antaa enemmän vapautta kirjoittamiseen.
-
-Käyttäjän lisäämien rivinvaihtojen tulisi näkyä selaimessa.
 
 Kommenttien hallinto ja poisto
 

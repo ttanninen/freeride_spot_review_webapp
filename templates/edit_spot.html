@@ -8,31 +8,31 @@
         <form action="/edit_spot/{{ spot.id }}" method="post">
             <p>
                 Spot title:
-            <input type="text" name="title" value="{{ spot.title }}" />
+            <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
             </p>
             <p>
                 Area:
-            <input type="text" name="area" value="{{ spot.area }}" />
+            <input type="text" name="area" value="{{ spot.area }}" maxlength="100" />
             </p>
             <p>
                 Country:
-            <input type="text" name="country" value="{{ spot.country }}" />
+            <input type="text" name="country" value="{{ spot.country }}" maxlength="100" required />
             </p>
             <p>
                 Slope aspect:
-            <input type="text" name="aspect" value="{{ spot.aspect }}" />
+            <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
             </p>
             <p>
                 Skill level:
-            <input type="text" name="skill_level" value="{{ spot.skill_level }}" />
+            <input type="text" name="skill_level" value="{{ spot.skill_level }}" maxlength="20" />
             </p>
             <p>
                 Slope maximum incline:
-            <input type="text" name="max_incline" value="{{ spot.max_incline }}" />
+            <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" />
             </p>
             <p>
                 Notes:
-            <textarea name="notes" rows="10" cols="100">{{ spot.notes }}</textarea>
+            <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
             </p>
             <p>
             <input type="submit" name="update" value="Update" />

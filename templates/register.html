@@ -19,15 +19,15 @@
         <form action="/register" method="post">
             <p>
                 Username: <br />
-                <input type="text" name="username" />
+                <input type="text" name="username" maxlength="20" required/>
             </p>
             <p>
                 Password: <br />
-                <input type="password" name="password1" />
+                <input type="password" name="password1" maxlength="20" required/>
             </p>
             <p>
                 Repeat password: <br />
-                <input type="password" name="password2" />
+                <input type="password" name="password2" maxlength="20" required/>
             </p>
             <input type="submit" value="Submit" />
         </form>

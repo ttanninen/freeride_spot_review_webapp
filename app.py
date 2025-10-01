@@ -34,7 +34,8 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
-
+        if len(username) > 20 or len(password1) > 20 or len(password2) > 20:
+            abort(403)
         if password1 != password2:
             flash("ERROR: Password mismatch")
             return redirect("/register")
@@ -55,6 +56,8 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        if len(username) > 20 or len(password) > 20:
+            abort(403)
 
         user_id = users.check_login(username, password)
         if user_id:

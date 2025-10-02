@@ -1,13 +1,12 @@
-
-
-Virheellisen syötteen tapauksessa lomake olisi hyvä esitäyttää annetulla syötteellä (pois lukien salasanat), jotta käyttäjän olisi helppo lähteä korjaamaan virheellistä syötettä.
-
-Kommenttien hallinta ja poisto
-
-Kuvien lisäys
+- Session CSRF tarkiste jokaiseen formiin
+- Käyttäjäsivut
+- Kategoriat maanosa/maa/alue
+- Virheellisen syötteen tapauksessa lomake olisi hyvä esitäyttää annetulla syötteellä (pois lukien salasanat), jotta käyttäjän olisi helppo lähteä korjaamaan virheellistä syötettä.
+- Kommenttien hallinta ja poisto
+- Kuvien lisäys
 
 Tyyli:
 
 Etusivu / kirjautumissivu?
 Flash viestien formatointi
-
+Taustakuvat /static

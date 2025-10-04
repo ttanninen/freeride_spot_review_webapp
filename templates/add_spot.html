@@ -12,12 +12,20 @@
             <input type="text" name="title" maxlength="100" required/>
             </p>
             <p>
-                Area:
-            <input type="text" name="area" maxlength="100" />
+                Continent:
+            <select name="continent" required>
+                {% for continent in categories.continents %}
+                <option value="{{ continent[0] }}">{{ continent[1] }}</option>
+                {% endfor %}
+            </select>
             </p>
             <p>
                 Country:
-            <input type="text" name="country" maxlength="100" required/>
+            <select name="country" required>
+                {% for country in categories.countries %}
+                <option value="{{ country[0] }}">{{ country[1] }}</option>
+                {% endfor %}
+            </select>
             </p>
             <p>
                 Slope aspect:
@@ -25,7 +33,11 @@
             </p>
             <p>
                 Skill level:
-            <input type="text" name="skill_level" maxlength="20" />
+            <select name="skill_level">
+                {% for skill_level in categories.skill_levels %}
+                <option value="{{ skill_level[0]}}">{{ skill_level[1] }}</option>
+                {% endfor %}
+            </select>
             </p>
             <p>
                 Slope maximum incline:

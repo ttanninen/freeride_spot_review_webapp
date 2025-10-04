@@ -4,21 +4,32 @@ CREATE TABLE users (
     password_hash TEXT
 );
 
-CREATE TABLE locations (
+CREATE TABLE continents (
     id INTEGER PRIMARY KEY,
-    area TEXT UNIQUE,
-    country TEXT UNIQUE
+    name TEXT UNIQUE
+);
+
+CREATE TABLE countries (
+    id INTEGER PRIMARY KEY,
+    continent_id INTEGER REFERENCES continents(id),
+    name TEXT,
+    UNIQUE (continent_id, name)
+);
+
+CREATE TABLE skill_levels (
+    id INTEGER PRIMARY KEY,
+    name TEXT
 );
 
 CREATE TABLE spots (
     id INTEGER PRIMARY KEY,
     user_id INTEGER REFERENCES users,
-    country TEXT,
-    area TEXT,
+    continent_id INTEGER REFERENCES continents(id),
+    country_id INTEGER REFERENCES countries(id),
     title TEXT,
-    max_incline,
-    skill_level TEXT,
-    aspect INTEGER,
+    max_incline INTEGER,
+    skill_level_id INTEGER REFERENCES skill_levels(id),
+    aspect TEXT,
     notes TEXT,
     added_at TEXT,
     image BLOB

@@ -76,6 +76,8 @@ def logout():
 @app.route("/spot/<int:spot_id>", methods=["GET", "POST"])
 def spot(spot_id):
     spot = spots.get_spot(spot_id)
+    for line in spot:
+        print(line)
     messages = spots.get_messages(spot_id)
     if not spot:
         abort(404)
@@ -93,22 +95,23 @@ def spot(spot_id):
 @app.route("/add_spot", methods=["GET", "POST"])
 def add_spot():
     if request.method == "GET":
-        return render_template("add_spot.html")
+        categories = spots.get_categories()
+        return render_template("add_spot.html" , categories=categories)
 
     if request.method == "POST":
         user_id = session["user_id"]
-        area = request.form["area"]
+        continent = request.form["continent"]
         country = request.form["country"]
         title = request.form["title"]
         max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        if len(area) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
         if "submit" in request.form:
-            spots.add_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes)
+            spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
         return redirect("/browse")
 
 @app.route("/browse")
@@ -119,25 +122,26 @@ def browse():
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):
     spot = spots.get_spot(spot_id)
+    categories = spots.get_categories()
     if spot["user_id"] != session["user_id"]:
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_spot.html", spot=spot)
+        return render_template("edit_spot.html", spot=spot, categories=categories)
 
     if request.method == "POST":
-        area = request.form["area"]
+        continent = request.form["continent"]
         country = request.form["country"]
         title = request.form["title"]
         max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        if len(area) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
         if "update" in request.form:
-            spots.update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id)
+            spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)
         return redirect("/browse")
         
 

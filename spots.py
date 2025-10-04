@@ -1,30 +1,67 @@
 import db
 
-def add_spot(user_id, area, country, title, max_incline, skill_level, aspect, notes):
-    sql = ("""INSERT INTO spots (user_id, area, country, title, max_incline, skill_level, aspect, notes, added_at)
+def get_categories():
+    sql_continents = "SELECT id, name FROM continents"
+    sql_countries = "SELECT id, name FROM countries"
+    sql_skill_levels = "SELECT id, name FROM skill_levels"
+
+    continents = db.query(sql_continents)
+    countries = db.query(sql_countries)
+    skill_levels = db.query(sql_skill_levels)
+
+    return {"continents": continents, "countries": countries, "skill_levels": skill_levels}
+
+def add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes):
+    sql = ("""INSERT INTO spots (user_id, continent_id, country_id, title, max_incline, skill_level_id, aspect, notes, added_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
         """)
-    db.execute(sql, [user_id, area, country, title, max_incline, skill_level, aspect, notes])
+    db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
 
 def get_spot(spot_id):
-    sql = """SELECT s.id, s.user_id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.added_at
-    FROM spots s, users u
-    WHERE s.user_id = u.id AND s.id = ?"""
+    sql = """SELECT s.id AS id,
+            s.user_id AS user_id, 
+            u.username AS username,
+            s.continent_id AS continent_id, 
+            cont.name AS continent, 
+            s.country_id AS country_id, 
+            c.name AS country, 
+            s.title AS title, 
+            s.max_incline AS max_incline, 
+            sk.name AS skill_level, 
+            s.skill_level_id AS skill_level_id,
+            s.aspect AS aspect, 
+            s.notes AS notes, 
+            s.added_at AS added_at
+    FROM spots s, users u, continents cont, countries c, skill_levels sk
+    WHERE s.user_id = u.id AND s.id = ? AND s.continent_id = cont.id AND s.country_id = c.id AND s.skill_level_id = sk.id"""
     result = db.query(sql, [spot_id])
     return result[0] if result else None
 
 def get_spots():
-    sql = """SELECT s.id, u.username, s.country, s.area, s.title, s.max_incline, s.skill_level, s.aspect, s.notes, s.user_id, s.added_at
-    FROM spots s, users u
-    WHERE s.user_id = u.id"""
+    sql = """SELECT s.id as id, 
+            s.user_id AS user_id, 
+            u.username AS username,
+            s.continent_id AS continent_id, 
+            cont.name AS continent, 
+            s.country_id AS country_id, 
+            c.name AS country, 
+            s.title AS title, 
+            s.max_incline AS max_incline, 
+            sk.name AS skill_level, 
+            s.skill_level_id AS skill_level_id,
+            s.aspect AS aspect, 
+            s.notes AS notes, 
+            s.added_at AS added_at
+    FROM spots s, users u, continents cont, countries c, skill_levels sk
+    WHERE s.user_id = u.id AND s.continent_id = cont.id AND s.country_id = c.id AND s.skill_level_id = sk.id"""
     return db.query(sql)
 
-def update_spot(area, country, title, max_incline, skill_level, aspect, notes, spot_id):
+def update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id):
     sql = ("""UPDATE spots SET
-        area = ?, country = ?, title = ?, max_incline = ?, skill_level = ?, aspect = ?, notes = ?
+        continent_id = ?, country_id = ?, title = ?, max_incline = ?, skill_level_id = ?, aspect = ?, notes = ?
         WHERE id = ?"""
         )
-    db.execute(sql, [area, country, title, max_incline, skill_level, aspect, notes, spot_id])
+    db.execute(sql, [continent, country, title, max_incline, skill_level, aspect, notes, spot_id])
 
 def remove_spot(spot_id):
     sql = ("DELETE FROM spots WHERE id = ?")
@@ -38,7 +75,7 @@ def search(query):
     return db.query(sql, [pattern, pattern])
 
 def post_message(spot_id, user_id, content):
-    sql = sql = """INSERT INTO messages (user_id, spot_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))"""
+    sql = """INSERT INTO messages (user_id, spot_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))"""
     db.execute(sql, [user_id, spot_id, content])
 
 def get_messages(spot_id):

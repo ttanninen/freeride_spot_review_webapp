@@ -22,7 +22,8 @@ def login_page():
 def index():
     if not session.get("user_id"):
         return redirect("/login")
-    username = users.get_username(session["user_id"])
+    user_id = session.get("user_id")
+    username = users.get_user(user_id)[1]
     return render_template("index.html", username=username)
     
 @app.route("/register", methods=["GET", "POST"])
@@ -168,3 +169,14 @@ def search():
             abort(403)
     results = spots.search(query) if query else []
     return render_template("search.html", query=query, results=results)
+
+
+
+@app.route("/user/<int:user_id>", methods=["GET", "POST"])
+def user(user_id):
+    user = users.get_user(user_id)
+    if request.method == "GET":
+        return render_template("user.html", user=user)
+    
+    if request.method == "POST": # Poista jos ei tarvii
+        return None

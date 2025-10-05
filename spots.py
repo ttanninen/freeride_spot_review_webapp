@@ -2,7 +2,7 @@ import db
 
 def get_categories():
     sql_continents = "SELECT id, name FROM continents"
-    sql_countries = "SELECT id, name FROM countries"
+    sql_countries = "SELECT id, name, continent_id FROM countries"
     sql_skill_levels = "SELECT id, name FROM skill_levels"
 
     continents = db.query(sql_continents)

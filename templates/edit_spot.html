@@ -12,12 +12,18 @@
             </p>
             <p>
                 Country:
-            <select name="country" required>
-                {% for country in categories.countries %}
-                <option value="{{ country[0] }}" {% if country[0] == spot.country_id %}selected{% endif %}>
-                {{ country[1] }}</option>
-                {% endfor %}
-            </select>
+                <select name="country" required>
+                    {% for continent in categories.continents %}
+                    <optgroup label="{{ continent[1] }}">
+                        {% for country in categories.countries %}
+                            {% if country[2] == continent[0] %}
+                                <option value="{{ country[0] }}" {% if country[0] == spot.country_id %}selected{% endif %}>
+                                {{ country [1] }}    
+                            {% endif %}
+                        {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                </select>
             </p>
             <p>
                 Slope aspect:

@@ -56,9 +56,6 @@ To the application directory, create database.db using the provided schema.sql f
 Initialize databaase.db with application data using provided init.sql file:
 > $ sqlite3 database.db < init.sql
 
-Populate database.db with dummy data (optional)
-> $ python3 populate_dummy.py
-
 **Run the app on local web server**
 
 To start local web server navigate to the application directory.

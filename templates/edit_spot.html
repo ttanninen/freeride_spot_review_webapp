@@ -11,15 +11,6 @@
             <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
             </p>
             <p>
-                Continent:
-            <select name="continent" required>
-                {% for continent in categories.continents %}
-                <option value="{{ continent[0] }}" {% if continent[0] == spot.continent_id %}selected{% endif %}>
-                {{ continent[1] }}</option>
-                {% endfor %}
-            </select>
-            </p>
-            <p>
                 Country:
             <select name="country" required>
                 {% for country in categories.countries %}

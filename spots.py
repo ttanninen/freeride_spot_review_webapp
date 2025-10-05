@@ -11,6 +11,12 @@ def get_categories():
 
     return {"continents": continents, "countries": countries, "skill_levels": skill_levels}
 
+
+def get_country_continent(country_id):
+    sql = "SELECT con.id FROM continents con JOIN countries c ON con.id = c.continent_id WHERE c.id = ?"
+    result = db.query(sql, [country_id])
+    return result[0]["id"] if result else None
+
 def add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes):
     sql = ("""INSERT INTO spots (user_id, continent_id, country_id, title, max_incline, skill_level_id, aspect, notes, added_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 

@@ -77,8 +77,6 @@ def logout():
 @app.route("/spot/<int:spot_id>", methods=["GET", "POST"])
 def spot(spot_id):
     spot = spots.get_spot(spot_id)
-    for line in spot:
-        print(line)
     messages = spots.get_messages(spot_id)
     if not spot:
         abort(404)
@@ -101,13 +99,14 @@ def add_spot():
 
     if request.method == "POST":
         user_id = session["user_id"]
-        continent = request.form["continent"]
         country = request.form["country"]
         title = request.form["title"]
         max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
+
+        continent = str(spots.get_country_continent(country))
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
@@ -131,13 +130,14 @@ def edit_spot(spot_id):
         return render_template("edit_spot.html", spot=spot, categories=categories)
 
     if request.method == "POST":
-        continent = request.form["continent"]
         country = request.form["country"]
         title = request.form["title"]
         max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
+    
+        continent = str(spots.get_country_continent(country))
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 

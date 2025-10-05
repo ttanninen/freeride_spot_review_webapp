@@ -12,14 +12,6 @@
             <input type="text" name="title" maxlength="100" required/>
             </p>
             <p>
-                Continent:
-            <select name="continent" required>
-                {% for continent in categories.continents %}
-                <option value="{{ continent[0] }}">{{ continent[1] }}</option>
-                {% endfor %}
-            </select>
-            </p>
-            <p>
                 Country:
             <select name="country" required>
                 {% for country in categories.countries %}

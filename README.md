@@ -9,7 +9,8 @@ Many of the features are still under development. As of now the application has 
 - Users can create, view, edit and delete spots they have created.
 - Users can view spots other users have created.
 - Users can send comments on other users spots.
-- Users can search spots in the application (as of now only rudimentary search from spot title and notes)
+- Users can search spots in the application (as of now only rudimentary search from spot title and notes).
+- Users can view other users userpages which show page activity of the user.
 
 The complete application will have at least these features (along with better looking UI)
 <ul>
@@ -45,17 +46,18 @@ After initializing virtual environment, install Flask for Python.
 > $ (venv)../pip install flask
 
 **Create database and populate with example data**
-database.db is not included in the repository, so it must be built locally with the sql-schema found in the repository.
+database.db is not included in the repository, so it must be built and initialized locally with the schema.sql and init.sql files found in the repository.
 First, ensure that you have sqlite3 installed.
 > $ (sudo) apt install sqlite3
 
-To the application directory, create database.db using the provided schema.sql file.
+To the application directory, create database.db using the provided schema.sql file:
 > $ sqlite3 database.db < schema.sql
+
+Initialize databaase.db with application data using provided init.sql file:
+> $ sqlite3 database.db < init.sql
 
 Populate database.db with dummy data (optional)
 > $ python3 populate_dummy.py
-
-_Caution! If you want to use dummy data, it's mandatory to do this database population before logging in to the application. Do not create user in the application first, because this will mess up the database.db and you have to reinitialize it._
 
 **Run the app on local web server**
 

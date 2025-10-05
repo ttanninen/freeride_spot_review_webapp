@@ -15,7 +15,7 @@
         {% endif %}
         <hr />
         <p> 
-        Added by user: {{ spot.username }}
+        Added by user: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
         </p>
         <p>
         Continent: {{ spot.continent }}

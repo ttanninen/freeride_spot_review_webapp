@@ -34,7 +34,7 @@ def index():
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", filled = {})
 
     if request.method == "POST":
         username = request.form["username"]
@@ -44,7 +44,8 @@ def register():
             abort(403)
         if password1 != password2:
             flash("ERROR: Password mismatch")
-            return redirect("/register")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
 
         try:
             users.create_user(username, password1)
@@ -52,7 +53,8 @@ def register():
             return redirect("/")
         except sqlite3.IntegrityError:
             flash ("ERROR: Username already in use")
-            return redirect("/register")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

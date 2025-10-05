@@ -174,9 +174,12 @@ def search():
 
 @app.route("/user/<int:user_id>", methods=["GET", "POST"])
 def user(user_id):
+    user_spot_list = spots.get_user_spots(user_id)
+    user_message_list = spots.get_user_messages(user_id)
     user = users.get_user(user_id)
+
     if request.method == "GET":
-        return render_template("user.html", user=user)
+        return render_template("user.html", user=user, user_message_list=user_message_list, user_spot_list=user_spot_list)
     
     if request.method == "POST": # Poista jos ei tarvii
         return None

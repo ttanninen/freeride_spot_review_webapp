@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Userpage</title>
+        <title>User page</title>
     </head>
     <body>
-        <h1>{{ user.username }}</h1>
+        <h1>User {{ user.username }}</h1>
+        <p>
+           {{ user_spot_list | length }} Spots posted by user:
+           {% for spot in user_spot_list %}
+           {% if spot.id == user.id %}
+           <p><a href="../spot/{{ spot.id }}">{{ spot.title }}</a></p>
+           {% endif %}
+           {% endfor %}
+        </p>
+        <br>
+        <p>
+            {{ user_message_list | length }} Messages posted by user:
+            {% for message in user_message_list %}
+            <p>{{ message.content }}</p>
+            {% endfor %}
+            
+        </p>
     </body>
+
 </html>

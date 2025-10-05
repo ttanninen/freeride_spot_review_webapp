@@ -39,7 +39,7 @@
         {% endfor %}
         </p>
         <p>
-        Added by: {{ spot.username }}
+        Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
         </p>
         <p>
         Added at: {{ spot.added_at }}

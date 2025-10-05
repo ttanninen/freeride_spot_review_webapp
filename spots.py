@@ -84,6 +84,14 @@ def get_messages(spot_id):
     WHERE m.user_id = u.id AND m.spot_id = ?"""
     return db.query(sql, [spot_id])
 
+def get_user_messages(user_id):
+    sql = "SELECT * from messages WHERE user_id = ?"
+    return db.query(sql, [user_id])
+
+def get_user_spots(user_id):
+    sql = "SELECT * from spots WHERE user_id = ?"
+    return db.query(sql, [user_id])
+
 def edit_message():
     return None
 

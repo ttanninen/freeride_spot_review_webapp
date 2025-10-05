@@ -11,9 +11,9 @@ CREATE TABLE continents (
 
 CREATE TABLE countries (
     id INTEGER PRIMARY KEY,
-    continent_id INTEGER REFERENCES continents(id),
     name TEXT,
-    UNIQUE (continent_id, name)
+    continent_id INTEGER REFERENCES continents(id),
+    UNIQUE (name, continent_id)
 );
 
 CREATE TABLE skill_levels (

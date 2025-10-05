@@ -47,6 +47,7 @@
             <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
             </p>
             <p>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
             <input type="submit" name="update" value="Update" />
             <input type="submit" name="cancel" value="Cancel" />
             </p>

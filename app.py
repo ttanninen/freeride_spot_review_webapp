@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort
-import config, users, sqlite3, spots
+import config, users, sqlite3, spots, secrets
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -10,9 +10,14 @@ def check_session():
     if not session.get("user_id") and request.path != "/" and request.path != "/register" and request.path != "/login":
         abort(403)
 
+def check_csrf():
+    if request.form["csrf_token"] != session["csrf_token"]:
+        abort(403)
+
 @app.route("/")
 def login_page():
     user_id = session.get("user_id")
+    session["csrf_token"] = secrets.token_hex(16)
     if user_id:
         return redirect("/home")
     else:
@@ -84,6 +89,7 @@ def spot(spot_id):
         return render_template("spot.html", spot=spot, messages=messages)
 
     if request.method == "POST":
+        check_csrf()
         user_id = session["user_id"]
         content = request.form["content"]
         if len(content) > 1000:
@@ -98,6 +104,7 @@ def add_spot():
         return render_template("add_spot.html" , categories=categories)
 
     if request.method == "POST":
+        check_csrf()
         user_id = session["user_id"]
         country = request.form["country"]
         title = request.form["title"]
@@ -130,6 +137,7 @@ def edit_spot(spot_id):
         return render_template("edit_spot.html", spot=spot, categories=categories)
 
     if request.method == "POST":
+        check_csrf()
         country = request.form["country"]
         title = request.form["title"]
         max_incline = request.form["max_incline"]
@@ -156,6 +164,7 @@ def remove_spot(spot_id):
         return render_template("remove.html", spot=spot)
     
     if request.method == "POST":
+        check_csrf()
         if "yes" in request.form:
             spots.remove_spot(spot["id"])
         return redirect("/browse")

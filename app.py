@@ -192,5 +192,10 @@ def user(user_id):
     if request.method == "GET":
         return render_template("user.html", user=user, user_message_list=user_message_list, user_spot_list=user_spot_list)
     
-    if request.method == "POST": # Poista jos ei tarvii
+    if request.method == "POST": # remove if not needed and fix route
         return None
+    
+@app.route("/browse_users", methods=["GET"])
+def browse_users():
+    user_list = users.get_users()
+    return render_template("browse_users.html", user_list=user_list)

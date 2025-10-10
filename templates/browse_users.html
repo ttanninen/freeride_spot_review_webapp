@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Users</title>
+    </head>
+
+    <body>
+        <h1>Browse users</h1>
+        <hr />
+        <a href="/home">Back to front page</a>
+        <a href="/user/{{ session.user_id }}">Own user page</a>
+        <hr />
+        {% for user in user_list|sort (attribute='username') %}
+        <p>
+        <h2><a href="/user/{{ user.id }}">{{ user.username }}</a></h2>
+        </p>
+        {% endfor %}
+        <a href="/home">Back to front page</a>
+    </body>
+</html>

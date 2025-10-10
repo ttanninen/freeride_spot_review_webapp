@@ -18,7 +18,16 @@ def get_country_continent(country_id):
     return result[0]["id"] if result else None
 
 def add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes):
-    sql = ("""INSERT INTO spots (user_id, continent_id, country_id, title, max_incline, skill_level_id, aspect, notes, added_at)
+    sql = ("""INSERT INTO spots 
+           (user_id, 
+           continent_id, 
+           country_id, 
+           title, 
+           max_incline, 
+           skill_level_id, 
+           aspect, 
+           notes, 
+           added_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
         """)
     db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
@@ -64,7 +73,13 @@ def get_spots():
 
 def update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id):
     sql = ("""UPDATE spots SET
-        continent_id = ?, country_id = ?, title = ?, max_incline = ?, skill_level_id = ?, aspect = ?, notes = ?
+        continent_id = ?,
+        country_id = ?,
+        title = ?,
+        max_incline = ?,
+        skill_level_id = ?, 
+        aspect = ?,
+        notes = ?
         WHERE id = ?"""
         )
     db.execute(sql, [continent, country, title, max_incline, skill_level, aspect, notes, spot_id])
@@ -81,7 +96,12 @@ def search(query):
     return db.query(sql, [pattern, pattern])
 
 def post_message(spot_id, user_id, content):
-    sql = """INSERT INTO messages (user_id, spot_id, content, sent_at) VALUES (?, ?, ?, datetime('now'))"""
+    sql = """INSERT INTO messages 
+            (user_id, 
+            spot_id, 
+            content, 
+            sent_at) 
+            VALUES (?, ?, ?, datetime('now'))"""
     db.execute(sql, [user_id, spot_id, content])
 
 def get_messages(spot_id):
@@ -95,7 +115,18 @@ def get_user_messages(user_id):
     return db.query(sql, [user_id])
 
 def get_user_spots(user_id):
-    sql = "SELECT id, user_id, continent_id, country_id, title, max_incline, skill_level_id, aspect, notes, added_at, image FROM spots WHERE user_id = ?"
+    sql = """SELECT id, 
+            user_id, 
+            continent_id, 
+            country_id, 
+            title, 
+            max_incline, 
+            skill_level_id, 
+            aspect, 
+            notes, 
+            added_at, 
+            image 
+            FROM spots WHERE user_id = ?"""
     return db.query(sql, [user_id])
 
 def edit_message():

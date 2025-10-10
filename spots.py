@@ -91,11 +91,11 @@ def get_messages(spot_id):
     return db.query(sql, [spot_id])
 
 def get_user_messages(user_id):
-    sql = "SELECT * from messages WHERE user_id = ?"
+    sql = "SELECT id, user_id, spot_id, content, sent_at FROM messages WHERE user_id = ?"
     return db.query(sql, [user_id])
 
 def get_user_spots(user_id):
-    sql = "SELECT * from spots WHERE user_id = ?"
+    sql = "SELECT id, user_id, continent_id, country_id, title, max_incline, skill_level_id, aspect, notes, added_at, image FROM spots WHERE user_id = ?"
     return db.query(sql, [user_id])
 
 def edit_message():

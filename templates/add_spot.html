@@ -49,7 +49,7 @@
             <p>
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
             <input type="submit" name="submit" value="Submit" />
-            <input type="Submit" name="cancel" value="Cancel" />
+            <button type="button" onclick="window.history.back()">Cancel</button>
             </p>
         </form>
     </body>

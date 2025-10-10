@@ -40,8 +40,20 @@ def register():
         username = request.form["username"]
         password1 = request.form["password1"]
         password2 = request.form["password2"]
+        # Maximum lengths
         if len(username) > 20 or len(password1) > 20 or len(password2) > 20:
             abort(403)
+        # Minimum lengths
+        if len(username) < 3:
+            flash("The username length has to be at least 3")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
+        
+        if len(password1) < 4:
+            flash("The password length has to be at least 4")
+            filled = {"username": username}
+            return render_template("register.html", filled=filled)
+
         if password1 != password2:
             flash("ERROR: Password mismatch")
             filled = {"username": username}

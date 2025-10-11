@@ -107,17 +107,24 @@ def post_message(spot_id, user_id, content):
     db.execute(sql, [user_id, spot_id, content])
 
 def get_messages(spot_id):
-    sql = """SELECT m.id, m.user_id, u.username, m.spot_id, m.content, m.sent_at
+    sql = """SELECT m.id, 
+            m.user_id, 
+            u.username, 
+            m.spot_id, 
+            m.content, 
+            m.sent_at, 
+            m.edited_at, 
+            m.edited_at IS NOT NULL AS is_edited
     FROM messages m, users u
     WHERE m.user_id = u.id AND m.spot_id = ?"""
     return db.query(sql, [spot_id])
 
 def get_message(message_id):
-    sql = "SELECT id, user_id, spot_id, content, sent_at FROM messages where id = ?"
+    sql = "SELECT id, user_id, spot_id, content, sent_at, edited_at FROM messages where id = ?"
     return db.query(sql, [message_id])[0]
 
 def get_user_messages(user_id):
-    sql = "SELECT id, user_id, spot_id, content, sent_at FROM messages WHERE user_id = ?"
+    sql = "SELECT id, user_id, spot_id, content, sent_at, edited_at FROM messages WHERE user_id = ?"
     return db.query(sql, [user_id])
 
 def get_user_spots(user_id):
@@ -135,8 +142,20 @@ def get_user_spots(user_id):
             FROM spots WHERE user_id = ?"""
     return db.query(sql, [user_id])
 
-def edit_message():
-    return None
+def update_message(message_id, content):
+    sql = """UPDATE messages SET 
+            content = ?, 
+            edited_at = datetime('now') 
+            WHERE id = ?"""
+    db.execute(sql, [content, message_id])
+
+def is_edited(message_id):
+    sql = """SELECT id, edited_at IS NOT NULL is_edited
+            FROM messages
+            WHERE id = ?"""
+    result = db.query(sql, [message_id])
+    return result[0] if result else None
+
 
 def remove_message(message_id):
     sql = ("DELETE FROM messages WHERE id = ?")

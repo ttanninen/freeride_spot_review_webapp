@@ -40,6 +40,7 @@ create TABLE messages (
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     spot_id INTEGER REFERENCES spots(id) ON DELETE CASCADE,
     content TEXT,
-    sent_at TEXT
+    sent_at TEXT,
+    edited_at TEXT
 
 )

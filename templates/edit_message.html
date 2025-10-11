@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Edit message</title>
+    </head>
+    <body>
+        <h1>Edit message</h1>
+        <form action="/edit_message/{{ message.id }}" method="post">
+                Notes:
+            <textarea name="content" rows="10" cols="100" maxlength="5000">{{ message.content }}</textarea>
+            </p>
+            <p>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" name="update" value="Update" />
+            <input type="submit" name="cancel" value="Cancel" />
+            </p>
+        </form>
+    </body>
+</html>

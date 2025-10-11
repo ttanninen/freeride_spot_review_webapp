@@ -134,18 +134,18 @@ def add_spot():
             "skill_level": skill_level,
             "aspect": aspect,
             "notes": notes}
-        
-        if not file.filename.endswith(".jpg"):
-            flash("Filetype must be .jpg")
-            categories = spots.get_categories()
-            return render_template("add_spot.html", filled=filled, categories=categories)
-        
-        image = file.read()
-        print(image)
-        if len(image) > 10000 * 1024:
-            flash("Too large image file")
-            categories = spots.get_categories()
-            return render_template("add_spot.html", filled=filled, categories=categories)
+        if file:
+            if not file.filename.endswith(".jpg"):
+                flash("Filetype must be .jpg")
+                categories = spots.get_categories()
+                return render_template("add_spot.html", filled=filled, categories=categories)
+            
+            image = file.read()
+            print(image)
+            if len(image) > 10000 * 1024:
+                flash("Too large image file")
+                categories = spots.get_categories()
+                return render_template("add_spot.html", filled=filled, categories=categories)
 
 
         continent = str(spots.get_country_continent(country))
@@ -154,6 +154,7 @@ def add_spot():
 
         if "submit" in request.form:
             spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+        if file:
             spots.update_image(spot_id, image)
         return redirect("/browse")
 
@@ -230,6 +231,23 @@ def remove_message(message_id):
         check_csrf()
         if "yes" in request.form:
             spots.remove_message(message["id"])
+        return redirect(f"/spot/{spot_id}")
+    
+@app.route("/edit_message/<int:message_id>", methods=["GET", "POST"])
+def edit_message(message_id):
+    message = spots.get_message(message_id)
+    spot_id = message["spot_id"]
+    if message["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_message.html", message=message)
+    
+    if request.method == "POST":
+        check_csrf()
+        if "update" in request.form:
+            content = request.form["content"]
+            spots.update_message(message["id"], content)
         return redirect(f"/spot/{spot_id}")
 
 

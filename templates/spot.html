@@ -44,8 +44,9 @@
         <hr />
         {% for message in messages %}
         <p>
-            {{ message.username }} sent at: {{ message.sent_at }}
+            {{ message.username }} sent at: {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
             {% if spot.user_id == session.user_id %}
+                <a href="/edit_message/{{ message.id }}">Edit message</a>       
                 <a href="/remove_message/{{ message.id }}">Remove message</a>
             {% endif %}
         </p>

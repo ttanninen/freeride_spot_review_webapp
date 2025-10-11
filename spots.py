@@ -1,4 +1,5 @@
 import db
+import sqlite3
 
 def get_categories():
     sql_continents = "SELECT id, name FROM continents"
@@ -31,6 +32,7 @@ def add_spot(user_id, continent, country, title, max_incline, skill_level, aspec
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
         """)
     db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
+    return db.query("SELECT last_insert_rowid()")[0][0]
 
 def get_spot(spot_id):
     sql = """SELECT s.id AS id,
@@ -110,6 +112,10 @@ def get_messages(spot_id):
     WHERE m.user_id = u.id AND m.spot_id = ?"""
     return db.query(sql, [spot_id])
 
+def get_message(message_id):
+    sql = "SELECT id, user_id, spot_id, content, sent_at FROM messages where id = ?"
+    return db.query(sql, [message_id])[0]
+
 def get_user_messages(user_id):
     sql = "SELECT id, user_id, spot_id, content, sent_at FROM messages WHERE user_id = ?"
     return db.query(sql, [user_id])
@@ -132,5 +138,14 @@ def get_user_spots(user_id):
 def edit_message():
     return None
 
-def delete_message():
-    return None
+def remove_message(message_id):
+    sql = ("DELETE FROM messages WHERE id = ?")
+    db.execute(sql, [message_id])
+
+def update_image(spot_id, image):
+    sql = "UPDATE spots SET image = ? WHERE id = ?"
+    db.execute(sql, [image, spot_id])
+
+def get_image(spot_id):
+    sql = "SELECT image FROM spots WHERE id = ?"
+    return db.query(sql, [spot_id])[0]["image"]

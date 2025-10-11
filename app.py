@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session, abort
+from flask import flash, redirect, render_template, request, session, abort, make_response
 import config, users, sqlite3, spots, secrets
 
 app = Flask(__name__)
@@ -115,7 +115,7 @@ def spot(spot_id):
 def add_spot():
     if request.method == "GET":
         categories = spots.get_categories()
-        return render_template("add_spot.html" , categories=categories)
+        return render_template("add_spot.html" , categories=categories, filled={})
 
     if request.method == "POST":
         check_csrf()
@@ -126,14 +126,46 @@ def add_spot():
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
+        file = request.files["image"]
+
+        filled = {"country": country,
+            "title": title,
+            "max_incline": max_incline,
+            "skill_level": skill_level,
+            "aspect": aspect,
+            "notes": notes}
+        
+        if not file.filename.endswith(".jpg"):
+            flash("Filetype must be .jpg")
+            categories = spots.get_categories()
+            return render_template("add_spot.html", filled=filled, categories=categories)
+        
+        image = file.read()
+        print(image)
+        if len(image) > 10000 * 1024:
+            flash("Too large image file")
+            categories = spots.get_categories()
+            return render_template("add_spot.html", filled=filled, categories=categories)
+
 
         continent = str(spots.get_country_continent(country))
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
         if "submit" in request.form:
-            spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+            spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+            spots.update_image(spot_id, image)
         return redirect("/browse")
+
+@app.route("/image/<int:spot_id>")
+def show_image(spot_id):
+    image = spots.get_image(spot_id)
+    if not image:
+        abort(404)
+    
+    response = make_response(bytes(image))
+    response.headers.set("Content-type", "image/jpeg")
+    return response
 
 @app.route("/browse")
 def browse():
@@ -182,6 +214,23 @@ def remove_spot(spot_id):
         if "yes" in request.form:
             spots.remove_spot(spot["id"])
         return redirect("/browse")
+    
+
+@app.route("/remove_message/<int:message_id>", methods=["GET", "POST"])
+def remove_message(message_id):
+    message = spots.get_message(message_id)
+    spot_id = message["spot_id"]
+    if message["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("remove_message.html", message=message)
+    
+    if request.method == "POST":
+        check_csrf()
+        if "yes" in request.form:
+            spots.remove_message(message["id"])
+        return redirect(f"/spot/{spot_id}")
 
 
 @app.route("/search")
@@ -211,3 +260,5 @@ def user(user_id):
 def browse_users():
     user_list = users.get_users()
     return render_template("browse_users.html", user_list=user_list)
+
+

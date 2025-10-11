@@ -124,22 +124,37 @@ def get_message(message_id):
     return db.query(sql, [message_id])[0]
 
 def get_user_messages(user_id):
-    sql = "SELECT id, user_id, spot_id, content, sent_at, edited_at FROM messages WHERE user_id = ?"
+    sql = """SELECT m.id, 
+            m.user_id, 
+            m.spot_id, 
+            s.title AS spot_title,
+            m.content, 
+            m.sent_at, 
+            m.edited_at
+            FROM messages m
+            JOIN spots s ON m.spot_id = s.id
+            WHERE m.user_id = ?
+            ORDER BY m.sent_at"""
     return db.query(sql, [user_id])
 
 def get_user_spots(user_id):
-    sql = """SELECT id, 
-            user_id, 
-            continent_id, 
-            country_id, 
-            title, 
-            max_incline, 
-            skill_level_id, 
-            aspect, 
-            notes, 
-            added_at, 
-            image 
-            FROM spots WHERE user_id = ?"""
+    sql = """SELECT s.id, 
+            s.user_id, 
+            s.continent_id, 
+            con.name AS continent_name,
+            s.country_id,
+            c.name AS country_name,
+            s.title, 
+            s.max_incline, 
+            s.skill_level_id, 
+            s.aspect, 
+            s.notes, 
+            s.added_at, 
+            s.image 
+            FROM spots s
+            JOIN continents con ON s.continent_id = con.id
+            JOIN countries c ON s.country_id = c.id 
+            WHERE user_id = ?"""
     return db.query(sql, [user_id])
 
 def update_message(message_id, content):

@@ -22,6 +22,15 @@ def get_user(user_id):
     result = db.query(sql, [user_id])
     return result[0] if result else None
 
-def get_users():
-    sql = "SELECT id, username, added_at FROM users"
-    return db.query(sql)
+def get_users(page, page_size):
+    sql = """SELECT id, username, added_at 
+            FROM users
+            ORDER BY username
+            LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page - 1)
+    return db.query(sql, [limit, offset])
+
+def users_count():
+    sql = "SELECT COUNT(*) FROM users"
+    return db.query(sql)[0][0]

@@ -15,6 +15,13 @@
         <h2><a href="/user/{{ user.id }}">{{ user.username }}</a></h2> Member since {{ user.added_at }}
         </p>
         {% endfor %}
+        <hr />
+        <p>
+        <a href="/browse_users/{{ page - 1 }}">&lt;&lt;</a>
+        Page {{ page }}/{{ page_count }}
+        <a href="/browse_users/{{ page + 1 }}">&gt;&gt;</a>
+        </p>
+        <hr />
         <a href="/home">Back to front page</a>
     </body>
 </html>

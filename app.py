@@ -169,7 +169,7 @@ def show_image(spot_id):
     return response
 
 @app.route("/browse")
-@app.route("/<int:page>")
+@app.route("/browse/<int:page>")
 def browse(page=1):
     page_size = 10
     spot_count = spots.spot_count()
@@ -177,9 +177,9 @@ def browse(page=1):
     page_count = max(page_count, 1)
 
     if page < 1:
-        return redirect("/1")
+        return redirect("/browse/1")
     if page > page_count:
-        return redirect("/" + str(page_count))
+        return redirect("/browse/" + str(page_count))
 
     spot_list = spots.get_spots(page, page_size)
 
@@ -286,9 +286,20 @@ def user(user_id):
     if request.method == "POST": # remove if not needed and fix route
         return None
     
-@app.route("/browse_users", methods=["GET"])
-def browse_users():
-    user_list = users.get_users()
-    return render_template("browse_users.html", user_list=user_list)
+@app.route("/browse_users")
+@app.route("/browse_users/<int:page>")
+def browse_users(page=1):
+    page_size = 10
+    users_count = users.users_count()
+    page_count = math.ceil(users_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/browse_users/1")
+    if page > page_count:
+        return redirect("/browse_users/" + str(page_count))
+
+    user_list = users.get_users(page, page_size)
+    return render_template("browse_users.html", user_list=user_list, page=page, page_count=page_count)
 
 

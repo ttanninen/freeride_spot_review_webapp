@@ -18,11 +18,11 @@
         <h1>Add new spot</h1>
         <form action="/add_spot" method="post" enctype="multipart/form-data">
             <p>
-                Spot title:
+                <label>Spot title:</label>
             <input type="text" name="title" value= "{{ filled.title }}" maxlength="100" required/>
             </p>
             <p>
-                Country:
+                <label>Country:</label>
                 <select name="country" required>
                     {% for continent in categories.continents %}
                     <optgroup label="{{ continent[1] }}">
@@ -37,11 +37,11 @@
                 </select>
             </p>
             <p>
-                Slope aspect:
+                <label>Slope aspect:</label>
             <input type="text" name="aspect" value= "{{ filled.aspect }}" maxlength="10" />
             </p>
             <p>
-                Skill level:
+                <label>Skill level:</label>
             <select name="skill_level">
                 {% for skill_level in categories.skill_levels %}
                     <option value="{{ skill_level[0]}}"
@@ -54,16 +54,16 @@
             </select>
             </p>
             <p>
-                Slope maximum incline:
+                <label>Slope maximum incline:</label>
             <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="3" />
             </p>
             <p>
-                Notes:
+                <label>Notes:</label>
             <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ filled.notes }}</textarea>
             </p>
             <p>
-                Image:
-            <input type="file" name="image" accept=".jpg">
+                <label>Image:</label>
+            <input type="file" name="image" accept=".jpg, .png">
             </p>
             <p>
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

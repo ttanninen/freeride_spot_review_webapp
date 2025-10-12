@@ -12,7 +12,7 @@
         <hr />
         {% for user in user_list|sort (attribute='username') %}
         <p>
-        <h2><a href="/user/{{ user.id }}">{{ user.username }}</a></h2>
+        <h2><a href="/user/{{ user.id }}">{{ user.username }}</a></h2> Member since {{ user.added_at }}
         </p>
         {% endfor %}
         <a href="/home">Back to front page</a>

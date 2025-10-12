@@ -3,7 +3,7 @@ import db
 
 def create_user(username, password):
     password_hash = generate_password_hash(password)
-    sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)"
+    sql = "INSERT INTO users (username, password_hash, added_at) VALUES (?, ?, datetime('now'))"
     db.execute(sql, [username, password_hash])
 
 def check_login(username, password):
@@ -18,10 +18,10 @@ def check_login(username, password):
     return None
 
 def get_user(user_id):
-    sql = "SELECT id, username FROM users u where u.id = ?"
+    sql = "SELECT id, username, added_at FROM users u where u.id = ?"
     result = db.query(sql, [user_id])
     return result[0] if result else None
 
 def get_users():
-    sql = "SELECT id, username FROM users"
+    sql = "SELECT id, username, added_at FROM users"
     return db.query(sql)

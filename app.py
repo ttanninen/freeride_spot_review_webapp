@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import flash, redirect, render_template, request, session, abort, make_response
-import config, users, sqlite3, spots, secrets
+import config, users, sqlite3, spots, secrets, math
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -169,9 +169,21 @@ def show_image(spot_id):
     return response
 
 @app.route("/browse")
-def browse():
-    spot_list = spots.get_spots()
-    return render_template("/browse.html", spot_list=spot_list)
+@app.route("/<int:page>")
+def browse(page=1):
+    page_size = 10
+    spot_count = spots.spot_count()
+    page_count = math.ceil(spot_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/1")
+    if page > page_count:
+        return redirect("/" + str(page_count))
+
+    spot_list = spots.get_spots(page, page_size)
+
+    return render_template("/browse.html", page=page, page_count= page_count, spot_list=spot_list)
 
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):

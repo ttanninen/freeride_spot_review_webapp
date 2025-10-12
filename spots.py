@@ -34,6 +34,10 @@ def add_spot(user_id, continent, country, title, max_incline, skill_level, aspec
     db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
     return db.query("SELECT last_insert_rowid()")[0][0]
 
+def spot_count():
+    sql = "SELECT COUNT(*) FROM spots"
+    return db.query(sql)[0][0]
+
 def get_spot(spot_id):
     sql = """SELECT s.id AS id,
             s.user_id AS user_id, 
@@ -54,7 +58,7 @@ def get_spot(spot_id):
     result = db.query(sql, [spot_id])
     return result[0] if result else None
 
-def get_spots():
+def get_spots(page, page_size):
     sql = """SELECT s.id as id, 
             s.user_id AS user_id, 
             u.username AS username,
@@ -69,9 +73,19 @@ def get_spots():
             s.aspect AS aspect, 
             s.notes AS notes, 
             s.added_at AS added_at
-    FROM spots s, users u, continents cont, countries c, skill_levels sk
-    WHERE s.user_id = u.id AND s.continent_id = cont.id AND s.country_id = c.id AND s.skill_level_id = sk.id"""
-    return db.query(sql)
+            FROM spots s,
+            users u, 
+            continents cont, 
+            countries c, 
+            skill_levels sk
+            WHERE s.user_id = u.id 
+            AND s.continent_id = cont.id 
+            AND s.country_id = c.id 
+            AND s.skill_level_id = sk.id
+            LIMIT ? OFFSET ?"""
+    limit = page_size
+    offset = page_size * (page -1)
+    return db.query(sql, [limit, offset])
 
 def update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id):
     sql = ("""UPDATE spots SET

@@ -1,6 +1,6 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session, abort, make_response
-import config, users, sqlite3, spots, secrets, math
+from flask import flash, redirect, render_template, request, session, abort
+import config, users, sqlite3, spots, secrets, math, os
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -115,7 +115,8 @@ def spot(spot_id):
 def add_spot():
     if request.method == "GET":
         categories = spots.get_categories()
-        return render_template("add_spot.html" , categories=categories, filled={})
+        filled = session.pop("refill_data", {})
+        return render_template("add_spot.html" , categories=categories, filled=filled)
 
     if request.method == "POST":
         check_csrf()
@@ -128,45 +129,25 @@ def add_spot():
         notes =  request.form["notes"]
         file = request.files["image"]
 
-        filled = {"country": country,
+        session["refill_data"] = {
+            "country": country,
             "title": title,
             "max_incline": max_incline,
             "skill_level": skill_level,
             "aspect": aspect,
-            "notes": notes}
-        if file:
-            if not file.filename.endswith(".jpg"):
-                flash("Filetype must be .jpg")
-                categories = spots.get_categories()
-                return render_template("add_spot.html", filled=filled, categories=categories)
-            
-            image = file.read()
-            print(image)
-            if len(image) > 10000 * 1024:
-                flash("Too large image file")
-                categories = spots.get_categories()
-                return render_template("add_spot.html", filled=filled, categories=categories)
-
-
+            "notes": notes
+            }
+        
         continent = str(spots.get_country_continent(country))
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
         if "submit" in request.form:
-            spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
-        if file:
-            spots.update_image(spot_id, image)
+            spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+
+        session.pop("refill_data", None)           
         return redirect("/browse")
 
-@app.route("/image/<int:spot_id>")
-def show_image(spot_id):
-    image = spots.get_image(spot_id)
-    if not image:
-        abort(404)
-    
-    response = make_response(bytes(image))
-    response.headers.set("Content-type", "image/jpeg")
-    return response
 
 @app.route("/browse")
 @app.route("/browse/<int:page>")

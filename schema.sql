@@ -43,4 +43,6 @@ create TABLE messages (
     sent_at TEXT,
     edited_at TEXT
 
-)
+);
+
+CREATE INDEX idx_spot_messages ON messages (spot_id);

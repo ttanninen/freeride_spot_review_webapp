@@ -1,41 +1,36 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-        {% block title %}Register a new user{% endblock %}
-    </head>
+{% block nav %}{% endblock %}
 
-    <body>
-        <div class="header">
-        <h1>Register a new user</h1>
-        </div>
+{% block title %}Register a new user{% endblock %}
 
-        <div class="info">    
-        {% for message in get_flashed_messages() %}
-            <b>{{ message }}</b>
-        {% endfor %}
-        </div>
+{% block content %}
+<h1>Register a new user</h1>
 
-        <div class="content">
-        <form action="/register" method="post">
-            <p>
-                <label for="username">Username</label>: <br />
-                <input type="text" name="username" value="{{ filled.username }}" maxlength="20" required/>
-            </p>
-            <p>
-                <label for="password">Password</label>: <br />
-                <input type="password" name="password1" maxlength="20" required/>
-            </p>
-            <p>
-                <label for="repeat_password">Repeat password</label>: <br />
-                <input type="password" name="password2" maxlength="20" required/>
-            </p>
-            <input type="submit" value="Submit" />
-        </form>
-        <p>
-            <a href="/">Back to login</a>
-        </p>
-        </div>
-    </body>
-</html>
+<div class="info">    
+{% for message in get_flashed_messages() %}
+    <b>{{ message }}</b>
+{% endfor %}
+</div>
+
+<div class="content">
+<form action="/register" method="post">
+    <p>
+        <label for="username">Username</label>: <br />
+        <input type="text" name="username" value="{{ filled.username }}" maxlength="20" required/>
+    </p>
+    <p>
+        <label for="password">Password</label>: <br />
+        <input type="password" name="password1" maxlength="20" required/>
+    </p>
+    <p>
+        <label for="repeat_password">Repeat password</label>: <br />
+        <input type="password" name="password2" maxlength="20" required/>
+    </p>
+    <input type="submit" value="Submit" />
+</form>
+<p>
+    <a href="/">Back to login</a>
+</p>
+</div>
+{% endblock %}

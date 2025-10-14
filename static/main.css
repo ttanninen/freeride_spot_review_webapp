@@ -1,0 +1,29 @@
+body {
+    margin: auto;
+    max-width: 50em;
+    font-family: sans-serif;
+    background-color: rgb(68, 99, 147);
+}
+
+.header {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(178, 223, 255);
+}
+
+.nav {
+    background-color: lightgrey;
+}
+
+.content {
+    color: rgb(178, 223, 255);
+    background-color: rgba(45, 68, 101, 0.5);
+} 
+
+
+a:visited {
+    color:aliceblue
+}
+
+a:link {
+    color:azure
+}

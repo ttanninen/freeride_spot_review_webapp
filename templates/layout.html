@@ -2,7 +2,7 @@
 <html>
  
 <head>
-  {% block title %}Powderatlas{% endblock %}
+  <title>{% block title %}{% endblock %}</title>
   <link rel="stylesheet" href="/static/main.css">
 </head>
 
@@ -26,9 +26,7 @@
     </div>
 
   <div class="content">
-  <p>
-  Welcome to Powderatlas {{ username }}
-  </p>
+    {% block content %}{% endblock %}
   </div>
 </body>
 

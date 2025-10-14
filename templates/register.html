@@ -3,14 +3,14 @@
 <link rel="stylesheet" href="/static/main.css">
 
     <head>
-        <title>Register a new user</title>
+        {% block title %}Register a new user{% endblock %}
     </head>
 
     <body>
         <div class="header">
         <h1>Register a new user</h1>
         </div>
-        
+
         <div class="info">    
         {% for message in get_flashed_messages() %}
             <b>{{ message }}</b>

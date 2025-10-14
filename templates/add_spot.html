@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/static/main.css">
 
     <head>
-    <title>Add new spot</title>
+    {% block title %}Add new spot{% endblock %}
     </head>
     <div class="info">
     {% for message in get_flashed_messages() %}

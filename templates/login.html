@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="/static/main.css">
 
 <head>
-  <title>Log in to Powderatlas</title>
+  {% block title %}Log in to Powderatlas{% endblock %}
 </head>
 
 <body>
@@ -16,7 +16,7 @@
       <b>{{ message }}</b>
     {% endfor %}
     </div>
-    
+
     <div class="content">
     <form action="/login" method="post">
       <p>

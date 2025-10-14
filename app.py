@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session, abort
+from flask import flash, redirect, render_template, request, session, abort, url_for
 import config, users, sqlite3, spots, secrets, math, os
 
 app = Flask(__name__)
@@ -7,7 +7,10 @@ app.secret_key = config.secret_key
 
 @app.before_request
 def check_session():
-    if not session.get("user_id") and request.path != "/" and request.path != "/register" and request.path != "/login":
+    public_paths = ["/", "/register", "/login"]
+    if request.path.startswith("/static/"):
+        return
+    if not session.get("user_id") and request.path not in public_paths:
         abort(403)
 
 def check_csrf():

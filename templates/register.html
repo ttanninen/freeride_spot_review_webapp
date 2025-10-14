@@ -5,15 +5,11 @@
         <title>Register a new user</title>
     </head>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        <ul>
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
-    {% endwith %}
+    <h1>Register a new user</h1>
+
+    {% for message in get_flashed_messages() %}
+        <b>{{ message }}</b>
+    {% endfor %}
     
     <body>
         <form action="/register" method="post">

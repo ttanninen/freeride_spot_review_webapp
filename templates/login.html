@@ -5,18 +5,13 @@
   <title>Log in to Powderatlas</title>
 </head>
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-
 <body>
   <h1>Please log in or register a new user</h1>
+
+  {% for message in get_flashed_messages() %}
+    <b>{{ message }}</b>
+  {% endfor %}
+  
   <form action="/login" method="post">
     <p>
       Username: <br />
@@ -28,7 +23,7 @@
     </p>
     <input type="submit" value="Login" />
   </form>
-
+  <br />
   <a href="/register">Register a new user</a>
 </body>
 

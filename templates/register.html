@@ -6,13 +6,18 @@
         <title>Register a new user</title>
     </head>
 
-    <h1>Register a new user</h1>
-
-    {% for message in get_flashed_messages() %}
-        <b>{{ message }}</b>
-    {% endfor %}
-    
     <body>
+        <div class="header">
+        <h1>Register a new user</h1>
+        </div>
+        
+        <div class="info">    
+        {% for message in get_flashed_messages() %}
+            <b>{{ message }}</b>
+        {% endfor %}
+        </div>
+
+        <div class="content">
         <form action="/register" method="post">
             <p>
                 <label for="username">Username</label>: <br />
@@ -31,5 +36,6 @@
         <p>
             <a href="/">Back to login</a>
         </p>
+        </div>
     </body>
 </html>

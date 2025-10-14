@@ -6,7 +6,10 @@
     <title>Edit message</title>
     </head>
     <body>
+        <div class="header">
         <h1>Edit message</h1>
+        </div>
+        <div class="content">
         <form action="/edit_message/{{ message.id }}" method="post">
 
                 <label for="notes">Notes</label>: <br />
@@ -18,5 +21,6 @@
             <input type="submit" name="cancel" value="Cancel" />
             </p>
         </form>
+        </div>
     </body>
 </html>

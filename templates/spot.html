@@ -7,7 +7,10 @@
     </head>
 
     <body>
-        <h1>{{ spot.title }}</h1>
+        <div class="header">
+            <h1>{{ spot.title }}</h1>
+        </div>
+        <div class="content">
         <hr />
         <a href="/browse">Back to browse</a>
         <a href="/home">Back to front page</a>
@@ -64,5 +67,6 @@
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
             <input type="submit" name="submit" />
         </form>
+        </div>
         </body>
 </html>

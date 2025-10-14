@@ -6,7 +6,10 @@
     <title>Edit spot details</title>
     </head>
     <body>
+        <div class="header">
         <h1>Edit spot details</h1>
+        </div>
+        <div class="content">
         <form action="/edit_spot/{{ spot.id }}" method="post">
             <p>
                 <label for="title">Spot title</label>: <br />
@@ -54,5 +57,6 @@
             <button type="button" onclick="window.history.back()">Cancel</button>
             </p>
         </form>
+        </div>
     </body>
 </html>

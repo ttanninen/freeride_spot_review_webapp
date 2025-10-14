@@ -6,7 +6,10 @@
         <title>User page</title>
     </head>
     <body>
+        <div class="header">
         <h1>User {{ user.username }}</h1>
+        </div>
+        <div class="content">
         <small>Member since {{ user.added_at }}</small>
         <hr />
         <a href="/browse">Back to browse</a>
@@ -32,8 +35,8 @@
             <p>{{ message.content }}</p>
             <hr />
             {% endfor %}
-            
         </p>
+        </div>
     </body>
 
 </html>

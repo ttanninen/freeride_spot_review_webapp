@@ -5,13 +5,17 @@
     <head>
     <title>Add new spot</title>
     </head>
-
+    <div class="info">
     {% for message in get_flashed_messages() %}
         <b>{{ message }}</b>
     {% endfor %}
-
+    </div>
     <body>
+        <div class="header">
         <h1>Add new spot</h1>
+        </div>
+
+        <div class="content">
         <form action="/add_spot" method="post" enctype="multipart/form-data">
             <p>
                 <label for="title">Spot title</label>: <br />
@@ -67,5 +71,6 @@
             <button type="button" onclick="window.history.back()">Cancel</button>
             </p>
         </form>
+        </div>
     </body>
 </html>

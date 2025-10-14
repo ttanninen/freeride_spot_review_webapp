@@ -1,62 +1,56 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-    {% block title %}Edit spot details{% endblock %}
-    </head>
-    <body>
-        <div class="header">
-        <h1>Edit spot details</h1>
-        </div>
-        <div class="content">
-        <form action="/edit_spot/{{ spot.id }}" method="post">
-            <p>
-                <label for="title">Spot title</label>: <br />
-            <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
-            </p>
-            <p>
-                <label for="country">Country</label>: <br />
-                <select name="country" required>
-                    {% for continent in categories.continents %}
-                    <optgroup label="{{ continent[1] }}">
-                        {% for country in categories.countries %}
-                            {% if country[2] == continent[0] %}
-                                <option value="{{ country[0] }}" {% if country[0] == spot.country_id %}selected{% endif %}>
-                                {{ country [1] }}    
-                            {% endif %}
-                        {% endfor %}
-                    </optgroup>
+{% block title %}Edit spot{% endblock %}
+
+{% block content %}
+    <h1>Edit spot</h1>
+    <div class="content">
+    <form action="/edit_spot/{{ spot.id }}" method="post">
+        <p>
+            <label for="title">Spot title</label>: <br />
+        <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
+        </p>
+        <p>
+            <label for="country">Country</label>: <br />
+            <select name="country" required>
+                {% for continent in categories.continents %}
+                <optgroup label="{{ continent[1] }}">
+                    {% for country in categories.countries %}
+                        {% if country[2] == continent[0] %}
+                            <option value="{{ country[0] }}" {% if country[0] == spot.country_id %}selected{% endif %}>
+                            {{ country [1] }}    
+                        {% endif %}
                     {% endfor %}
-                </select>
-            </p>
-            <p>
-                <label for="aspect">Slope aspect</label>: <br />
-            <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
-            </p>
-            <p>
-                <label for="skill_level">Skill level</label>: <br />
-            <select name="skill_level">
-                {% for skill_level in categories.skill_levels %}
-                <option value="{{ skill_level[0] }}" {% if skill_level[0] == spot.skill_level_id %}selected{% endif %}>
-                {{ skill_level[1] }}</option>
+                </optgroup>
                 {% endfor %}
             </select>
-            </p>
-            <p>
-                <label for="incline">Slope maximum incline</label>: <br />
-            <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" />
-            </p>
-            <p>
-                <label for="notes">Notes</label>: <br />
-            <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
-            </p>
-            <p>
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-            <input type="submit" name="update" value="Update" />
-            <button type="button" onclick="window.history.back()">Cancel</button>
-            </p>
-        </form>
-        </div>
-    </body>
-</html>
+        </p>
+        <p>
+            <label for="aspect">Slope aspect</label>: <br />
+        <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
+        </p>
+        <p>
+            <label for="skill_level">Skill level</label>: <br />
+        <select name="skill_level">
+            {% for skill_level in categories.skill_levels %}
+            <option value="{{ skill_level[0] }}" {% if skill_level[0] == spot.skill_level_id %}selected{% endif %}>
+            {{ skill_level[1] }}</option>
+            {% endfor %}
+        </select>
+        </p>
+        <p>
+            <label for="incline">Slope maximum incline</label>: <br />
+        <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" />
+        </p>
+        <p>
+            <label for="notes">Notes</label>: <br />
+        <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
+        </p>
+        <p>
+        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+        <input type="submit" name="update" value="Update" />
+        <button type="button" onclick="window.history.back()">Cancel</button>
+        </p>
+    </form>
+    </div>
+{% endblock %}

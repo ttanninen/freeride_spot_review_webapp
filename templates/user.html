@@ -1,42 +1,36 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-        {% block title %}User page{% endblock %}
-    </head>
-    <body>
-        <div class="header">
-        <h1>User {{ user.username }}</h1>
-        </div>
-        <div class="content">
-        <small>Member since {{ user.added_at }}</small>
-        <hr />
-        <a href="/browse">Back to browse</a>
-        <a href="/home">Back to front page</a>
-        <hr />
-        <p>
-           {{ user_spot_list | length }} Spots posted by user:
-           {% for spot in user_spot_list %}
-           {% if spot.user_id == user.id %}
-           <hr />
-           <p>{{ spot.continent_name }} | {{ spot.country_name }}</p>
-           <p><a href="../spot/{{ spot.id }}">{{ spot.title }}</a></p>
-           <hr />
-           {% endif %}
-           {% endfor %}
-        </p>
-        <br>
-        <p>
-            {{ user_message_list | length }} Messages posted by user:
-            {% for message in user_message_list %}
-            <hr />
-            <p>{{ message.spot_title }}</p>
-            <p>{{ message.content }}</p>
-            <hr />
-            {% endfor %}
-        </p>
-        </div>
-    </body>
+{% block title %}User {{ user.username }}{% endblock %}
 
-</html>
+{% block content %}
+
+<div class="content">
+<h1>User {{ user.username }}</h1>
+<small>Member since {{ user.added_at }}</small>
+<hr />
+<a href="/browse">Back to browse</a>
+<a href="/home">Back to front page</a>
+<hr />
+<p>
+    {{ user_spot_list | length }} Spots posted by user:
+    {% for spot in user_spot_list %}
+    {% if spot.user_id == user.id %}
+    <hr />
+    <p>{{ spot.continent_name }} | {{ spot.country_name }}</p>
+    <p><a href="../spot/{{ spot.id }}">{{ spot.title }}</a></p>
+    <hr />
+    {% endif %}
+    {% endfor %}
+</p>
+<br>
+<p>
+    {{ user_message_list | length }} Messages posted by user:
+    {% for message in user_message_list %}
+    <hr />
+    <p>{{ message.spot_title }}</p>
+    <p>{{ message.content }}</p>
+    <hr />
+    {% endfor %}
+</p>
+</div>
+{% endblock %}>

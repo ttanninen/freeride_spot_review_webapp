@@ -1,72 +1,65 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-        {% block title %}{{ spot.title }}{% endblock %}
-    </head>
+{% block title %}{{ spot.title }}{% endblock %}
 
-    <body>
-        <div class="header">
-            <h1>{{ spot.title }}</h1>
-        </div>
-        <div class="content">
-        <hr />
-        <a href="/browse">Back to browse</a>
-        <a href="/home">Back to front page</a>
-        {% if spot.user_id == session.user_id %}
-            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-        {% endif %}
-        <hr />
-        <img src="/image/{{ spot.id }}" />
-        <p> 
-        Added by user: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
-        </p>
-        <p>
-        Continent: {{ spot.continent }}
-        </p>
-        <p>
-        Country: {{ spot.country }}
-        </p>
-        <p>
-        Incline: {{ spot.max_incline }}
-        </p>
-        <p>
-        Skill-level: {{ spot.skill_level }}
-        </p>
-        <p>
-        Aspect: {{ spot.aspect }}
-        </p>
-        <p>
-        Notes: 
-        </p>
-        <p>
-        {% for line in spot.notes.splitlines() %}
-        {{ line }}<br>
-        {% endfor %}
-        </p>
-        <hr />
-        {% for message in messages %}
-        <p>
-            {{ message.username }} sent at: {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
-            {% if spot.user_id == session.user_id %}
-                <a href="/edit_message/{{ message.id }}">Edit message</a>       
-                <a href="/remove_message/{{ message.id }}">Remove message</a>
-            {% endif %}
-        </p>
-        <p>
-            {% for line in message.content.splitlines() %}
-            {{ line }}<br>
-            {% endfor %}
-        </p>
-        {% endfor %}
+{% block content %}
+<h1>{{ spot.title }}</h1>
+<div class="content">
+<hr />
+<a href="/browse">Back to browse</a>
+<a href="/home">Back to front page</a>
+{% if spot.user_id == session.user_id %}
+    <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+    <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+{% endif %}
+<hr />
+<img src="/image/{{ spot.id }}" />
+<p> 
+Added by user: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
+</p>
+<p>
+Continent: {{ spot.continent }}
+</p>
+<p>
+Country: {{ spot.country }}
+</p>
+<p>
+Incline: {{ spot.max_incline }}
+</p>
+<p>
+Skill-level: {{ spot.skill_level }}
+</p>
+<p>
+Aspect: {{ spot.aspect }}
+</p>
+<p>
+Notes: 
+</p>
+<p>
+{% for line in spot.notes.splitlines() %}
+{{ line }}<br>
+{% endfor %}
+</p>
+<hr />
+{% for message in messages %}
+<p>
+    {{ message.username }} sent at: {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
+    {% if spot.user_id == session.user_id %}
+        <a href="/edit_message/{{ message.id }}">Edit message</a>       
+        <a href="/remove_message/{{ message.id }}">Remove message</a>
+    {% endif %}
+</p>
+<p>
+    {% for line in message.content.splitlines() %}
+    {{ line }}<br>
+    {% endfor %}
+</p>
+{% endfor %}
 
-        <form action="/spot/{{ spot.id }}" method="post">
-            <textarea name="content" rows="4" cols="50" maxlength="1000" required></textarea>
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-            <input type="submit" name="submit" />
-        </form>
-        </div>
-        </body>
-</html>
+<form action="/spot/{{ spot.id }}" method="post">
+    <textarea name="content" rows="4" cols="50" maxlength="1000" required></textarea>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="submit" />
+</form>
+</div>
+{% endblock %}

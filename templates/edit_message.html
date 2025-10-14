@@ -1,26 +1,20 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-    {% block title %}Edit message{% endblock %}
-    </head>
-    <body>
-        <div class="header">
-        <h1>Edit message</h1>
-        </div>
-        <div class="content">
-        <form action="/edit_message/{{ message.id }}" method="post">
+{% block title %}Edit message{% endblock %}
 
-                <label for="notes">Notes</label>: <br />
-            <textarea name="content" rows="10" cols="100" maxlength="5000">{{ message.content }}</textarea>
-            </p>
-            <p>
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-            <input type="submit" name="update" value="Update" />
-            <input type="submit" name="cancel" value="Cancel" />
-            </p>
-        </form>
-        </div>
-    </body>
-</html>
+{% block content %}
+<h1>Edit message</h1>
+<div class="content">
+<form action="/edit_message/{{ message.id }}" method="post">
+
+        <label for="notes">Notes</label>: <br />
+    <textarea name="content" rows="10" cols="100" maxlength="5000">{{ message.content }}</textarea>
+    </p>
+    <p>
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+    <input type="submit" name="update" value="Update" />
+    <input type="submit" name="cancel" value="Cancel" />
+    </p>
+</form>
+</div>
+{% endblock %}

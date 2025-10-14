@@ -1,43 +1,36 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-        {% block title %}Spot search{% endblock %}
-    </head>
+{% block title %}Search spots{% endblock %}
 
-    <body>
-        <div class="header">
-            <h1>Search spots</h1>
-        </div>
-        <div class="content">
-    <p>
-    <form action="/search" method="get">
-    <p>
-        Search:
-        {% if query %}
-        <input type="text" name="query" value="{{ query }}" maxlength="100" required/>
-        {% else %}
-        <input type="text" name="query" maxlength="100" required/>
-        {% endif %}
-    </p>
-    <input type="submit" value="Search" />
-    </form>
-    </p>
-        {% if query %}
-        <hr />
-        <h2>Results</h2>
-        <ul>
-        {% for result in results %}
-        <li>
-        <a href="/spot/{{ result.id }}">{{ result.title }}</a>
-        <br />
-        {{ result.notes }}
-        </li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    <a href="/home">Back to front page</a>
-        </div>
-    </body>
-</html>
+{% block content %}
+<h1>Search spots</h1>
+<div class="content">
+<p>
+<form action="/search" method="get">
+<p>
+    Search:
+    {% if query %}
+    <input type="text" name="query" value="{{ query }}" maxlength="100" required/>
+    {% else %}
+    <input type="text" name="query" maxlength="100" required/>
+    {% endif %}
+</p>
+<input type="submit" value="Search" />
+</form>
+</p>
+    {% if query %}
+    <hr />
+    <h2>Results</h2>
+    <ul>
+    {% for result in results %}
+    <li>
+    <a href="/spot/{{ result.id }}">{{ result.title }}</a>
+    <br />
+    {{ result.notes }}
+    </li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+<a href="/home">Back to front page</a>
+</div>
+{% endblock %}

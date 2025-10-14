@@ -1,64 +1,58 @@
-<!DOCTYPE html>
-<html>
-<link rel="stylesheet" href="/static/main.css">
+{% extends "layout.html" %}
 
-    <head>
-        {% block title %}Spots{% endblock %}
-    </head>
+{% block title %}Spots{% endblock %}
 
-    <body>
-        <div class="header">
-        <h1>Browse spots</h1>
-        </div>
+{% block content %}
 
-        <div class="content">
-        <hr />
-        <a href="/home">Back to front page</a>
-        <a href="/add_spot">Add new spot</a>
-        <hr />
-        {% for spot in spot_list|sort (attribute='id', reverse=True) %}
-        <p>
-        <h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
-        {% if spot.user_id == session.user_id %}
-            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-        {% endif %}
-        </p>
-        <p>
-        {{ spot.continent }}
-        </p>
-        <p>
-        {{ spot.country }}
-        </p>
-        <p>
-        {{ spot.max_incline }}
-        </p>
-        <p>
-        {{ spot.skill_level }}
-        </p>
-        <p>
-        {{ spot.aspect }}
-        </p>
-        <p>
-        {% for line in spot.notes.splitlines() %}
-        {{ line }}<br>
-        {% endfor %}
-        </p>
-        <p>
-        Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
-        </p>
-        <p>
-        Added at: {{ spot.added_at }}
-        </p>
-        <hr />
-        {% endfor %}
-        <p>
-        <a href="/browse/{{ page - 1 }}">&lt;&lt;</a>
-        Page {{ page }}/{{ page_count }}
-        <a href="/browse/{{ page + 1 }}">&gt;&gt;</a>
-        </p>
-        <hr />
-        <a href="/home">Back to front page</a>
-        </div>
-    </body>
-</html>
+<h1>Browse spots</h1>
+
+<div class="content">
+<hr />
+<a href="/home">Back to front page</a>
+<a href="/add_spot">Add new spot</a>
+<hr />
+{% for spot in spot_list|sort (attribute='id', reverse=True) %}
+<p>
+<h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
+{% if spot.user_id == session.user_id %}
+    <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+    <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+{% endif %}
+</p>
+<p>
+{{ spot.continent }}
+</p>
+<p>
+{{ spot.country }}
+</p>
+<p>
+{{ spot.max_incline }}
+</p>
+<p>
+{{ spot.skill_level }}
+</p>
+<p>
+{{ spot.aspect }}
+</p>
+<p>
+{% for line in spot.notes.splitlines() %}
+{{ line }}<br>
+{% endfor %}
+</p>
+<p>
+Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
+</p>
+<p>
+Added at: {{ spot.added_at }}
+</p>
+<hr />
+{% endfor %}
+<p>
+<a href="/browse/{{ page - 1 }}">&lt;&lt;</a>
+Page {{ page }}/{{ page_count }}
+<a href="/browse/{{ page + 1 }}">&gt;&gt;</a>
+</p>
+<hr />
+<a href="/home">Back to front page</a>
+</div>
+{% endblock %}

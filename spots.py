@@ -1,5 +1,4 @@
 import db
-import sqlite3
 
 def get_categories():
     sql_continents = "SELECT id, name FROM continents"

@@ -143,10 +143,10 @@ def add_spot():
             abort(403)
 
         if "submit" in request.form:
-            spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+            spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
 
         session.pop("refill_data", None)           
-        return redirect("/browse")
+        return redirect("/spot/" + str(spot_id))
 
 
 @app.route("/browse")

@@ -32,7 +32,7 @@ def add_spot(user_id, continent, country, title, max_incline, skill_level, aspec
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now')) 
         """)
     db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
-    return db.query("SELECT last_insert_rowid()")[0][0]
+    return db.last_insert_id()
 
 def spot_count():
     sql = "SELECT COUNT(*) FROM spots"

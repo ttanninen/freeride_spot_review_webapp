@@ -12,11 +12,11 @@
         <h1>Add new spot</h1>
         <form action="/add_spot" method="post" enctype="multipart/form-data">
             <p>
-                <label>Spot title:</label>
+                <label for="title">Spot title</label>: <br />
             <input type="text" name="title" value= "{{ filled.title }}" maxlength="100" required/>
             </p>
             <p>
-                <label>Country:</label>
+                <label for="country">Country</label>: <br />
                 <select name="country" required>
                     {% for continent in categories.continents %}
                     <optgroup label="{{ continent[1] }}">
@@ -31,11 +31,11 @@
                 </select>
             </p>
             <p>
-                <label>Slope aspect:</label>
+                <label for="aspect">Slope aspect</label>: <br />
             <input type="text" name="aspect" value= "{{ filled.aspect }}" maxlength="10" />
             </p>
             <p>
-                <label>Skill level:</label>
+                <label for="skill_level">Skill level</label>: <br />
             <select name="skill_level">
                 {% for skill_level in categories.skill_levels %}
                     <option value="{{ skill_level[0]}}"
@@ -48,11 +48,11 @@
             </select>
             </p>
             <p>
-                <label>Slope maximum incline:</label>
+                <label for="incline">Slope maximum incline</label>: <br />
             <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="3" />
             </p>
             <p>
-                <label>Notes:</label>
+                <label for="notes">Notes</label>: <br />
             <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ filled.notes }}</textarea>
             </p>
             <p>

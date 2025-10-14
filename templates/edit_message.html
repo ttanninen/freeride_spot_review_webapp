@@ -6,7 +6,8 @@
     <body>
         <h1>Edit message</h1>
         <form action="/edit_message/{{ message.id }}" method="post">
-                Notes:
+
+                <label for="notes">Notes</label>: <br />
             <textarea name="content" rows="10" cols="100" maxlength="5000">{{ message.content }}</textarea>
             </p>
             <p>

@@ -7,11 +7,11 @@
         <h1>Edit spot details</h1>
         <form action="/edit_spot/{{ spot.id }}" method="post">
             <p>
-                Spot title:
+                <label for="title">Spot title</label>: <br />
             <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
             </p>
             <p>
-                Country:
+                <label for="country">Country</label>: <br />
                 <select name="country" required>
                     {% for continent in categories.continents %}
                     <optgroup label="{{ continent[1] }}">
@@ -26,12 +26,12 @@
                 </select>
             </p>
             <p>
-                Slope aspect:
+                <label for="aspect">Slope aspect</label>: <br />
             <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
             </p>
             <p>
-                Skill level:
-            <select name="skill_level" required>
+                <label for="skill_level">Skill level</label>: <br />
+            <select name="skill_level">
                 {% for skill_level in categories.skill_levels %}
                 <option value="{{ skill_level[0] }}" {% if skill_level[0] == spot.skill_level_id %}selected{% endif %}>
                 {{ skill_level[1] }}</option>
@@ -39,11 +39,11 @@
             </select>
             </p>
             <p>
-                Slope maximum incline:
+                <label for="incline">Slope maximum incline</label>: <br />
             <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" />
             </p>
             <p>
-                Notes:
+                <label for="notes">Notes</label>: <br />
             <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
             </p>
             <p>

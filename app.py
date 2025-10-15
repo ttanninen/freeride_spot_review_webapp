@@ -142,9 +142,17 @@ def add_spot():
             "notes": notes
             }
         
+        filled = session["refill_data"]
+        
         continent = str(spots.get_country_continent(country))
-        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 2:
             abort(403)
+
+        if int(max_incline) > 90 or int(max_incline) < 0:
+            flash("Slope incline must be between 0 and 90 degrees")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
         if "submit" in request.form:
             spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)

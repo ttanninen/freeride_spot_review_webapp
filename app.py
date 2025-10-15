@@ -118,8 +118,9 @@ def spot(spot_id):
 def add_spot():
     if request.method == "GET":
         categories = spots.get_categories()
+        aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         filled = session.pop("refill_data", {})
-        return render_template("add_spot.html" , categories=categories, filled=filled)
+        return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
     if request.method == "POST":
         check_csrf()
@@ -174,21 +175,21 @@ def browse(page=1):
     if page > page_count:
         return redirect("/browse/" + str(page_count))
 
-    spot_list = spots.get_spots(page, 
-                                page_size, 
-                                continent=continent, 
-                                country=country, 
+    spot_list = spots.get_spots(page,
+                                page_size,
+                                continent=continent,
+                                country=country,
                                 skill_level=skill_level)
     
 
     categories = spots.get_categories()
-    
+
     # Country filter based on continent
 
     if continent:
         filtered_countries = [c for c in categories["countries"] if c[3] == continent]
     
-    else: 
+    else:
         filtered_countries = categories["countries"]
 
     categories["countries"] = filtered_countries
@@ -214,11 +215,12 @@ def browse(page=1):
 def edit_spot(spot_id):
     spot = spots.get_spot(spot_id)
     categories = spots.get_categories()
+    aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
     if spot["user_id"] != session["user_id"]:
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_spot.html", spot=spot, categories=categories)
+        return render_template("edit_spot.html", spot=spot, aspects=aspects, categories=categories)
 
     if request.method == "POST":
         check_csrf()

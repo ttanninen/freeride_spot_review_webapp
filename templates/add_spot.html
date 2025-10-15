@@ -34,7 +34,12 @@
     </p>
     <p>
         <label for="aspect">Slope aspect</label>: <br />
-    <input type="text" name="aspect" value= "{{ filled.aspect }}" maxlength="10" />
+    <select name="aspect">
+        {% for aspect in aspects %}
+        <option value="{{ aspect }}">{{ aspect }}</option>
+        {% endfor %}
+    </select>
+
     </p>
     <p>
         <label for="skill_level">Skill level</label>: <br />

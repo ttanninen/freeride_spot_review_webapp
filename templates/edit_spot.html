@@ -27,7 +27,13 @@
         </p>
         <p>
             <label for="aspect">Slope aspect</label>: <br />
-        <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
+        <select name="aspect">
+            {% for aspect in aspects %}
+            <option value="{{ spot.aspect }}" {% if aspect == spot.aspect %}selected{% endif %}>
+            {{ aspect }}
+            </option>
+            {% endfor %}
+        </select>
         </p>
         <p>
             <label for="skill_level">Skill level</label>: <br />

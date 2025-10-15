@@ -6,10 +6,42 @@
 
 <h1>Browse spots</h1>
 
+<!--Filter bar-->
+<form method="GET" action="/browse" class="filter-bar">
+    <label for="continent">Continent:</label>
+    <select name="continent" id="continent">
+        <option value="" id="all">All</option>
+        {% for continent in categories.continents %}
+        <option value="{{ continent[1] }}" {% if request.args.get("continent") == continent[1] %}selected{% endif %}>{{ continent[1] }}</option>
+        {% endfor %}
+    </select>
+
+    {% if request.args.get("continent") %}
+    <label for="country">country:</label>
+    <select name="country" id="country">
+        <option value="">All</option>
+        {% for country in categories.countries %}
+        <option value="{{ country[1] }}" {% if request.args.get("country") == country[1] %}selected{% endif %}>{{ country[1] }}</option>
+        {% endfor %}
+    </select>
+     {% endif %}
+
+    <label for="skill_level">Skill level:</label>
+    <select name="skill_level" id="skill_level">
+        <option value="">All</option>
+        {% for skill_level in categories.skill_levels %}
+        <option value="{{ skill_level[1] }}" {% if request.args.get("skill_level") == skill_level[1] %}selected{% endif %}>{{ skill_level[1] }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
 <div class="content">
 
 {% for spot in spot_list|sort (attribute='id', reverse=True) %}
 <p>
+    {{ spot.continent }} | {{ spot.country }}
+</p>
 <h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
 {% if spot.user_id == session.user_id %}
     <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
@@ -17,10 +49,10 @@
 {% endif %}
 </p>
 <p>
-{{ spot.continent }}
+
 </p>
 <p>
-{{ spot.country }}
+
 </p>
 <p>
 {{ spot.max_incline }}
@@ -40,7 +72,7 @@
 Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 </p>
 <p>
-Added at: {{ spot.added_at }}
+<small>Added at: {{ spot.added_at }}</small>
 </p>
 <hr />
 {% endfor %}

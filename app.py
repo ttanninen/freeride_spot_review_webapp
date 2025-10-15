@@ -156,7 +156,16 @@ def add_spot():
 @app.route("/browse/<int:page>")
 def browse(page=1):
     page_size = 10
-    spot_count = spots.spot_count()
+
+    continent = request.args.get("continent")
+    country = request.args.get("country")
+    skill_level = request.args.get("skill_level")
+
+    spot_count = spots.spot_count(
+        continent=continent,
+        country=country,
+        skill_level=skill_level
+        )
     page_count = math.ceil(spot_count / page_size)
     page_count = max(page_count, 1)
 
@@ -165,9 +174,25 @@ def browse(page=1):
     if page > page_count:
         return redirect("/browse/" + str(page_count))
 
-    spot_list = spots.get_spots(page, page_size)
+    spot_list = spots.get_spots(page, 
+                                page_size, 
+                                continent=continent, 
+                                country=country, 
+                                skill_level=skill_level)
+    
 
-    return render_template("/browse.html", page=page, page_count= page_count, spot_list=spot_list)
+    categories = spots.get_categories()
+    # Country filter based on continent
+
+    if continent:
+        filtered_countries = [c for c in categories["countries"] if c[3] == continent]
+    
+    else: 
+        filtered_countries = categories["countries"]
+
+    categories["countries"] = filtered_countries
+
+    return render_template("/browse.html", page=page, page_count= page_count, spot_list=spot_list, categories=categories)
 
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):

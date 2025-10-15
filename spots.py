@@ -2,7 +2,13 @@ import db
 
 def get_categories():
     sql_continents = "SELECT id, name FROM continents"
-    sql_countries = "SELECT id, name, continent_id FROM countries"
+    sql_countries = """SELECT
+                            c.id AS country_id,
+                            c.name AS country_name,
+                            c.continent_id,
+                            cont.name AS continent_name
+                        FROM countries c
+                        JOIN continents cont ON c.continent_id = cont.id"""
     sql_skill_levels = "SELECT id, name FROM skill_levels"
 
     continents = db.query(sql_continents)
@@ -33,9 +39,74 @@ def add_spot(user_id, continent, country, title, max_incline, skill_level, aspec
     db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
     return db.last_insert_id()
 
-def spot_count():
-    sql = "SELECT COUNT(*) FROM spots"
-    return db.query(sql)[0][0]
+def spot_count(continent=None, country=None, skill_level=None):
+    sql = """SELECT COUNT(*)
+            FROM spots s
+            JOIN continents cont ON s.continent_id = cont.id
+            JOIN countries c ON s.country_id = c.id
+            JOIN skill_levels skill ON s.skill_level_id = skill.id
+            WHERE 1=1"""
+
+    params = []
+    
+    if continent:
+        sql += " AND cont.name = ?"
+        params.append(continent)
+
+    if country:
+        sql += " AND c.name = ?"
+        params.append(country)
+    
+    if skill_level:
+        sql += " AND skill.name = ?"
+        params.append(skill_level)
+    
+    return db.query(sql, params)[0][0]
+
+def get_spots(page, page_size, continent=None, country=None, skill_level=None):
+    sql = """SELECT s.id as id,
+                    s.user_id AS user_id,
+                    u.username AS username,
+                    s.continent_id AS continent_id,
+                    cont.name AS continent,
+                    s.country_id AS country_id,
+                    c.name AS country,
+                    s.title AS title,
+                    s.max_incline AS max_incline, 
+                    skill.name AS skill_level, 
+                    s.skill_level_id AS skill_level_id,
+                    s.aspect AS aspect, 
+                    s.notes AS notes, 
+                    s.added_at AS added_at
+            FROM spots s
+            JOIN users u ON s.user_id = u.id 
+            JOIN continents cont ON s.continent_id = cont.id 
+            JOIN countries c ON s.country_id = c.id
+            JOIN skill_levels skill ON s.skill_level_id = skill.id
+            WHERE 1=1"""
+   
+    params = []
+
+    if continent:
+        sql += " AND continent = ?"
+        params.append(continent)
+
+    if country:
+        sql += " AND country = ?"
+        params.append(country)
+    
+    if skill_level:
+        sql += " AND skill.name = ?"
+        params.append(skill_level)
+    
+
+    limit = page_size
+    offset = page_size * (page -1)
+    params.append(limit)
+    params.append(offset)
+    sql += " ORDER BY title LIMIT ? OFFSET ?"
+
+    return db.query(sql, params)
 
 def get_spot(spot_id):
     sql = """SELECT s.id AS id,
@@ -53,38 +124,13 @@ def get_spot(spot_id):
             s.notes AS notes, 
             s.added_at AS added_at
     FROM spots s, users u, continents cont, countries c, skill_levels sk
-    WHERE s.user_id = u.id AND s.id = ? AND s.continent_id = cont.id AND s.country_id = c.id AND s.skill_level_id = sk.id"""
+    WHERE s.user_id = u.id
+    AND s.id = ?
+    AND s.continent_id = cont.id
+    AND s.country_id = c.id
+    AND s.skill_level_id = sk.id"""
     result = db.query(sql, [spot_id])
     return result[0] if result else None
-
-def get_spots(page, page_size):
-    sql = """SELECT s.id as id, 
-            s.user_id AS user_id, 
-            u.username AS username,
-            s.continent_id AS continent_id, 
-            cont.name AS continent, 
-            s.country_id AS country_id, 
-            c.name AS country, 
-            s.title AS title, 
-            s.max_incline AS max_incline, 
-            sk.name AS skill_level, 
-            s.skill_level_id AS skill_level_id,
-            s.aspect AS aspect, 
-            s.notes AS notes, 
-            s.added_at AS added_at
-            FROM spots s,
-            users u, 
-            continents cont, 
-            countries c, 
-            skill_levels sk
-            WHERE s.user_id = u.id 
-            AND s.continent_id = cont.id 
-            AND s.country_id = c.id 
-            AND s.skill_level_id = sk.id
-            LIMIT ? OFFSET ?"""
-    limit = page_size
-    offset = page_size * (page -1)
-    return db.query(sql, [limit, offset])
 
 def update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id):
     sql = ("""UPDATE spots SET

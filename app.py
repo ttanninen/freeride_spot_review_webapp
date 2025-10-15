@@ -182,6 +182,7 @@ def browse(page=1):
     
 
     categories = spots.get_categories()
+    
     # Country filter based on continent
 
     if continent:
@@ -192,7 +193,22 @@ def browse(page=1):
 
     categories["countries"] = filtered_countries
 
-    return render_template("/browse.html", page=page, page_count= page_count, spot_list=spot_list, categories=categories)
+    # Retain selected filters in pagination
+
+    selected_continent = continent
+    selected_country = country
+    selected_skill_level = skill_level
+
+    return render_template(
+        "/browse.html",
+        page=page,
+        page_count=page_count,
+        spot_list=spot_list,
+        categories=categories,
+        selected_continent=selected_continent,
+        selected_country=selected_country,
+        selected_skill_level=selected_skill_level
+        )
 
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):

@@ -77,9 +77,9 @@ Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 <hr />
 {% endfor %}
 <p>
-<a href="/browse/{{ page - 1 }}">&lt;&lt;</a>
+<a href="/browse/{{ page - 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&lt;&lt;</a>
 Page {{ page }}/{{ page_count }}
-<a href="/browse/{{ page + 1 }}">&gt;&gt;</a>
+<a href="/browse/{{ page + 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&gt;&gt;</a>
 </p>
 </div>
 {% endblock %}

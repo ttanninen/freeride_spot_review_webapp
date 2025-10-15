@@ -32,7 +32,11 @@ def index():
         return redirect("/login")
     user_id = session.get("user_id")
     username = users.get_user(user_id)[1]
-    return render_template("index.html", username=username)
+
+    spot_list = spots.get_latest_spots()
+    messages = spots.get_latest_messages()
+
+    return render_template("index.html", username=username, spot_list=spot_list, messages=messages)
     
 @app.route("/register", methods=["GET", "POST"])
 def register():

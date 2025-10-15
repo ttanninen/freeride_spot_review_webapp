@@ -242,3 +242,9 @@ def update_image(spot_id, image):
 def get_image(spot_id):
     sql = "SELECT image FROM spots WHERE id = ?"
     return db.query(sql, [spot_id])[0]["image"]
+
+def get_latest_spots():
+    return None
+
+def get_latest_messages():
+    return None

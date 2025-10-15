@@ -7,10 +7,6 @@
 <div class="content">
 <h1>User {{ user.username }}</h1>
 <small>Member since {{ user.added_at }}</small>
-<hr />
-<a href="/browse">Back to browse</a>
-<a href="/home">Back to front page</a>
-<hr />
 <p>
     {{ user_spot_list | length }} Spots posted by user:
     {% for spot in user_spot_list %}

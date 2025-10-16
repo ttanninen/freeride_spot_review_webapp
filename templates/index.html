@@ -13,8 +13,31 @@
 </p>
 <h2>Recent activity:</h2>
 <h3>Latest spots</h3>
+<ul>
+    {% for spot in latest_spots %}
+    <li>
+        <p>
+        <a href="/spot/{{ spot.id }}">{{ spot.title}}</a> | {{ spot.continent }} | {{ spot.country}}
+        </p>
+    </li>
+    {% endfor %}
+</ul>
 <h3>Latest messages</h3>
-
+<ul>
+    {% for message in latest_messages %}
+    <li><a href="/spot/{{ message.spot_id }}">{{ message.spot_title }}</a>
+        <p>
+            <small>{{ message.username }} wrote on {{ message.sent_at }}</small>
+        </p>
+        <p>{% if message.content | length > 200 %}
+            {{ message.content[:200] }}...
+            {% else %}
+            {{ message.content }}
+            {% endif %}
+        </p>
+    </li>
+    {% endfor %}
+</ul>
 
 </div>
 {% endblock %}

@@ -33,10 +33,10 @@ def index():
     user_id = session.get("user_id")
     username = users.get_user(user_id)[1]
 
-    spot_list = spots.get_latest_spots()
-    messages = spots.get_latest_messages()
+    latest_spots = spots.get_latest_spots()
+    latest_messages = spots.get_latest_messages()
 
-    return render_template("index.html", username=username, spot_list=spot_list, messages=messages)
+    return render_template("index.html", username=username, latest_spots=latest_spots, latest_messages=latest_messages)
     
 @app.route("/register", methods=["GET", "POST"])
 def register():

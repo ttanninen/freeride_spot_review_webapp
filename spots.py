@@ -259,7 +259,39 @@ def get_image(spot_id):
     return db.query(sql, [spot_id])[0]["image"]
 
 def get_latest_spots():
-    return None
+    sql = """SELECT s.id AS id,
+                    s.user_id AS user_id,
+                    u.username AS username,
+                    s.continent_id AS continent_id,
+                    cont.name AS continent,
+                    s.country_id AS country_id,
+                    c.name AS country,
+                    s.title AS title,
+                    s.max_incline AS max_incline, 
+                    skill.name AS skill_level, 
+                    s.skill_level_id AS skill_level_id,
+                    s.aspect AS aspect, 
+                    s.notes AS notes, 
+                    s.added_at AS added_at
+                    FROM spots s
+                    JOIN users u ON s.user_id = u.id 
+                    JOIN continents cont ON s.continent_id = cont.id 
+                    JOIN countries c ON s.country_id = c.id
+                    JOIN skill_levels skill ON s.skill_level_id = skill.id
+                    ORDER BY s.id DESC
+                    LIMIT 5"""
+    return db.query(sql, [])
 
 def get_latest_messages():
-    return None
+    sql = """SELECT m.id AS id,
+                    m.content AS content,
+                    m.spot_id AS spot_id,
+                    u.username AS username,
+                    s.title AS spot_title,
+                    m.sent_at AS sent_at
+                    FROM messages m
+                    JOIN spots s ON m.spot_id = s.id
+                    JOIN users u ON m.user_id = u.id
+                    ORDER BY m.id DESC
+                    LIMIT 5"""
+    return db.query(sql, [])

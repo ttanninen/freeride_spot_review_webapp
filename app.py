@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session, abort
+from flask import flash, redirect, render_template, request, session, abort, url_for
 import config, users, sqlite3, spots, secrets, math
 
 app = Flask(__name__)
@@ -175,23 +175,9 @@ def add_spot():
 @app.route("/browse/<int:page>")
 def browse(page=1):
     page_size = 10
-
     continent = request.args.get("continent")
     country = request.args.get("country")
     skill_level = request.args.get("skill_level")
-
-    spot_count = spots.spot_count(
-        continent=continent,
-        country=country,
-        skill_level=skill_level
-        )
-    page_count = math.ceil(spot_count / page_size)
-    page_count = max(page_count, 1)
-
-    if page < 1:
-        return redirect("/browse/1")
-    if page > page_count:
-        return redirect("/browse/" + str(page_count))
 
     spot_list = spots.get_spots(page,
                                 page_size,
@@ -199,7 +185,6 @@ def browse(page=1):
                                 country=country,
                                 skill_level=skill_level)
     
-
     categories = spots.get_categories()
 
     # Country filter based on continent
@@ -212,12 +197,28 @@ def browse(page=1):
 
     categories["countries"] = filtered_countries
 
-    # Retain selected filters in pagination
+    # Remember selected filters in pagination
 
     selected_continent = continent
     selected_country = country
     selected_skill_level = skill_level
 
+    # Pagination
+
+    spot_count = spots.spot_count(
+    continent=continent,
+    country=country,
+    skill_level=skill_level
+        )
+    page_count = math.ceil(spot_count / page_size)
+    page_count = max(page_count, 1)
+
+    if page < 1:
+        return redirect("/browse/1")
+    if page > page_count:
+        return redirect("/browse/" + str(page_count))
+
+    print((f"Page: {page}, Page Count: {page_count}, Continent: {continent}, Country: {country}, Skill Level: {skill_level}"))
     return render_template(
         "/browse.html",
         page=page,

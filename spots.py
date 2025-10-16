@@ -106,7 +106,7 @@ def get_spots(page, page_size, continent=None, country=None, skill_level=None):
     offset = page_size * (page -1)
     params.append(limit)
     params.append(offset)
-    sql += " ORDER BY title LIMIT ? OFFSET ?"
+    sql += " ORDER BY id DESC LIMIT ? OFFSET ?"
 
     return db.query(sql, params)
 

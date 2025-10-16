@@ -41,7 +41,7 @@
 
 <div class="content">
 
-{% for spot in spot_list|sort (attribute='id', reverse=True) %}
+{% for spot in spot_list %}
 <p>
     {{ spot.continent }} | {{ spot.country }}
 </p>
@@ -80,9 +80,13 @@ Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 <hr />
 {% endfor %}
 <p>
-<a href="/browse/{{ page - 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&lt;&lt;</a>
+{% if page > 1 %}
+<a href="{{ url_for('browse', page = page-1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&lt;&lt;</a>
+{% endif %}
 Page {{ page }}/{{ page_count }}
-<a href="/browse/{{ page + 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&gt;&gt;</a>
+{% if page < page_count %}
+<a href="{{ url_for('browse', page = page+1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&gt;&gt;</a>
+{% endif %}
 </p>
 </div>
 {% endblock %}

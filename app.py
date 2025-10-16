@@ -152,8 +152,14 @@ def add_spot():
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 2:
             abort(403)
 
-        if int(max_incline) > 90 or int(max_incline) < 0:
+        if max_incline ==  "":
             flash("Slope incline must be between 0 and 90 degrees")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)   
+
+        if int(max_incline) > 90 or int(max_incline) < 0 :
+            
             categories = spots.get_categories()
             aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)

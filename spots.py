@@ -155,23 +155,18 @@ def search(query):
                     s.title, 
                     cont.name AS continent, 
                     c.name AS country, 
-                    s.notes,
-                    m.user_id AS message_user,
-                    m.content AS message,
-                    m.sent_at AS message_sent_at
+                    s.notes
             FROM spots s
-            LEFT JOIN messages m ON s.id = m.spot_id
             JOIN continents cont ON s.continent_id = cont.id
             JOIN countries c ON s.country_id = c.id
             WHERE LOWER(s.notes) LIKE ? 
             OR LOWER(s.title) LIKE ?
             OR LOWER(cont.name) LIKE ?
             OR LOWER(c.name) LIKE ?
-            OR LOWER(m.content) LIKE ?
             ORDER BY s.id DESC"""
     pattern = f"%{query.lower()}%"
     print("Parameters:", [pattern, pattern, pattern, pattern, pattern])
-    results = db.query(sql, [pattern, pattern, pattern, pattern, pattern])
+    results = db.query(sql, [pattern, pattern, pattern, pattern])
     print(f"Found {len(results)} results for query '{query}'")  # Debug output
     return results
 

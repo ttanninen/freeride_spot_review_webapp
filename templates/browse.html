@@ -18,7 +18,7 @@
 
     {% if request.args.get("continent") %}
     <input type="hidden" name="continent" value="{{ request.args.get('continent') }}">
-    
+
     <label for="country">country:</label>
     <select name="country" id="country">
         <option value="">All</option>
@@ -35,8 +35,8 @@
         <option value="{{ skill_level[1] }}" {% if request.args.get("skill_level") == skill_level[1] %}selected{% endif %}>{{ skill_level[1] }}</option>
         {% endfor %}
     </select>
-    <input type="submit" class="button" />
-    <a href="/browse" class="button">Clear</button>
+    <input type="submit" class="button" value="Submit" />
+    <a href="/browse" class="button">Clear</a>
 </form>
 
 <div class="content">

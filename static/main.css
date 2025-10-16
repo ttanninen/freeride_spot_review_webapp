@@ -61,11 +61,24 @@ a:link {
 
 .button {
 display: inline-block;
-padding: 1em auto;
+padding: 10px 20px;
+background-color: rgb(124, 124, 124);
+border: 1px solid rgb(207, 207, 207);
+color: rgb(0, 0, 0) !important;
+border-radius: 5px;
+text-decoration: none;
+font-size: 16px;
+cursor: pointer;
+
+}
+
+input[type="submit"] {
+display: inline-block;
+padding: auto;
 background-color: rgb(124, 124, 124);
 border: 1px solid rgb(207, 207, 207);
 border-radius: 5px;
 text-decoration: none;
-color: rgb(39, 84, 116);
-
+font-size: 16px;
+cursor: pointer;
 }

@@ -55,7 +55,7 @@
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" name="update" value="Update" />
-        <button type="button" onclick="window.location.href='/spot/{{ spot.id }}'">Cancel</button>
+        <a href="/spot/{{ spot.id }}" class="button">Cancel</a>
         </p>
     </form>
     </div>

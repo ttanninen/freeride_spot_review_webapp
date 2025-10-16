@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import flash, redirect, render_template, request, session, abort, url_for
+from flask import flash, redirect, render_template, request, session, abort, url_for, make_response
 import config, users, sqlite3, spots, secrets, math
 
 app = Flask(__name__)
@@ -135,7 +135,6 @@ def add_spot():
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
         notes =  request.form["notes"]
-        file = request.files["image"]
 
         session["refill_data"] = {
             "country": country,
@@ -165,10 +164,40 @@ def add_spot():
             return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
         if "submit" in request.form:
-            spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
+            spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes) # add_spot returns spot_id
 
-        session.pop("refill_data", None)           
+        session.pop("refill_data", None)
         return redirect("/spot/" + str(spot_id))
+    
+@app.route("/add_image", methods=["POST"])
+def add_image():
+    file = request.files["image"]
+    spot_id = request.form["spot_id"]
+    if file is None or file.filename == "":
+        flash("No file uploaded")
+        return redirect(url_for("spot", spot_id=spot_id))
+
+    if not file.filename.endswith(".jpg"):
+        flash("Wrong filetype. Only .jpg allowed.")
+        return redirect(url_for("spot", spot_id=spot_id))
+    
+    image = file.read()
+    if len(image) > 100 * 1024:
+        flash("Image too large. Maximum filesize 100kb.")
+        return redirect(url_for("spot", spot_id=spot_id)) 
+    
+    spots.update_image(spot_id, image)
+    flash("Image uploaded successfully!")
+    return redirect(url_for("spot", spot_id=spot_id))
+
+@app.route("/image/<int:spot_id>")
+def show_image(spot_id):
+    image = spots.get_image(spot_id)
+    if not image:
+        abort(404)
+    response = make_response(bytes(image))
+    response.headers.set("Content-Type", "image/jpeg")
+    return response
 
 
 @app.route("/browse")

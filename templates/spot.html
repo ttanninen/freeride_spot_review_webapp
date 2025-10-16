@@ -11,6 +11,18 @@
 {% endif %}
 <hr />
 <img src="/image/{{ spot.id }}" />
+<div class="info">    
+{% for message in get_flashed_messages() %}
+    <b>{{ message }}</b>
+{% endfor %}
+</div>
+{% if spot.user_id == session.user_id and not spot.has_image %}
+<form action="/add_image" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="spot_id" value="{{ spot.id }}" />
+    <input type="file" name="image" accept=".jpg" />
+    <input type="submit" value="Submit" />
+</form>
+{% endif %}
 <p> 
 Added by user: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 </p>

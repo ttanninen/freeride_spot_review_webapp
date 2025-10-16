@@ -124,7 +124,8 @@ def get_spot(spot_id):
             s.skill_level_id AS skill_level_id,
             s.aspect AS aspect,
             s.notes AS notes,
-            s.added_at AS added_at
+            s.added_at AS added_at,
+            s.image IS NOT NULL has_image
     FROM spots s, users u, continents cont, countries c, skill_levels sk
     WHERE s.user_id = u.id
     AND s.id = ?

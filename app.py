@@ -211,6 +211,7 @@ def edit_spot(spot_id):
     
 @app.route("/add_image", methods=["POST"])
 def add_image():
+    check_csrf()
     file = request.files["image"]
     spot_id = request.form["spot_id"]
     if file is None or file.filename == "":
@@ -260,7 +261,6 @@ def browse(page=1):
 
     if continent:
         filtered_countries = [c for c in categories["countries"] if c[3] == continent]
-    
     else:
         filtered_countries = categories["countries"]
 
@@ -358,7 +358,7 @@ def search():
     results = spots.search(query) if query else []
     return render_template("search.html", query=query, results=results)
 
-@app.route("/user/<int:user_id>", methods=["GET", "POST"])
+@app.route("/user/<int:user_id>", methods=["GET"])
 def user(user_id):
     user_spot_list = spots.get_user_spots(user_id)
     user_message_list = spots.get_user_messages(user_id)
@@ -369,8 +369,6 @@ def user(user_id):
                                 user=user,
                                 user_message_list=user_message_list,
                                 user_spot_list=user_spot_list)
-    if request.method == "POST": # remove if not needed and fix route
-        return None
 
 @app.route("/browse_users")
 @app.route("/browse_users/<int:page>")

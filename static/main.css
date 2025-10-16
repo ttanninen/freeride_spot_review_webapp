@@ -64,3 +64,14 @@ a:visited {
 a:link {
     color:azure
 }
+
+.button {
+display: inline-block;
+padding: 1em auto;
+background-color: rgb(124, 124, 124);
+border: 1px solid rgb(207, 207, 207);
+border-radius: 5px;
+text-decoration: none;
+color: rgb(39, 84, 116);
+
+}

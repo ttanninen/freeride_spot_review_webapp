@@ -32,7 +32,7 @@
         <option value="{{ skill_level[1] }}" {% if request.args.get("skill_level") == skill_level[1] %}selected{% endif %}>{{ skill_level[1] }}</option>
         {% endfor %}
     </select>
-    <button type="button" onclick="window.location.href='/browse'">Clear</button>
+    <a href="/browse" class="button">Clear</button>
 </form>
 
 <div class="content">

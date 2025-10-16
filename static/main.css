@@ -9,14 +9,8 @@ body {
     font-family: sans-serif;
 }
 
-h1 {
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  margin-top: 10;
-  margin-bottom: 5
-}
-
 .background {
-    background: rgba(68, 99, 147, 0.5) url("/static/images/background_4K.jpg") center/cover no-repeat;
+    background: rgb(68, 99, 147) url("/static/images/background_4K.jpg") center/cover no-repeat;
     min-height: 100vh;
     background-attachment: fixed;
 }

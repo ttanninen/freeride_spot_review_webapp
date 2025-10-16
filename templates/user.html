@@ -3,9 +3,8 @@
 {% block title %}User {{ user.username }}{% endblock %}
 
 {% block content %}
-
-<div class="content">
 <h1>User {{ user.username }}</h1>
+<div class="content">
 <small>Member since {{ user.added_at }}</small>
 <p>
     {{ user_spot_list | length }} Spots posted by user:

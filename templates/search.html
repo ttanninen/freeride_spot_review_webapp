@@ -5,6 +5,12 @@
 {% block content %}
 <h1>Search spots</h1>
 <div class="content">
+    <div class="info">
+    {% for message in get_flashed_messages() %}
+        <b>{{ message }}</b>
+    {% endfor %}
+</div>
+
 <p>
 <form action="/search" method="get">
 <p>
@@ -18,9 +24,9 @@
 <input type="submit" value="Search" />
 </form>
 </p>
-    {% if query %}
+    {% if results|length > 0 %}
     <hr />
-    <h2>Results</h2>
+    <h2>Results (Newest first)</h2>
     <ul>
     {% for result in results %}
     <li>

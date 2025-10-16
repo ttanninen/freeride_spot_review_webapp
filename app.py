@@ -305,8 +305,12 @@ def edit_message(message_id):
 
 @app.route("/search")
 def search():
-    query = request.args.get("query")
+    query = request.args.get("query", "").strip()
     if query:
+        if len(query) < 3:
+            flash("Search must be at least 3 letters")
+            results = []
+            return render_template("search.html", query=query, results=results)
         if len(query) > 100:
             abort(403)
     results = spots.search(query) if query else []

@@ -151,14 +151,14 @@ def add_spot():
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 2:
             abort(403)
 
-        if max_incline ==  "":
-            flash("Slope incline must be between 0 and 90 degrees")
+        if not max_incline.isnumeric():
+            flash("Slope incline must be a number between 0 and 90 degrees")
             categories = spots.get_categories()
             aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)   
 
         if int(max_incline) > 90 or int(max_incline) < 0 :
-            
+            flash("Slope incline must be a number between 0 and 90 degrees")
             categories = spots.get_categories()
             aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
             return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
@@ -167,6 +167,46 @@ def add_spot():
             spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes) # add_spot returns spot_id
 
         session.pop("refill_data", None)
+        return redirect("/spot/" + str(spot_id))
+    
+@app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
+def edit_spot(spot_id):
+    spot = spots.get_spot(spot_id)
+    categories = spots.get_categories()
+    aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+    if spot["user_id"] != session["user_id"]:
+        abort(403)
+
+    if request.method == "GET":
+        return render_template("edit_spot.html", spot=spot, aspects=aspects, categories=categories)
+
+    if request.method == "POST":
+        check_csrf()
+        country = request.form["country"]
+        title = request.form["title"]
+        max_incline = request.form["max_incline"]
+        skill_level = request.form["skill_level"]
+        aspect = request.form["aspect"]
+        notes =  request.form["notes"]   
+        continent = str(spots.get_country_continent(country))
+
+        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+            abort(403)
+
+        if not max_incline.isnumeric():
+            flash("Slope incline must be a number between 0 and 90 degrees")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)   
+
+        if int(max_incline) > 90 or int(max_incline) < 0 :
+            flash("Slope incline must be a number between 0 and 90 degrees")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)
+
+        if "update" in request.form:
+            spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)
         return redirect("/spot/" + str(spot_id))
     
 @app.route("/add_image", methods=["POST"])
@@ -258,34 +298,6 @@ def browse(page=1):
         selected_country=selected_country,
         selected_skill_level=selected_skill_level
         )
-
-@app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
-def edit_spot(spot_id):
-    spot = spots.get_spot(spot_id)
-    categories = spots.get_categories()
-    aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-    if spot["user_id"] != session["user_id"]:
-        abort(403)
-
-    if request.method == "GET":
-        return render_template("edit_spot.html", spot=spot, aspects=aspects, categories=categories)
-
-    if request.method == "POST":
-        check_csrf()
-        country = request.form["country"]
-        title = request.form["title"]
-        max_incline = request.form["max_incline"]
-        skill_level = request.form["skill_level"]
-        aspect = request.form["aspect"]
-        notes =  request.form["notes"]   
-        continent = str(spots.get_country_continent(country))
-
-        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
-            abort(403)
-
-        if "update" in request.form:
-            spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)
-        return redirect("/spot/" + str(spot_id))
         
 @app.route("/remove_spot/<int:spot_id>", methods=["GET", "POST"])
 def remove_spot(spot_id):

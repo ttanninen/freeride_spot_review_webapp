@@ -30,9 +30,11 @@
     <ul>
     {% for result in results %}
     <li>
-    <a href="/spot/{{ result.id }}">{{ result.title }}</a>
+    <a href="/spot/{{ result.id }}">{{ result.title }}</a> | {{ result.continent }} | {{ result.country }}
     <br />
+    <p>
     {{ result.notes }}
+    </p>
     </li>
     {% endfor %}
     </ul>

@@ -17,6 +17,8 @@
     </select>
 
     {% if request.args.get("continent") %}
+    <input type="hidden" name="continent" value="{{ request.args.get('continent') }}">
+    
     <label for="country">country:</label>
     <select name="country" id="country">
         <option value="">All</option>

@@ -5,9 +5,6 @@
 {% block content %}
 <h1>{{ spot.title }}</h1>
 <div class="content">
-<hr />
-<a href="/browse">Back to browse</a>
-<a href="/home">Back to front page</a>
 {% if spot.user_id == session.user_id %}
     <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
     <a href="/remove_spot/{{ spot.id }}">Remove spot</a>

@@ -34,7 +34,12 @@
     </p>
     <p>
         <label for="aspect">Slope aspect</label>: <br />
-    <input type="text" name="aspect" value= "{{ filled.aspect }}" maxlength="10" />
+    <select name="aspect">
+        {% for aspect in aspects %}
+        <option value="{{ aspect }}">{{ aspect }}</option>
+        {% endfor %}
+    </select>
+
     </p>
     <p>
         <label for="skill_level">Skill level</label>: <br />
@@ -51,7 +56,7 @@
     </p>
     <p>
         <label for="incline">Slope maximum incline</label>: <br />
-    <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="3" />
+    <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="2" />
     </p>
     <p>
         <label for="notes">Notes</label>: <br />
@@ -64,7 +69,7 @@
     <p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" name="submit" value="Submit" />
-    <button type="button" onclick="window.history.back()">Cancel</button>
+    <button type="button" onclick="window.location.href='/'">Cancel</button>
     </p>
 </form>
 </div>

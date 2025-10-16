@@ -27,7 +27,13 @@
         </p>
         <p>
             <label for="aspect">Slope aspect</label>: <br />
-        <input type="text" name="aspect" value="{{ spot.aspect }}" maxlength="10" />
+        <select name="aspect">
+            {% for aspect in aspects %}
+            <option value="{{ spot.aspect }}" {% if aspect == spot.aspect %}selected{% endif %}>
+            {{ aspect }}
+            </option>
+            {% endfor %}
+        </select>
         </p>
         <p>
             <label for="skill_level">Skill level</label>: <br />
@@ -49,7 +55,7 @@
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" name="update" value="Update" />
-        <button type="button" onclick="window.history.back()">Cancel</button>
+        <button type="button" onclick="window.location.href='/spot/{{ spot.id }}'">Cancel</button>
         </p>
     </form>
     </div>

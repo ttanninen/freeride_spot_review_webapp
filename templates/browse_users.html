@@ -6,10 +6,6 @@
 
 <h1>Browse users</h1>
 
-<hr />
-<a href="/home">Back to front page</a>
-<a href="/user/{{ session.user_id }}">Own user page</a>
-<hr />
 <div class="content">
 {% for user in user_list|sort (attribute='username') %}
 <p>
@@ -22,7 +18,5 @@
 Page {{ page }}/{{ page_count }}
 <a href="/browse_users/{{ page + 1 }}">&gt;&gt;</a>
 </p>
-<hr />
-<a href="/home">Back to front page</a>
 </div>
 {% endblock %}

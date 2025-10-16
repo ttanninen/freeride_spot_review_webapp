@@ -1,17 +1,35 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 body {
     margin: auto;
     max-width: 50em;
     font-family: sans-serif;
-    background-color: rgb(68, 99, 147);
+}
+
+h1 {
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin-top: 10;
+  margin-bottom: 5
+}
+
+.background {
+    background: rgba(68, 99, 147, 0.5) url("/static/images/background_4K.jpg") center/cover no-repeat;
+    min-height: 100vh;
+    background-attachment: fixed;
 }
 
 .header {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2em;
+    margin-bottom: 1;
     color: rgb(178, 223, 255);
 }
 
 .nav {
-    background-color: rgba(45, 68, 101, 0.5);
+    background-color: rgba(45, 68, 101, 1);
 }
 
 nav {
@@ -35,7 +53,7 @@ nav li:not(:last-of-type) {
 
 .content {
     color: rgb(178, 223, 255);
-    background-color: rgba(45, 68, 101, 0.5);
+    background-color: rgba(45, 68, 101, 0.75);
 } 
 
 

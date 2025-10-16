@@ -6,13 +6,41 @@
 
 <h1>Browse spots</h1>
 
+<!--Filter bar-->
+<form method="GET" action="/browse" class="filter-bar">
+    <label for="continent">Continent:</label>
+    <select name="continent" id="continent" onchange="this.form.submit()">
+        <option value="" id="all">All</option>
+        {% for continent in categories.continents %}
+        <option value="{{ continent[1] }}" {% if request.args.get("continent") == continent[1] %}selected{% endif %}>{{ continent[1] }}</option>
+        {% endfor %}
+    </select>
+
+
+    <label for="country">country:</label>
+    <select name="country" id="country" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for country in categories.countries %}
+        <option value="{{ country[1] }}" {% if request.args.get("country") == country[1] %}selected{% endif %}>{{ country[1] }}</option>
+        {% endfor %}
+    </select>
+
+    <label for="skill_level">Skill level:</label>
+    <select name="skill_level" id="skill_level" onchange="this.form.submit()">
+        <option value="">All</option>
+        {% for skill_level in categories.skill_levels %}
+        <option value="{{ skill_level[1] }}" {% if request.args.get("skill_level") == skill_level[1] %}selected{% endif %}>{{ skill_level[1] }}</option>
+        {% endfor %}
+    </select>
+    <button type="button" onclick="window.location.href='/browse'">Clear</button>
+</form>
+
 <div class="content">
-<hr />
-<a href="/home">Back to front page</a>
-<a href="/add_spot">Add new spot</a>
-<hr />
+
 {% for spot in spot_list|sort (attribute='id', reverse=True) %}
 <p>
+    {{ spot.continent }} | {{ spot.country }}
+</p>
 <h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
 {% if spot.user_id == session.user_id %}
     <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
@@ -20,10 +48,10 @@
 {% endif %}
 </p>
 <p>
-{{ spot.continent }}
+
 </p>
 <p>
-{{ spot.country }}
+
 </p>
 <p>
 {{ spot.max_incline }}
@@ -43,16 +71,14 @@
 Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 </p>
 <p>
-Added at: {{ spot.added_at }}
+<small>Added at: {{ spot.added_at }}</small>
 </p>
 <hr />
 {% endfor %}
 <p>
-<a href="/browse/{{ page - 1 }}">&lt;&lt;</a>
+<a href="/browse/{{ page - 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&lt;&lt;</a>
 Page {{ page }}/{{ page_count }}
-<a href="/browse/{{ page + 1 }}">&gt;&gt;</a>
+<a href="/browse/{{ page + 1 }}?continent={{ selected_continent }}&country={{ selected_country }}&skill_level={{ selected_skill_level }}">&gt;&gt;</a>
 </p>
-<hr />
-<a href="/home">Back to front page</a>
 </div>
 {% endblock %}

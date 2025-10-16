@@ -32,7 +32,11 @@ def index():
         return redirect("/login")
     user_id = session.get("user_id")
     username = users.get_user(user_id)[1]
-    return render_template("index.html", username=username)
+
+    spot_list = spots.get_latest_spots()
+    messages = spots.get_latest_messages()
+
+    return render_template("index.html", username=username, spot_list=spot_list, messages=messages)
     
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -118,8 +122,9 @@ def spot(spot_id):
 def add_spot():
     if request.method == "GET":
         categories = spots.get_categories()
+        aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
         filled = session.pop("refill_data", {})
-        return render_template("add_spot.html" , categories=categories, filled=filled)
+        return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
     if request.method == "POST":
         check_csrf()
@@ -141,9 +146,17 @@ def add_spot():
             "notes": notes
             }
         
+        filled = session["refill_data"]
+        
         continent = str(spots.get_country_continent(country))
-        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
+        if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 2:
             abort(403)
+
+        if int(max_incline) > 90 or int(max_incline) < 0:
+            flash("Slope incline must be between 0 and 90 degrees")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
         if "submit" in request.form:
             spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes)
@@ -156,7 +169,16 @@ def add_spot():
 @app.route("/browse/<int:page>")
 def browse(page=1):
     page_size = 10
-    spot_count = spots.spot_count()
+
+    continent = request.args.get("continent")
+    country = request.args.get("country")
+    skill_level = request.args.get("skill_level")
+
+    spot_count = spots.spot_count(
+        continent=continent,
+        country=country,
+        skill_level=skill_level
+        )
     page_count = math.ceil(spot_count / page_size)
     page_count = max(page_count, 1)
 
@@ -165,19 +187,52 @@ def browse(page=1):
     if page > page_count:
         return redirect("/browse/" + str(page_count))
 
-    spot_list = spots.get_spots(page, page_size)
+    spot_list = spots.get_spots(page,
+                                page_size,
+                                continent=continent,
+                                country=country,
+                                skill_level=skill_level)
+    
 
-    return render_template("/browse.html", page=page, page_count= page_count, spot_list=spot_list)
+    categories = spots.get_categories()
+
+    # Country filter based on continent
+
+    if continent:
+        filtered_countries = [c for c in categories["countries"] if c[3] == continent]
+    
+    else:
+        filtered_countries = categories["countries"]
+
+    categories["countries"] = filtered_countries
+
+    # Retain selected filters in pagination
+
+    selected_continent = continent
+    selected_country = country
+    selected_skill_level = skill_level
+
+    return render_template(
+        "/browse.html",
+        page=page,
+        page_count=page_count,
+        spot_list=spot_list,
+        categories=categories,
+        selected_continent=selected_continent,
+        selected_country=selected_country,
+        selected_skill_level=selected_skill_level
+        )
 
 @app.route("/edit_spot/<int:spot_id>", methods=["GET", "POST"])
 def edit_spot(spot_id):
     spot = spots.get_spot(spot_id)
     categories = spots.get_categories()
+    aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
     if spot["user_id"] != session["user_id"]:
         abort(403)
 
     if request.method == "GET":
-        return render_template("edit_spot.html", spot=spot, categories=categories)
+        return render_template("edit_spot.html", spot=spot, aspects=aspects, categories=categories)
 
     if request.method == "POST":
         check_csrf()
@@ -186,9 +241,9 @@ def edit_spot(spot_id):
         max_incline = request.form["max_incline"]
         skill_level = request.form["skill_level"]
         aspect = request.form["aspect"]
-        notes =  request.form["notes"]
-    
+        notes =  request.form["notes"]   
         continent = str(spots.get_country_continent(country))
+
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
 
@@ -196,7 +251,6 @@ def edit_spot(spot_id):
             spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)
         return redirect("/browse")
         
-
 @app.route("/remove_spot/<int:spot_id>", methods=["GET", "POST"])
 def remove_spot(spot_id):
     spot = spots.get_spot(spot_id)
@@ -205,13 +259,11 @@ def remove_spot(spot_id):
 
     if request.method == "GET":
         return render_template("remove.html", spot=spot)
-    
     if request.method == "POST":
         check_csrf()
         if "yes" in request.form:
             spots.remove_spot(spot["id"])
         return redirect("/browse")
-    
 
 @app.route("/remove_message/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):
@@ -222,13 +274,12 @@ def remove_message(message_id):
 
     if request.method == "GET":
         return render_template("remove_message.html", message=message)
-    
     if request.method == "POST":
         check_csrf()
         if "yes" in request.form:
             spots.remove_message(message["id"])
         return redirect(f"/spot/{spot_id}")
-    
+
 @app.route("/edit_message/<int:message_id>", methods=["GET", "POST"])
 def edit_message(message_id):
     message = spots.get_message(message_id)
@@ -238,7 +289,6 @@ def edit_message(message_id):
 
     if request.method == "GET":
         return render_template("edit_message.html", message=message)
-    
     if request.method == "POST":
         check_csrf()
         if "update" in request.form:
@@ -256,8 +306,6 @@ def search():
     results = spots.search(query) if query else []
     return render_template("search.html", query=query, results=results)
 
-
-
 @app.route("/user/<int:user_id>", methods=["GET", "POST"])
 def user(user_id):
     user_spot_list = spots.get_user_spots(user_id)
@@ -265,11 +313,13 @@ def user(user_id):
     user = users.get_user(user_id)
 
     if request.method == "GET":
-        return render_template("user.html", user=user, user_message_list=user_message_list, user_spot_list=user_spot_list)
-    
+        return render_template("user.html",
+                                user=user,
+                                user_message_list=user_message_list,
+                                user_spot_list=user_spot_list)
     if request.method == "POST": # remove if not needed and fix route
         return None
-    
+
 @app.route("/browse_users")
 @app.route("/browse_users/<int:page>")
 def browse_users(page=1):
@@ -284,6 +334,7 @@ def browse_users(page=1):
         return redirect("/browse_users/" + str(page_count))
 
     user_list = users.get_users(page, page_size)
-    return render_template("browse_users.html", user_list=user_list, page=page, page_count=page_count)
-
-
+    return render_template("browse_users.html", 
+                           user_list=user_list, 
+                           page=page, 
+                           page_count=page_count)

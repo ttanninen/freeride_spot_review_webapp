@@ -5,6 +5,23 @@
 {% block content %}
     <h1>Edit spot</h1>
     <div class="content">
+    {% if spot.has_image %}
+    <img src="/image/{{ spot.id }}" />
+    {% endif %}
+    <div class="info">    
+    {% for message in get_flashed_messages() %}
+    <b>{{ message }}</b>
+    {% endfor %}
+</div>
+    <p>
+    Upload new image:
+    <form action="/add_image" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="spot_id" value="{{ spot.id }}" />
+        <input type="file" name="image" accept=".jpg" />
+        <input type="submit" name="upload" value="Submit" />
+    </form>
+    </p>
+
     <form action="/edit_spot/{{ spot.id }}" method="post">
         <p>
             <label for="title">Spot title</label>: <br />
@@ -54,6 +71,7 @@
         </p>
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+
         <input type="submit" name="update" value="Update" />
         <a href="/spot/{{ spot.id }}" class="button">Cancel</a>
         </p>

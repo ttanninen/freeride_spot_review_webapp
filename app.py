@@ -175,20 +175,20 @@ def add_image():
     spot_id = request.form["spot_id"]
     if file is None or file.filename == "":
         flash("No file uploaded")
-        return redirect(url_for("spot", spot_id=spot_id))
+        return redirect(request.referrer)
 
     if not file.filename.endswith(".jpg"):
         flash("Wrong filetype. Only .jpg allowed.")
-        return redirect(url_for("spot", spot_id=spot_id))
+        return redirect(request.referrer)
     
     image = file.read()
     if len(image) > 100 * 1024:
         flash("Image too large. Maximum filesize 100kb.")
-        return redirect(url_for("spot", spot_id=spot_id)) 
+        return redirect(request.referrer)
     
     spots.update_image(spot_id, image)
     flash("Image uploaded successfully!")
-    return redirect(url_for("spot", spot_id=spot_id))
+    return redirect(request.referrer)
 
 @app.route("/image/<int:spot_id>")
 def show_image(spot_id):
@@ -285,7 +285,7 @@ def edit_spot(spot_id):
 
         if "update" in request.form:
             spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)
-        return redirect("/browse")
+        return redirect("/spot/" + str(spot_id))
         
 @app.route("/remove_spot/<int:spot_id>", methods=["GET", "POST"])
 def remove_spot(spot_id):

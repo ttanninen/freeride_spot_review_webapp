@@ -10,13 +10,16 @@
     <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
 {% endif %}
 <hr />
+{% if spot.has_image %}
 <img src="/image/{{ spot.id }}" />
+{% endif %}
 <div class="info">    
 {% for message in get_flashed_messages() %}
     <b>{{ message }}</b>
 {% endfor %}
 </div>
 {% if spot.user_id == session.user_id and not spot.has_image %}
+Image:
 <form action="/add_image" method="post" enctype="multipart/form-data">
     <input type="hidden" name="spot_id" value="{{ spot.id }}" />
     <input type="file" name="image" accept=".jpg" />

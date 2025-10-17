@@ -3,7 +3,11 @@ import db
 
 def create_user(username, password):
     password_hash = generate_password_hash(password)
-    sql = "INSERT INTO users (username, password_hash, added_at) VALUES (?, ?, datetime('now'))"
+    sql = """INSERT INTO users (
+                    username,
+                    password_hash,
+                    added_at)
+                    VALUES (?, ?, datetime('now'))"""
     db.execute(sql, [username, password_hash])
 
 def check_login(username, password):
@@ -23,7 +27,7 @@ def get_user(user_id):
     return result[0] if result else None
 
 def get_users(page, page_size):
-    sql = """SELECT id, username, added_at 
+    sql = """SELECT id, username, added_at
             FROM users
             ORDER BY username
             LIMIT ? OFFSET ?"""

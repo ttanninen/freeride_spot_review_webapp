@@ -7,7 +7,8 @@
     <div class="content">
         <div class="blurb">
             <p>
-                Welcome to the crew {{ username }}. This is the spot for riders who live for the lines less traveled.<br>
+                Welcome to the crew {{ username }}.<br>
+                This is the spot for riders who live for the lines less traveled.<br>
                 Drop your favorite freeride zones, scope what others are shredding, and keep the stoke alive.
                 Whether it’s hidden pow stashes or sketchy chutes, share the goods and find your next send. <br>
             </p>
@@ -22,7 +23,7 @@
             {% for spot in latest_spots %}
                 <li>
                     <p>
-                    <a href="/spot/{{ spot.id }}">{{ spot.title}}</a> | {{ spot.continent }} | {{ spot.country}} | {{ spot.skill_level }}
+                    <a href="/spot/{{ spot.id }}">{{ spot.title}}</a> | <small>{{ spot.continent }}</small> | <small>{{ spot.country}}</small> | <small>{{ spot.skill_level }}</small>
                     </p>
                 </li>
             {% endfor %}
@@ -33,9 +34,9 @@
             {% for message in latest_messages %}
                 <li><a href="/spot/{{ message.spot_id }}">{{ message.spot_title }}</a> | <small>{{ message.username }} wrote on {{ message.sent_at }}</small>
                     <p>{% if message.content | length > 200 %}
-                        {{ message.content[:200] }}...
+                        <i>{{ message.content[:200] }}...</i>
                         {% else %}
-                        {{ message.content }}
+                        <i>{{ message.content }}</i>
                         {% endif %}
                     </p>
                 </li>

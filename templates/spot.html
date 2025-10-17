@@ -6,7 +6,7 @@
     <h1>{{ spot.title }}</h1>
     <div class="content">
         {% if spot.user_id == session.user_id %}
-            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+            <a href="/edit_spot/{{ spot.id }}">Edit spot</a> | 
             <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
             <hr />
         {% endif %}
@@ -59,7 +59,7 @@
             <p>
                 <a href="/user/{{ message.user_id }}">{{ message.username }}</a> | {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
                 {% if spot.user_id == session.user_id %}
-                    <a href="/edit_message/{{ message.id }}">Edit message</a>       
+                    | <a href="/edit_message/{{ message.id }}">Edit message</a> | 
                     <a href="/remove_message/{{ message.id }}">Remove message</a>
                 {% endif %}
             </p>

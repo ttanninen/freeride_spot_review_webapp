@@ -11,7 +11,7 @@
             <hr />
         {% endif %}
         {% if spot.has_image %}
-            <img src="/image/{{ spot.id }}" />
+            <img src="/image/{{ spot.id }}" alt="Photo of {{spot.title}}" />
         {% endif %}
         <div class="info">    
             {% for message in get_flashed_messages() %}
@@ -19,7 +19,7 @@
             {% endfor %}
         </div>
         {% if spot.user_id == session.user_id and not spot.has_image %}
-            Add image (.jpg, max 500kb):
+            <label for="image">Add image (.jpg, max 500kb):</label>
             <form action="/add_image" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="spot_id" value="{{ spot.id }}" />
                 <input type="file" name="image" accept=".jpg" />
@@ -69,7 +69,7 @@
                 {% endfor %}
             </p>
         {% endfor %}
-        Drop a comment, review or a shout-out:
+        <label for="content">Drop a comment, review or a shout-out:</label>
         <form action="/spot/{{ spot.id }}" method="post">
             <textarea name="content" rows="5" cols="88" maxlength="1000" required></textarea>
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

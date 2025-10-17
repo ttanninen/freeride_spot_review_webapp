@@ -14,7 +14,7 @@
         <p>
         <form action="/search" method="get">
             <p>
-                Search:
+                <label for="query">Search:</label>
                 {% if query %}
                     <input type="text" name="query" value="{{ query }}" maxlength="100" required/>
                 {% else %}

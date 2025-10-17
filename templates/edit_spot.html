@@ -14,7 +14,7 @@
     {% endfor %}
 </div>
     <p>
-        Upload new image (.jpg, max 500kb):
+        <label for="image">Upload new image (.jpg, max 500kb):</label>
         <form action="/add_image" method="post" enctype="multipart/form-data">
             <input type="hidden" name="spot_id" value="{{ spot.id }}" />
             <input type="file" name="image" accept=".jpg" />
@@ -63,7 +63,7 @@
             </select>
         </p>
         <p>
-            <label for="incline">Slope maximum incline</label>: <br />
+            <label for="max_incline">Slope maximum incline</label>: <br />
             <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" size="4" />
         </p>
         <p>

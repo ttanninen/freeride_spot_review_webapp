@@ -7,7 +7,7 @@
 <h1>Browse spots</h1>
 
 <form method="GET" action="/browse" class="filter-bar">
-    <label for="continent">Continent:</label>
+    <label for="continent">Continent</label>:
     <select name="continent" id="continent" {% if request.args.get("continent") %}disabled{% endif %}>
         <option value="" id="all">All</option>
         {% for continent in categories.continents %}
@@ -18,7 +18,7 @@
     {% if request.args.get("continent") %}
     <input type="hidden" name="continent" value="{{ request.args.get('continent') }}">
 
-    <label for="country">country:</label>
+    <label for="country">country</label>:
     <select name="country" id="country">
         <option value="">All</option>
         {% for country in categories.countries %}
@@ -27,7 +27,7 @@
     </select>
     {% endif %}
 
-    <label for="skill_level">Skill level:</label>
+    <label for="skill_level">Skill level</label>:
     <select name="skill_level" id="skill_level">
         <option value="">All</option>
         {% for skill_level in categories.skill_levels %}

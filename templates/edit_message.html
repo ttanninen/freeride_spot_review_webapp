@@ -7,7 +7,7 @@
 <div class="content">
     <form action="/edit_message/{{ message.id }}" method="post">
 
-            <label for="notes">Notes</label>: <br />
+        <label for="content">Edit your comment</label>: <br />
         <textarea name="content" rows="10" cols="88" maxlength="1000">{{ message.content }}</textarea>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
         <input type="submit" name="update" value="Update" />

@@ -225,8 +225,8 @@ def add_image():
         return redirect(request.referrer)
     
     image = file.read()
-    if len(image) > 100 * 1024:
-        flash("Image too large. Maximum filesize 100kb.")
+    if len(image) > 500 * 1024:
+        flash("Image too large. Maximum filesize 500kb.")
         return redirect(request.referrer)
     
     spots.update_image(spot_id, image)

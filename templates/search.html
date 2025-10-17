@@ -26,7 +26,7 @@
 </p>
     {% if results|length > 0 %}
     <hr />
-    <h2>Results (Newest first)</h2>
+    <h2>Results (newest first)</h2>
     Found {{ results | length }} results
     <ul>
     {% for result in results %}
@@ -40,7 +40,9 @@
     {% endfor %}
     </ul>
     {% else %}
+    {% if query %}
     No results
+    {% endif %}
     {% endif %}
 </div>
 {% endblock %}

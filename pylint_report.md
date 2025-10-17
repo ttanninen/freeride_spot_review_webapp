@@ -1,6 +1,7 @@
 Pylint report for the application is as follows:
 
-```************* Module app
+```
+************* Module app
 app.py:1:0: C0114: Missing module docstring (missing-module-docstring)
 app.py:16:0: C0116: Missing function or method docstring (missing-function-docstring)
 app.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
@@ -102,47 +103,63 @@ users.py:1:0: R0801: Similar lines in 2 files
                               aspect, (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.11/10 (previous run: 8.11/10, +0.00)```
+Your code has been rated at 8.11/10 (previous run: 8.11/10, +0.00)
+```
 
 
 <h1>Report breakdown<h1>
 
 
-```Missing module docstring (missing-module-docstring), Missing function or method docstring (missing-function-docstring)```
+```
+Missing module docstring (missing-module-docstring), Missing function or method docstring (missing-function-docstring)
+```
 Docstrings have been left out intentionally
 
 
-```app.py:51:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)```
-In some cases, the function returns abort(403). This may happen if data is pushed in from outside the application and then the function performs exactly like it's supposed to without return statements. 
+```
+app.py:51:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+```
+In some cases, the function is supposed to give abort(403) without return statement. This may happen if data is pushed in from outside the application and then the function performs exactly like it's supposed to without return statements. 
 
 
-```Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)```
+```
+Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+```
 
 From the app:
 
-```        if user_id:
-            session["user_id"] = user_id
-            return redirect("/home")
-        else:
-            flash("ERROR: Wrong username or password")
-            return redirect("/")```
+```
+if user_id:
+    session["user_id"] = user_id
+    return redirect("/home")
+else:
+    flash("ERROR: Wrong username or password")
+    return redirect("/")
+```
 
 Here the else-statement is more explanatory than it would be to leave it out.
 
 
-```Redefining name 'spot' from outer scope (line 108) (redefined-outer-name)```
+```
+Redefining name 'spot' from outer scope (line 108) (redefined-outer-name)
+```
 
 This error comes from the fact that spot is the name of the function in @spot route and then it is used as variable inside that function. 
-However, the function is called only once the route loads, so using the same name doesn't cause any problems and the variable name is easily understood.
+However, the function is called only once the route loads, so using the same name doesn't cause any problems and the variable name is easily understood. Same goes to other variables in this error type e.g. "users".
 
-```Dangerous default value [] as argument (dangerous-default-value)```
-Doesn't cause danger or issues here. 
+```
+Dangerous default value [] as argument (dangerous-default-value)
+```
+Doesn't cause danger or issues here because the function does not manipulate the list object.
 
 
-``Too many arguments (8/5) (too-many-arguments) / Too many positional arguments (8/5) (too-many-positional-arguments)````
-The form where data is originating from is rather large and handing many variables this way is probably not ideal. However, it works fine, so this can be disregarded.
+```
+Too many arguments (8/5) (too-many-arguments) / Too many positional arguments (8/5) (too-many-positional-arguments)
+```
+The form where data is originating from is rather large and handing many variables this way is probably not ideal. However, it works fine, so this error can be disregarded.
 
-```users.py:1:0: R0801: Similar lines in 2 files
+```
+users.py:1:0: R0801: Similar lines in 2 files
 ==app:[201:207]
 ==spots:[50:56]
                      continent,
@@ -160,5 +177,4 @@ users.py:1:0: R0801: Similar lines in 2 files
                               skill_level,
                               aspect, (duplicate-code)
 ```
-
-These parts are similar and maybe could be hard-coded into some container, but, yet again, this works now fine.
+These parts are similar because app.py passes these arguments to a function in spots.py. Maybe the arguments could be packed inside a dict or spot class object, but for now, this works fine.

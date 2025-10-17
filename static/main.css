@@ -45,6 +45,12 @@ nav li:not(:last-of-type) {
   border-right: 1px solid black;
 }
 
+.blurb {
+  text-align: center;
+  line-height: 150%;
+  font-size: 1.2em;
+}
+
 .content {
     color: rgb(178, 223, 255);
     background-color: rgba(45, 68, 101, 0.75);

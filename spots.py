@@ -3,10 +3,10 @@ import db
 def get_categories():
     sql_continents = "SELECT id, name FROM continents"
     sql_countries = """SELECT
-                            c.id AS country_id,
-                            c.name AS country_name,
-                            c.continent_id,
-                            cont.name AS continent_name
+                        c.id AS country_id,
+                        c.name AS country_name,
+                        c.continent_id,
+                        cont.name AS continent_name
                         FROM countries c
                         JOIN continents cont ON c.continent_id = cont.id"""
     sql_skill_levels = "SELECT id, name FROM skill_levels"
@@ -15,7 +15,9 @@ def get_categories():
     countries = db.query(sql_countries)
     skill_levels = db.query(sql_skill_levels)
 
-    return {"continents": continents, "countries": countries, "skill_levels": skill_levels}
+    return {"continents": continents,
+            "countries": countries,
+            "skill_levels": skill_levels}
 
 
 def get_country_continent(country_id):
@@ -26,7 +28,14 @@ def get_country_continent(country_id):
     result = db.query(sql, [country_id])
     return result[0]["id"] if result else None
 
-def add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes):
+def add_spot(user_id,
+             continent,
+             country,
+             title,
+             max_incline,
+             skill_level,
+             aspect,
+             notes):
     sql = """INSERT INTO spots
            (user_id,
            continent_id,
@@ -38,7 +47,14 @@ def add_spot(user_id, continent, country, title, max_incline, skill_level, aspec
            notes,
            added_at)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))"""
-    db.execute(sql, [user_id, continent, country, title, max_incline, skill_level, aspect, notes])
+    db.execute(sql, [user_id,
+                     continent,
+                     country,
+                     title,
+                     max_incline,
+                     skill_level,
+                     aspect,
+                     notes])
     return db.last_insert_id()
 
 def spot_count(continent=None, country=None, skill_level=None):
@@ -50,7 +66,7 @@ def spot_count(continent=None, country=None, skill_level=None):
             WHERE 1=1"""
 
     params = []
-    
+
     if continent:
         sql += " AND cont.name = ?"
         params.append(continent)
@@ -58,11 +74,11 @@ def spot_count(continent=None, country=None, skill_level=None):
     if country:
         sql += " AND c.name = ?"
         params.append(country)
-    
+
     if skill_level:
         sql += " AND skill.name = ?"
         params.append(skill_level)
-    
+
     return db.query(sql, params)[0][0]
 
 def get_spots(page, page_size, continent=None, country=None, skill_level=None):
@@ -88,7 +104,7 @@ def get_spots(page, page_size, continent=None, country=None, skill_level=None):
             JOIN countries c ON s.country_id = c.id
             JOIN skill_levels skill ON s.skill_level_id = skill.id
             WHERE 1=1"""
-   
+
     params = []
 
     if continent:
@@ -98,11 +114,11 @@ def get_spots(page, page_size, continent=None, country=None, skill_level=None):
     if country:
         sql += " AND country = ?"
         params.append(country)
-    
+
     if skill_level:
         sql += " AND skill.name = ?"
         params.append(skill_level)
-    
+
 
     limit = page_size
     offset = page_size * (page -1)
@@ -169,9 +185,7 @@ def search(query):
             OR LOWER(c.name) LIKE ?
             ORDER BY s.id DESC"""
     pattern = f"%{query.lower()}%"
-    print("Parameters:", [pattern, pattern, pattern, pattern, pattern])
     results = db.query(sql, [pattern, pattern, pattern, pattern])
-    print(f"Found {len(results)} results for query '{query}'")  # Debug output
     return results
 
 def post_message(spot_id, user_id, content):
@@ -302,7 +316,7 @@ def get_latest_messages():
 def get_all_spots():
     sql ="SELECT id, user_id, title FROM spots"
     return db.query(sql, [])
-                    
+
 def get_all_messages():
     sql ="SELECT id, user_id, content FROM messages"
     return db.query(sql, [])

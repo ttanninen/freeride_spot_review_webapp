@@ -47,3 +47,15 @@ create TABLE messages (
 );
 
 CREATE INDEX idx_spot_messages ON messages (spot_id);
+CREATE INDEX idx_user_messages ON messages (user_id);
+CREATE INDEX idx_spot_user_messages ON messages (spot_id, user_id);
+CREATE INDEX idx_messages_sent_at ON messages (sent_at DESC);
+
+CREATE INDEX idx_spots_added_at ON spots (added_at DESC);
+CREATE INDEX idx_spots_country ON spots (country_id);
+CREATE INDEX idx_spots_continent ON spots (continent_id);
+CREATE INDEX idx_spots_user ON spots (user_id);
+CREATE INDEX idx_spots_skill_level ON spots (skill_level_id);
+CREATE INDEX idx_spots_continent_country ON spots (continent_id, country_id);
+
+CREATE INDEX idx_countries_continent ON countries (continent_id);

@@ -14,7 +14,7 @@
     {% endfor %}
 </div>
     <p>
-    Upload new image:
+    Upload new image (.jpg, max 500kb):
     <form action="/add_image" method="post" enctype="multipart/form-data">
         <input type="hidden" name="spot_id" value="{{ spot.id }}" />
         <input type="file" name="image" accept=".jpg" />

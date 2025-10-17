@@ -19,7 +19,7 @@
 {% endfor %}
 </div>
 {% if spot.user_id == session.user_id and not spot.has_image %}
-Image:
+Add image (.jpg, max 500kb):
 <form action="/add_image" method="post" enctype="multipart/form-data">
     <input type="hidden" name="spot_id" value="{{ spot.id }}" />
     <input type="file" name="image" accept=".jpg" />
@@ -28,25 +28,25 @@ Image:
 </form>
 {% endif %}
 <p> 
-Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
+<b>Added by:</b> <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 </p>
 <p>
-Continent: {{ spot.continent }}
+<b>Continent:</b> {{ spot.continent }}
 </p>
 <p>
-Country: {{ spot.country }}
+<b>Country:</b> {{ spot.country }}
 </p>
 <p>
-Incline: {{ spot.max_incline }}
+<b>Incline:</b> {{ spot.max_incline }}
 </p>
 <p>
-Skill-level: {{ spot.skill_level }}
+<b>Skill-level:</b> {{ spot.skill_level }}
 </p>
 <p>
-Aspect: {{ spot.aspect }}
+<b>Aspect:</b> {{ spot.aspect }}
 </p>
 <p>
-Notes: 
+<b>Notes:</b> 
 </p>
 <p>
 {% for line in spot.notes.splitlines() %}

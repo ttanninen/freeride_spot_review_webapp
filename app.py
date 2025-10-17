@@ -150,18 +150,19 @@ def add_spot():
         continent = str(spots.get_country_continent(country))
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 2:
             abort(403)
+        
+        if max_incline:
+            if not max_incline.isnumeric():
+                flash("Slope incline must be a number between 0 and 90 degrees")
+                categories = spots.get_categories()
+                aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+                return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)   
 
-        if not max_incline.isnumeric():
-            flash("Slope incline must be a number between 0 and 90 degrees")
-            categories = spots.get_categories()
-            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-            return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)   
-
-        if int(max_incline) > 90 or int(max_incline) < 0 :
-            flash("Slope incline must be a number between 0 and 90 degrees")
-            categories = spots.get_categories()
-            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-            return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
+            if int(max_incline) > 90 or int(max_incline) < 0 :
+                flash("Slope incline must be a number between 0 and 90 degrees")
+                categories = spots.get_categories()
+                aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+                return render_template("add_spot.html" , categories=categories, aspects=aspects, filled=filled)
 
         if "submit" in request.form:
             spot_id = spots.add_spot(user_id, continent, country, title, max_incline, skill_level, aspect, notes) # add_spot returns spot_id
@@ -192,18 +193,18 @@ def edit_spot(spot_id):
 
         if len(continent) > 100 or len(country) > 100 or len(title) > 100 or len(aspect) > 10 or len(skill_level) > 20 or len(max_incline) > 3:
             abort(403)
+        if max_incline:
+            if not max_incline.isnumeric():
+                flash("Slope incline must be a number between 0 and 90 degrees")
+                categories = spots.get_categories()
+                aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+                return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)   
 
-        if not max_incline.isnumeric():
-            flash("Slope incline must be a number between 0 and 90 degrees")
-            categories = spots.get_categories()
-            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-            return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)   
-
-        if int(max_incline) > 90 or int(max_incline) < 0 :
-            flash("Slope incline must be a number between 0 and 90 degrees")
-            categories = spots.get_categories()
-            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
-            return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)
+            if int(max_incline) > 90 or int(max_incline) < 0 :
+                flash("Slope incline must be a number between 0 and 90 degrees")
+                categories = spots.get_categories()
+                aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+                return render_template("edit_spot.html" , spot=spot, aspects=aspects, categories=categories)
 
         if "update" in request.form:
             spots.update_spot(continent, country, title, max_incline, skill_level, aspect, notes, spot_id)

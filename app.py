@@ -424,6 +424,7 @@ def search():
 
 @app.route("/user/<int:user_id>", methods=["GET"])
 def user(user_id):
+    referer=request.headers.get("Referer")
     user_spot_list = spots.get_user_spots(user_id)
     user_message_list = spots.get_user_messages(user_id)
     user = users.get_user(user_id)
@@ -433,6 +434,7 @@ def user(user_id):
                                 user=user,
                                 user_message_list=user_message_list,
                                 user_spot_list=user_spot_list,
+                                referer=referer
                                 )
 
 @app.route("/browse_users")

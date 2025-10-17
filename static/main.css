@@ -19,7 +19,7 @@ body {
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 2em;
     margin-bottom: 1;
-    color: rgb(178, 223, 255);
+    color: rgb(197, 231, 255);
 }
 
 .nav {
@@ -28,6 +28,9 @@ body {
 
 nav {
   text-align: center;
+  font-size: 1.2em;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }
 
 nav ul {
@@ -52,8 +55,9 @@ nav li:not(:last-of-type) {
 }
 
 .content {
-    color: rgb(178, 223, 255);
-    background-color: rgba(45, 68, 101, 0.75);
+    color: rgb(197, 231, 255);
+    background-color: rgba(45, 68, 101, 0.85);
+    padding: 2em;
 } 
 
 

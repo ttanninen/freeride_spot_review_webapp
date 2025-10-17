@@ -117,8 +117,14 @@ def spot(spot_id):
         check_csrf()
         user_id = session["user_id"]
         content = request.form["content"]
+
         if len(content) > 1002:
             abort(403)
+
+        if not content.strip():
+            flash("Comment cannot be empty or just spaces")
+            return redirect(request.url)
+
         spots.post_message(spot_id, user_id, content)
         return redirect(request.url)
 
@@ -236,6 +242,14 @@ def edit_spot(spot_id):
             or len(max_incline) > 3):
             abort(403)
 
+        if not title.strip():
+            flash("Title cannot be empty or just spaces")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("edit_spot.html",
+                                    spot=spot,
+                                    aspects=aspects,
+                                    categories=categories)
         if max_incline:
             if not max_incline.isnumeric():
                 flash("Slope incline must be a number between 0 and 90 degrees")

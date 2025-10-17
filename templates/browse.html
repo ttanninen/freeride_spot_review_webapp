@@ -69,7 +69,7 @@ Notes:
 <p>
 Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 <br>
-<small>Added: {{ spot.added_at }}</small>
+<small>{{ spot.added_at[:10] }}</small>
 </p>
 <hr />
 {% endfor %}

@@ -337,13 +337,15 @@ def edit_message(message_id):
     spot_id = message["spot_id"]
     if message["user_id"] != session["user_id"]:
         abort(403)
-
+        
     if request.method == "GET":
         return render_template("edit_message.html", message=message)
     if request.method == "POST":
         check_csrf()
         if "update" in request.form:
             content = request.form["content"]
+            if len(content) > 1002:
+                abort(403)
             spots.update_message(message["id"], content)
         return redirect(f"/spot/{spot_id}")
 

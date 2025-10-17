@@ -1,9 +1,0 @@
-- Kuvien lisäys?
-- user page joku järki spottien ja viestien listaukseen
-- front page: uusimmat spotit ja viestit?
-- Front page: esittelyteksti
-
-Tyyli:
-
-
-Taustakuvat /static

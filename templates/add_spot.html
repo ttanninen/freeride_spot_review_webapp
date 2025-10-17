@@ -14,7 +14,7 @@
 <div class="content">
 <form action="/add_spot" method="post" enctype="multipart/form-data">
     <p>
-        <label for="title">Spot title</label>: <br />
+        <label for="title">Spot title (required):</label>: <br />
     <input type="text" name="title" value= "{{ filled.title }}" maxlength="100" required/>
     </p>
     <p>
@@ -56,11 +56,11 @@
     </p>
     <p>
         <label for="incline">Slope maximum incline</label>: <br />
-    <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="2" />
+    <input type="text" name="max_incline" value= "{{ filled.max_incline }}" maxlength="2" size="4"/>
     </p>
     <p>
         <label for="notes">Notes</label>: <br />
-    <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ filled.notes }}</textarea>
+    <textarea name="notes" rows="15" cols="89" maxlength="5000">{{ filled.notes }}</textarea>
     </p>
     <p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

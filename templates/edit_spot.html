@@ -3,7 +3,7 @@
 {% block title %}Edit spot{% endblock %}
 
 {% block content %}
-    <h1>Edit spot</h1>
+    <h1>Edit spot {{ spot.title }}</h1>
     <div class="content">
     {% if spot.has_image %}
     <img src="/image/{{ spot.id }}" />
@@ -64,11 +64,11 @@
         </p>
         <p>
             <label for="incline">Slope maximum incline</label>: <br />
-        <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" />
+        <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" size="4" />
         </p>
         <p>
             <label for="notes">Notes</label>: <br />
-        <textarea name="notes" rows="10" cols="100" maxlength="5000">{{ spot.notes }}</textarea>
+        <textarea name="notes" rows="15" cols="88" maxlength="5000">{{ spot.notes }}</textarea>
         </p>
         <p>
         <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

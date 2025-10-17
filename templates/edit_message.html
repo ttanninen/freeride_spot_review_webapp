@@ -8,7 +8,7 @@
 <form action="/edit_message/{{ message.id }}" method="post">
 
         <label for="notes">Notes</label>: <br />
-    <textarea name="content" rows="10" cols="100" maxlength="5000">{{ message.content }}</textarea>
+    <textarea name="content" rows="10" cols="88" maxlength="1000">{{ message.content }}</textarea>
     </p>
     <p>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />

@@ -313,7 +313,8 @@ def remove_spot(spot_id):
         check_csrf()
         if "yes" in request.form:
             spots.remove_spot(spot["id"])
-        return redirect("/browse")
+            return redirect("/browse")
+    return redirect(f"/spot/{spot_id}")
 
 @app.route("/remove_message/<int:message_id>", methods=["GET", "POST"])
 def remove_message(message_id):

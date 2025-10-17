@@ -5,27 +5,29 @@
 {% block content %}
 <h1>User {{ user.username }}</h1>
 <div class="content">
-<small>Member since {{ user.added_at }}</small>
+Member since {{ user.added_at }}
 <p>
-    {{ user_spot_list | length }} Spots posted by user:
+    <h3>{{ user_spot_list | length }} Spots posted by user:</h3>
+    <ul>
     {% for spot in user_spot_list %}
     {% if spot.user_id == user.id %}
-    <hr />
-    <p>{{ spot.continent_name }} | {{ spot.country_name }}</p>
-    <p><a href="../spot/{{ spot.id }}">{{ spot.title }}</a></p>
+    <p>
+        <li><a href="../spot/{{ spot.id }}">{{ spot.title }}</a> | {{ spot.continent_name }} | {{ spot.country_name }}</li>
     <hr />
     {% endif %}
     {% endfor %}
+    </ul>
 </p>
 <br>
 <p>
-    {{ user_message_list | length }} Messages posted by user:
+    <h3>{{ user_message_list | length }} Messages posted by user:</h3>
+    <ul>
     {% for message in user_message_list %}
-    <hr />
-    <p><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a></p>
+    <li><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a></li>
     <p>{{ message.content }}</p>
     <hr />
     {% endfor %}
 </p>
 </div>
+
 {% endblock %}>

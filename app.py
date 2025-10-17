@@ -163,6 +163,15 @@ def add_spot():
             or len(max_incline) > 2):
             abort(403)
 
+        if not title.strip():
+            flash("Title cannot be empty or just spaces")
+            categories = spots.get_categories()
+            aspects = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
+            return render_template("add_spot.html",
+                                    categories=categories,
+                                    aspects=aspects,
+                                    filled=filled)
+        
         if max_incline:
             if not max_incline.isnumeric():
                 flash("Slope incline must be a number between 0 and 90 degrees")

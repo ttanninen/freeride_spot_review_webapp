@@ -4,12 +4,22 @@
 
 {% block content %}
 <h1>User {{ user.username }}</h1>
-Member since {{ user.added_at }}
+
 <div class="content">
+    <p>
+        <ul>
+            <em>
+            <li>Member since {{ user.added_at[:10] }}</li>
+            <li>{{ user_spot_list | length }} spots posted</li>
+            <li>{{ user_message_list | length }} comments sent</li>
+            </em>
+        </ul>
+    </p>
+    
 <p>
-    <h3>{{ user_spot_list | length }} Spots posted by user:</h3>
+    <h3>Latest spots posted by {{ user.username }}:</h3>
     <ul>
-    {% for spot in user_spot_list %}
+    {% for spot in user_spot_list[-10:][::-1] %}
     {% if spot.user_id == user.id %}
     <p>
         <li><a href="../spot/{{ spot.id }}">{{ spot.title }}</a> | {{ spot.continent_name }} | {{ spot.country_name }}</li>
@@ -20,10 +30,10 @@ Member since {{ user.added_at }}
 </p>
 <br>
 <p>
-    <h3>{{ user_message_list | length }} Messages posted by user:</h3>
+    <h3>Latest messages posted by {{ user.username }}:</h3>
     <ul>
-    {% for message in user_message_list %}
-    <li><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a></li>
+    {% for message in user_message_list[-10:][::-1] %}
+    <li><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a> | {{ message.sent_at }}</li>
     <p>{{ message.content }}</p>
     <hr />
     {% endfor %}

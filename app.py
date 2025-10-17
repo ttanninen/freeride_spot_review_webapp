@@ -102,13 +102,12 @@ def logout():
 
 @app.route("/spot/<int:spot_id>", methods=["GET", "POST"])
 def spot(spot_id):
-    referer=request.headers.get("Referer")
     spot = spots.get_spot(spot_id)
     messages = spots.get_messages(spot_id)
     if not spot:
         abort(404)
     if request.method == "GET":
-        return render_template("spot.html", spot=spot, messages=messages, referer=referer)
+        return render_template("spot.html", spot=spot, messages=messages)
 
     if request.method == "POST":
         check_csrf()
@@ -337,7 +336,7 @@ def edit_message(message_id):
     spot_id = message["spot_id"]
     if message["user_id"] != session["user_id"]:
         abort(403)
-        
+
     if request.method == "GET":
         return render_template("edit_message.html", message=message)
     if request.method == "POST":

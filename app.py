@@ -102,12 +102,13 @@ def logout():
 
 @app.route("/spot/<int:spot_id>", methods=["GET", "POST"])
 def spot(spot_id):
+    referer=request.headers.get("Referer")
     spot = spots.get_spot(spot_id)
     messages = spots.get_messages(spot_id)
     if not spot:
         abort(404)
     if request.method == "GET":
-        return render_template("spot.html", spot=spot, messages=messages)
+        return render_template("spot.html", spot=spot, messages=messages, referer=referer)
 
     if request.method == "POST":
         check_csrf()
@@ -361,19 +362,22 @@ def search():
 
 @app.route("/user/<int:user_id>", methods=["GET"])
 def user(user_id):
+    referer=request.headers.get("Referer")
     user_spot_list = spots.get_user_spots(user_id)
     user_message_list = spots.get_user_messages(user_id)
     user = users.get_user(user_id)
-
+    
     if request.method == "GET":
         return render_template("user.html",
                                 user=user,
                                 user_message_list=user_message_list,
-                                user_spot_list=user_spot_list)
+                                user_spot_list=user_spot_list,
+                                referer=referer)
 
 @app.route("/browse_users")
 @app.route("/browse_users/<int:page>")
 def browse_users(page=1):
+    referer=request.headers.get("Referer")
     page_size = 10
     users_count = users.users_count()
     page_count = math.ceil(users_count / page_size)
@@ -393,6 +397,7 @@ def browse_users(page=1):
                            page=page, 
                            page_count=page_count,
                            spot_list=spot_list,
-                           message_list=message_list)
+                           message_list=message_list,
+                           referer=referer)
 
 

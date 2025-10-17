@@ -25,6 +25,17 @@
       </nav>
     </div>
     {% endblock %}
+    
+
+    <div class="nav_links">
+        {% if referer %}
+      <a href="{{ referer }}">&lt;&lt; Back</a>
+        {% else %}
+        <br>
+        {% endif %}
+    </div>
+
+    
   <div class="content">
     {% block content %}{% endblock %}
   </div>

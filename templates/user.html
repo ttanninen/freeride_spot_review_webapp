@@ -22,7 +22,7 @@
     {{ user_message_list | length }} Messages posted by user:
     {% for message in user_message_list %}
     <hr />
-    <p>{{ message.spot_title }}</p>
+    <p><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a></p>
     <p>{{ message.content }}</p>
     <hr />
     {% endfor %}

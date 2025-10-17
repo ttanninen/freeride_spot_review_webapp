@@ -10,7 +10,7 @@ import users
 import spots
 
 app = Flask(__name__)
-app.secret_key = config.secret_key
+app.secret_key = config.SECRET_KEY
 
 @app.before_request
 def check_session():
@@ -177,7 +177,7 @@ def add_spot():
                                     categories=categories,
                                     aspects=aspects,
                                     filled=filled)
-        
+
         if max_incline:
             if not max_incline.isnumeric():
                 flash("Slope incline must be a number between 0 and 90 degrees")

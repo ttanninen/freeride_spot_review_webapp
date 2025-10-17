@@ -30,10 +30,7 @@
 <h3>Latest messages</h3>
 <ul>
     {% for message in latest_messages %}
-    <li><a href="/spot/{{ message.spot_id }}">{{ message.spot_title }}</a>
-        <p>
-            <small>{{ message.username }} wrote on {{ message.sent_at }}</small>
-        </p>
+    <li><a href="/spot/{{ message.spot_id }}">{{ message.spot_title }}</a> | <small>{{ message.username }} wrote on {{ message.sent_at }}</small>
         <p>{% if message.content | length > 200 %}
             {{ message.content[:200] }}...
             {% else %}

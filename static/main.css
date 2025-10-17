@@ -65,6 +65,7 @@ nav li:not(:last-of-type) {
     background-color: rgba(45, 68, 101, 0.85);
     padding: 2em;
     padding-top: 1px;
+    overflow-wrap: anywhere;
 } 
 
 ul {

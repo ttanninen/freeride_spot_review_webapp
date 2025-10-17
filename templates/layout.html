@@ -1,44 +1,42 @@
 <!DOCTYPE html>
 <html>
- 
-<head>
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
-</head>
-
-<body class="background">
-    <div class="header">
-    <h1>Powderatlas</h1>
-    </div>
-  {% block nav %}    
-  <div class="nav">
-      <nav>
-        <ul>
-          <li><a href="/">Front page</a></li>
-          <li><a href="/add_spot">Add spot</a></li>
-          <li><a href="/browse">Spots</a></li>
-          <li><a href="/browse_users">Users</a></li>
-          <li><a href="/search">Search</a></li>
-          <li><a href="/user/{{ session.user_id }}">User page</a></li>
-          <li><a href="/logout">Log out</a></li>
-        </ul>
-      </nav>
-    </div>
-    {% endblock %}
     
+    <head>
+        <title>{% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    </head>
 
-    <div class="nav_links">
-        {% if referer %}
-      <a href="{{ referer }}">&lt;&lt; Back</a>
-        {% else %}
-        <br>
-        {% endif %}
-    </div>
+    <body class="background">
+        <div class="header">
+            <h1>Powderatlas</h1>
+        </div>
+        {% block nav %}    
+            <div class="nav">
+                <nav>
+                    <ul>
+                        <li><a href="/">Front page</a></li>
+                        <li><a href="/add_spot">Add spot</a></li>
+                        <li><a href="/browse">Spots</a></li>
+                        <li><a href="/browse_users">Users</a></li>
+                        <li><a href="/search">Search</a></li>
+                        <li><a href="/user/{{ session.user_id }}">User page</a></li>
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
+                </nav>
+            </div>
+        {% endblock %}
+        
+        <div class="nav_links">
+            {% if referer %}
+                <a href="{{ referer }}">&lt;&lt; Back</a>
+            {% else %}
+                <br>
+            {% endif %}
+        </div>
 
-    
-  <div class="content">
-    {% block content %}{% endblock %}
-  </div>
-</body>
+        <div class="content">
+            {% block content %}{% endblock %}
+        </div>
+    </body>
 
 </html>

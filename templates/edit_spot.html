@@ -5,28 +5,28 @@
 {% block content %}
     <h1>Edit spot {{ spot.title }}</h1>
     <div class="content">
-    {% if spot.has_image %}
-    <img src="/image/{{ spot.id }}" />
-    {% endif %}
+        {% if spot.has_image %}
+            <img src="/image/{{ spot.id }}" />
+        {% endif %}
     <div class="info">    
     {% for message in get_flashed_messages() %}
-    <b>{{ message }}</b>
+        <b>{{ message }}</b>
     {% endfor %}
 </div>
     <p>
-    Upload new image (.jpg, max 500kb):
-    <form action="/add_image" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="spot_id" value="{{ spot.id }}" />
-        <input type="file" name="image" accept=".jpg" />
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-        <input type="submit" name="upload" value="Submit" />
-    </form>
+        Upload new image (.jpg, max 500kb):
+        <form action="/add_image" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="spot_id" value="{{ spot.id }}" />
+            <input type="file" name="image" accept=".jpg" />
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" name="upload" value="Submit" />
+        </form>
     </p>
 
     <form action="/edit_spot/{{ spot.id }}" method="post">
         <p>
             <label for="title">Spot title</label>: <br />
-        <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
+            <input type="text" name="title" value="{{ spot.title }}" maxlength="100" required />
         </p>
         <p>
             <label for="country">Country</label>: <br />
@@ -45,37 +45,36 @@
         </p>
         <p>
             <label for="aspect">Slope aspect</label>: <br />
-        <select name="aspect">
-            {% for aspect in aspects %}
-            <option value="{{ spot.aspect }}" {% if aspect == spot.aspect %}selected{% endif %}>
-            {{ aspect }}
-            </option>
-            {% endfor %}
-        </select>
+            <select name="aspect">
+                {% for aspect in aspects %}
+                    <option value="{{ spot.aspect }}" {% if aspect == spot.aspect %}selected{% endif %}>
+                    {{ aspect }}
+                    </option>
+                {% endfor %}
+            </select>
         </p>
         <p>
             <label for="skill_level">Skill level</label>: <br />
-        <select name="skill_level">
-            {% for skill_level in categories.skill_levels %}
-            <option value="{{ skill_level[0] }}" {% if skill_level[0] == spot.skill_level_id %}selected{% endif %}>
-            {{ skill_level[1] }}</option>
-            {% endfor %}
-        </select>
+            <select name="skill_level">
+                {% for skill_level in categories.skill_levels %}
+                    <option value="{{ skill_level[0] }}" {% if skill_level[0] == spot.skill_level_id %}selected{% endif %}>
+                    {{ skill_level[1] }}</option>
+                {% endfor %}
+            </select>
         </p>
         <p>
             <label for="incline">Slope maximum incline</label>: <br />
-        <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" size="4" />
+            <input type="text" name="max_incline" value="{{ spot.max_incline }}" maxlength="3" size="4" />
         </p>
         <p>
             <label for="notes">Notes</label>: <br />
-        <textarea name="notes" rows="15" cols="88" maxlength="5000">{{ spot.notes }}</textarea>
+            <textarea name="notes" rows="15" cols="88" maxlength="5000">{{ spot.notes }}</textarea>
         </p>
         <p>
-        <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-
-        <input type="submit" name="update" value="Update" />
-        <a href="/spot/{{ spot.id }}" class="button">Cancel</a>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" name="update" value="Update" />
+            <a href="/spot/{{ spot.id }}" class="button">Cancel</a>
         </p>
     </form>
-    </div>
+</div>
 {% endblock %}

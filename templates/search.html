@@ -3,46 +3,46 @@
 {% block title %}Search spots{% endblock %}
 
 {% block content %}
-<h1>Search spots</h1>
-<div class="content">
-    <div class="info">
-    {% for message in get_flashed_messages() %}
-        <b>{{ message }}</b>
-    {% endfor %}
-</div>
+    <h1>Search spots</h1>
+    <div class="content">
+            <div class="info">
+                {% for message in get_flashed_messages() %}
+                    <b>{{ message }}</b>
+                {% endfor %}
+            </div>
 
-<p>
-<form action="/search" method="get">
-<p>
-    Search:
-    {% if query %}
-    <input type="text" name="query" value="{{ query }}" maxlength="100" required/>
-    {% else %}
-    <input type="text" name="query" maxlength="100" required/>
-    {% endif %}
-</p>
-<input type="submit" value="Search" />
-</form>
-</p>
-    {% if results|length > 0 %}
-    <hr />
-    <h2>Results (newest first)</h2>
-    Found {{ results | length }} results
-    <ul>
-    {% for result in results %}
-    <li>
-    <a href="/spot/{{ result.id }}">{{ result.title }}</a> | {{ result.continent }} | {{ result.country }}
-    <br />
-    <p>
-    {{ result.notes }}
-    </p>
-    </li>
-    {% endfor %}
-    </ul>
-    {% else %}
-    {% if query %}
-    No results
-    {% endif %}
-    {% endif %}
-</div>
+        <p>
+        <form action="/search" method="get">
+            <p>
+                Search:
+                {% if query %}
+                    <input type="text" name="query" value="{{ query }}" maxlength="100" required/>
+                {% else %}
+                    <input type="text" name="query" maxlength="100" required/>
+                {% endif %}
+            </p>
+            <input type="submit" value="Search" />
+        </form>
+        </p>
+            {% if results|length > 0 %}
+                <hr />
+                <h2>Results (newest first)</h2>
+                Found {{ results | length }} results
+                <ul>
+                    {% for result in results %}
+                        <li>
+                            <a href="/spot/{{ result.id }}">{{ result.title }}</a> | {{ result.continent }} | {{ result.country }}
+                            <br />
+                            <p>
+                                {{ result.notes }}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    {% if query %}
+                        No results
+                {% endif %}
+            {% endif %}
+    </div>
 {% endblock %}

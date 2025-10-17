@@ -3,41 +3,44 @@
 {% block title %}User {{ user.username }}{% endblock %}
 
 {% block content %}
-<h1>User {{ user.username }}</h1>
+    <h1>User {{ user.username }}</h1>
 
-<div class="content">
-    <p>
-        <ul>
-            <em>
-            <li>Member since {{ user.added_at[:10] }}</li>
-            <li>{{ user_spot_list | length }} spots posted</li>
-            <li>{{ user_message_list | length }} comments sent</li>
-            </em>
-        </ul>
-    </p>
-    
-<p>
-    <h3>Latest spots posted by {{ user.username }}:</h3>
-    <ul>
-    {% for spot in user_spot_list[-10:][::-1] %}
-    {% if spot.user_id == user.id %}
-    <p>
-        <li><a href="../spot/{{ spot.id }}">{{ spot.title }}</a> | {{ spot.continent_name }} | {{ spot.country_name }}</li>
-    <hr />
-    {% endif %}
-    {% endfor %}
-    </ul>
-</p>
-<br>
-<p>
-    <h3>Latest messages posted by {{ user.username }}:</h3>
-    <ul>
-    {% for message in user_message_list[-10:][::-1] %}
-    <li><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a> | {{ message.sent_at }}</li>
-    <p>{{ message.content }}</p>
-    <hr />
-    {% endfor %}
-</p>
-</div>
+    <div class="content">
+        <p>
+            <ul>
+                <em>
+                <li>Member since {{ user.added_at[:10] }}</li>
+                <li>{{ user_spot_list | length }} spots posted</li>
+                <li>{{ user_message_list | length }} comments sent</li>
+                </em>
+            </ul>
+        </p>
+        
+        <p>
+            <h3>Latest spots posted by {{ user.username }}:</h3>
+            <ul>
+            {% for spot in user_spot_list[-10:][::-1] %}
+                {% if spot.user_id == user.id %}
+                    <p>
+                        <li><a href="../spot/{{ spot.id }}">{{ spot.title }}</a> | {{ spot.continent_name }} | {{ spot.country_name }}</li>
+                    <hr />
+                {% endif %}
+            {% endfor %}
+            </ul>
+        </p>
+            <br>
+        <p>
+            <h3>Latest messages posted by {{ user.username }}:</h3>
+            <ul>
+            {% for message in user_message_list[-10:][::-1] %}
+                <li><a href="../spot/{{ message.spot_id }}">{{ message.spot_title }}</a> | {{ message.sent_at }}</li>
+                <p>
+                    {{ message.content }}
+                </p>
+                <hr />
+            {% endfor %}
+            </ul>
+        </p>
+    </div>
 
 {% endblock %}>

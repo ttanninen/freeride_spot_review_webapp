@@ -5,27 +5,27 @@
 {% block title %}Login or register a new user{% endblock %}
 
 {% block content %}
-<h1>Log in or register a new user</h1>
+    <h1>Log in or register a new user</h1>
 
-<div class="info">
-{% for message in get_flashed_messages() %}
-  <b>{{ message }}</b>
-{% endfor %}
-</div>
+    <div class="info">
+        {% for message in get_flashed_messages() %}
+            <b>{{ message }}</b>
+        {% endfor %}
+    </div>
 
-<div class="content">
-<form action="/login" method="post">
-  <p>
-    <label for="username">Username</label>: <br />
-    <input type="text" name="username" maxlength="20" required />
-  </p>
-  <p>
-    <label for="password">Password</label>: <br />
-    <input type="password" name="password" maxlength="20" required />
-  </p>
-  <input type="submit" value="Login" />
-</form>
-<br />
-<a href="/register">Register a new user</a>
-</div>
+    <div class="content">
+        <form action="/login" method="post">
+            <p>
+                <label for="username">Username</label>: <br />
+                <input type="text" name="username" maxlength="20" required />
+            </p>
+            <p>
+                <label for="password">Password</label>: <br />
+                <input type="password" name="password" maxlength="20" required />
+            </p>
+            <input type="submit" value="Login" />
+        </form>
+    <br />
+    <a href="/register">Register a new user</a>
+    </div>
 {% endblock %}

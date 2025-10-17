@@ -3,77 +3,77 @@
 {% block title %}{{ spot.title }}{% endblock %}
 
 {% block content %}
-<h1>{{ spot.title }}</h1>
-<div class="content">
-{% if spot.user_id == session.user_id %}
-    <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-    <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-<hr />
-{% endif %}
-{% if spot.has_image %}
-<img src="/image/{{ spot.id }}" />
-{% endif %}
-<div class="info">    
-{% for message in get_flashed_messages() %}
-    <b>{{ message }}</b>
-{% endfor %}
-</div>
-{% if spot.user_id == session.user_id and not spot.has_image %}
-Add image (.jpg, max 500kb):
-<form action="/add_image" method="post" enctype="multipart/form-data">
-    <input type="hidden" name="spot_id" value="{{ spot.id }}" />
-    <input type="file" name="image" accept=".jpg" />
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" value="Submit" />
-</form>
-{% endif %}
-<p> 
-<b>Added by:</b> <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
-</p>
-<p>
-<b>Continent:</b> {{ spot.continent }}
-</p>
-<p>
-<b>Country:</b> {{ spot.country }}
-</p>
-<p>
-<b>Incline:</b> {{ spot.max_incline }}
-</p>
-<p>
-<b>Skill-level:</b> {{ spot.skill_level }}
-</p>
-<p>
-<b>Aspect:</b> {{ spot.aspect }}
-</p>
-<p>
-<b>Notes:</b> 
-</p>
-<p>
-{% for line in spot.notes.splitlines() %}
-{{ line }}<br>
-{% endfor %}
-</p>
-<hr />
-<h3>Comments:</h3>
-{% for message in messages %}
-<p>
-    <a href="/user/{{ message.user_id }}">{{ message.username }}</a> | {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
-    {% if spot.user_id == session.user_id %}
-        <a href="/edit_message/{{ message.id }}">Edit message</a>       
-        <a href="/remove_message/{{ message.id }}">Remove message</a>
-    {% endif %}
-</p>
-<p>
-    {% for line in message.content.splitlines() %}
-    <i>{{ line }}</i><br>
-    {% endfor %}
-</p>
-{% endfor %}
-Drop a comment, review or a shout-out:
-<form action="/spot/{{ spot.id }}" method="post">
-    <textarea name="content" rows="5" cols="88" maxlength="1000" required></textarea>
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" name="submit" />
-</form>
-</div>
+    <h1>{{ spot.title }}</h1>
+    <div class="content">
+        {% if spot.user_id == session.user_id %}
+            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+            <hr />
+        {% endif %}
+        {% if spot.has_image %}
+            <img src="/image/{{ spot.id }}" />
+        {% endif %}
+        <div class="info">    
+            {% for message in get_flashed_messages() %}
+                <b>{{ message }}</b>
+            {% endfor %}
+        </div>
+        {% if spot.user_id == session.user_id and not spot.has_image %}
+            Add image (.jpg, max 500kb):
+            <form action="/add_image" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="spot_id" value="{{ spot.id }}" />
+                <input type="file" name="image" accept=".jpg" />
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+                <input type="submit" value="Submit" />
+            </form>
+        {% endif %}
+        <p> 
+            <b>Added by:</b> <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
+        </p>
+        <p>
+            <b>Continent:</b> {{ spot.continent }}
+        </p>
+        <p>
+            <b>Country:</b> {{ spot.country }}
+        </p>
+        <p>
+            <b>Incline:</b> {{ spot.max_incline }}
+        </p>
+        <p>
+            <b>Skill-level:</b> {{ spot.skill_level }}
+        </p>
+        <p>
+            <b>Aspect:</b> {{ spot.aspect }}
+        </p>
+        <p>
+            <b>Notes:</b> 
+        </p>
+        <p>
+            {% for line in spot.notes.splitlines() %}
+                {{ line }}<br>
+            {% endfor %}
+        </p>
+        <hr />
+        <h3>Comments:</h3>
+        {% for message in messages %}
+            <p>
+                <a href="/user/{{ message.user_id }}">{{ message.username }}</a> | {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
+                {% if spot.user_id == session.user_id %}
+                    <a href="/edit_message/{{ message.id }}">Edit message</a>       
+                    <a href="/remove_message/{{ message.id }}">Remove message</a>
+                {% endif %}
+            </p>
+            <p>
+                {% for line in message.content.splitlines() %}
+                    <i>{{ line }}</i><br>
+                {% endfor %}
+            </p>
+        {% endfor %}
+        Drop a comment, review or a shout-out:
+        <form action="/spot/{{ spot.id }}" method="post">
+            <textarea name="content" rows="5" cols="88" maxlength="1000" required></textarea>
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" name="submit" />
+        </form>
+    </div>
 {% endblock %}

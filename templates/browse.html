@@ -6,7 +6,6 @@
 
 <h1>Browse spots</h1>
 
-<!--Filter bar-->
 <form method="GET" action="/browse" class="filter-bar">
     <label for="continent">Continent:</label>
     <select name="continent" id="continent" {% if request.args.get("continent") %}disabled{% endif %}>
@@ -41,46 +40,45 @@
 
 <div class="content">
 
-{% for spot in spot_list %}
-<p>
-    {{ spot.continent }} | {{ spot.country }}
-</p>
-<h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
-{% if spot.user_id == session.user_id %}
-    <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
-    <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-{% endif %}
-</p>
-<p>
-<b>Skill level:</b> {{ spot.skill_level }}
-</p>
-<p>
-<b>Maximum incline:</b> {{ spot.max_incline }}
-</p>
-<p>
-<b>Aspect:</b> {{ spot.aspect }}
-</p>
-<p>
-<b>Notes:</b>
-{% for line in spot.notes.splitlines() %}
-{{ line }}<br>
-{% endfor %}
-</p>
-<p>
-<b>Added {{ spot.added_at[:10] }} by:</b> <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a> | {{spot.message_count}} comments
-<br>
-
-</p>
-<hr />
-{% endfor %}
-<p>
-{% if page > 1 %}
-<a href="{{ url_for('browse', page = page-1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&lt;&lt;</a>
-{% endif %}
-Page {{ page }}/{{ page_count }}
-{% if page < page_count %}
-<a href="{{ url_for('browse', page = page+1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&gt;&gt;</a>
-{% endif %}
-</p>
+    {% for spot in spot_list %}
+        <p>
+            {{ spot.continent }} | {{ spot.country }}
+        </p>
+        <h2><a href="/spot/{{ spot.id }}">{{ spot.title }}</a></h2>
+        {% if spot.user_id == session.user_id %}
+            <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
+            <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
+        {% endif %}
+        </p>
+        <p>
+            <b>Skill level:</b> {{ spot.skill_level }}
+        </p>
+        <p>
+            <b>Maximum incline:</b> {{ spot.max_incline }}
+        </p>
+        <p>
+            <b>Aspect:</b> {{ spot.aspect }}
+        </p>
+        <p>
+            <b>Notes:</b>
+            {% for line in spot.notes.splitlines() %}
+                {{ line }}<br>
+            {% endfor %}
+        </p>
+        <p>
+            <b>Added {{ spot.added_at[:10] }} by:</b> <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a> | {{spot.message_count}} comments
+        <br>
+        </p>
+        <hr />
+    {% endfor %}
+    <p>
+    {% if page > 1 %}
+        <a href="{{ url_for('browse', page = page-1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&lt;&lt;</a>
+    {% endif %}
+    Page {{ page }}/{{ page_count }}
+    {% if page < page_count %}
+        <a href="{{ url_for('browse', page = page+1, continent=selected_continent, country=selected_country, skill_level=selected_skill_level) }}">&gt;&gt;</a>
+    {% endif %}
+    </p>
 </div>
 {% endblock %}

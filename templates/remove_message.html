@@ -3,17 +3,17 @@
 {% block title %}Remove message{% endblock %}
 
 {% block content %}
-<div class="content">
-<p>
-    Are you sure you want to remove this message?
-</p>
-<p>
-    {{ message.content }}
-</p>
-<form action="/remove_message/{{ message.id }}" method="post">
-    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
-    <input type="submit" name="yes" value="Yes" />
-    <input type="submit" name="cancel" value="Cancel" />
-</form>
-</div>
+    <div class="content">
+        <p>
+            Are you sure you want to remove this message?
+        </p>
+        <p>
+            {{ message.content }}
+        </p>
+        <form action="/remove_message/{{ message.id }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
+            <input type="submit" name="yes" value="Yes" />
+            <input type="submit" name="cancel" value="Cancel" />
+        </form>
+    </div>
 {% endblock %}

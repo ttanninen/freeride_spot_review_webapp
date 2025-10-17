@@ -114,7 +114,7 @@ def spot(spot_id):
         check_csrf()
         user_id = session["user_id"]
         content = request.form["content"]
-        if len(content) > 1000:
+        if len(content) > 1002:
             abort(403)
         spots.post_message(spot_id, user_id, content)
         return redirect(request.url)
@@ -246,7 +246,7 @@ def show_image(spot_id):
 @app.route("/browse")
 @app.route("/browse/<int:page>")
 def browse(page=1):
-    page_size = 10
+    page_size = 5
     continent = request.args.get("continent")
     country = request.args.get("country")
     skill_level = request.args.get("skill_level")

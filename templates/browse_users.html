@@ -9,7 +9,13 @@
 <div class="content">
 {% for user in user_list|sort (attribute='username') %}
 <p>
-<h2><a href="/user/{{ user.id }}">{{ user.username }}</a></h2> Member since {{ user.added_at }}
+<h2><a href="/user/{{ user.id }}">{{ user.username }}</a>
+</h2> Member since {{ user.added_at[:10] }}
+<br>
+{% set user_spots = spot_list | selectattr("user_id", "equalto", user.id) | list %}
+{% set user_messages = message_list | selectattr("user_id", "equalto", user.id) | list %}
+<p> 
+    {{user_spots | length }} spots posted by user | {{user_messages | length}} messages sent by user
 </p>
 {% endfor %}
 <hr />

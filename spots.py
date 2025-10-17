@@ -295,3 +295,11 @@ def get_latest_messages():
                     ORDER BY m.id DESC
                     LIMIT 5"""
     return db.query(sql, [])
+
+def get_all_spots():
+    sql ="SELECT id, user_id, title FROM spots"
+    return db.query(sql, [])
+                    
+def get_all_messages():
+    sql ="SELECT id, user_id, content FROM messages"
+    return db.query(sql, [])

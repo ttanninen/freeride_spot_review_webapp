@@ -385,7 +385,14 @@ def browse_users(page=1):
         return redirect("/browse_users/" + str(page_count))
 
     user_list = users.get_users(page, page_size)
+    spot_list = spots.get_all_spots()
+    message_list = spots.get_all_messages()
+
     return render_template("browse_users.html", 
                            user_list=user_list, 
                            page=page, 
-                           page_count=page_count)
+                           page_count=page_count,
+                           spot_list=spot_list,
+                           message_list=message_list)
+
+

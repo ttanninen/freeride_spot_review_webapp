@@ -79,9 +79,11 @@ def get_spots(page, page_size, continent=None, country=None, skill_level=None):
                     s.skill_level_id AS skill_level_id,
                     s.aspect AS aspect, 
                     s.notes AS notes, 
-                    s.added_at AS added_at
+                    s.added_at AS added_at,
+                    COUNT(m.spot_id) AS message_count
             FROM spots s
-            JOIN users u ON s.user_id = u.id 
+            JOIN users u ON s.user_id = u.id
+            LEFT JOIN messages m ON m.spot_id = s.id
             JOIN continents cont ON s.continent_id = cont.id 
             JOIN countries c ON s.country_id = c.id
             JOIN skill_levels skill ON s.skill_level_id = skill.id
@@ -106,6 +108,7 @@ def get_spots(page, page_size, continent=None, country=None, skill_level=None):
     offset = page_size * (page -1)
     params.append(limit)
     params.append(offset)
+    sql += " GROUP BY s.id, u.username, cont.name, c.name, skill.name"
     sql += " ORDER BY id DESC LIMIT ? OFFSET ?"
 
     return db.query(sql, params)

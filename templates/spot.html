@@ -8,8 +8,8 @@
 {% if spot.user_id == session.user_id %}
     <a href="/edit_spot/{{ spot.id }}">Edit spot</a>
     <a href="/remove_spot/{{ spot.id }}">Remove spot</a>
-{% endif %}
 <hr />
+{% endif %}
 {% if spot.has_image %}
 <img src="/image/{{ spot.id }}" />
 {% endif %}
@@ -28,7 +28,7 @@ Image:
 </form>
 {% endif %}
 <p> 
-Added by user: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
+Added by: <a href="/user/{{ spot.user_id }}">{{ spot.username }}</a>
 </p>
 <p>
 Continent: {{ spot.continent }}
@@ -54,9 +54,10 @@ Notes:
 {% endfor %}
 </p>
 <hr />
+<h3>Comments:</h3>
 {% for message in messages %}
 <p>
-    {{ message.username }} sent at: {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
+    <a href="/user/{{ message.user_id }}">{{ message.username }}</a> | {{ message.sent_at }} {% if message.is_edited %} edited: {{ message.edited_at }} {% endif %}
     {% if spot.user_id == session.user_id %}
         <a href="/edit_message/{{ message.id }}">Edit message</a>       
         <a href="/remove_message/{{ message.id }}">Remove message</a>
@@ -64,13 +65,13 @@ Notes:
 </p>
 <p>
     {% for line in message.content.splitlines() %}
-    {{ line }}<br>
+    <i>{{ line }}</i><br>
     {% endfor %}
 </p>
 {% endfor %}
-
+Drop a comment, review or a shout-out:
 <form action="/spot/{{ spot.id }}" method="post">
-    <textarea name="content" rows="4" cols="50" maxlength="1000" required></textarea>
+    <textarea name="content" rows="5" cols="88" maxlength="1000" required></textarea>
     <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}" />
     <input type="submit" name="submit" />
 </form>
